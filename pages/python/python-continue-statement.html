@@ -1,0 +1,50 @@
+<div class="article-body">
+<div class="article-intro" id="content">
+<h1>Python <span class="color_h1"> continue  语句</span></h1>
+<p>Python continue 语句跳出本次循环，而break跳出整个循环。</p>
+<p>continue 语句用来告诉Python跳过当前循环的剩余语句，然后继续进行下一轮循环。</p>
+<p>continue语句用在while和for循环中。</p>
+<p><strong>Python 语言 continue 语句语法格式如下：</strong></p>
+<pre>
+continue
+</pre>
+<p><strong>流程图：</strong></p>
+<p><img decoding="async" src="../../image/python/792525a2-ce94-4f7e-b659-490957fb10d3.jpg"/></p>
+<p><strong>实例：</strong></p>
+<div class="example">
+<h2 class="example">实例(Python 2.0+)</h2>
+<div class="example_code">
+<div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code">
+</span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code">
+</span><span class="hl-reserved">for</span><span class="hl-code"> </span><span class="hl-identifier">letter</span><span class="hl-code"> </span><span class="hl-reserved">in</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">Python</span><span class="hl-quotes">'</span><span class="hl-code">:     </span><span class="hl-comment"># 第一个实例</span><span class="hl-code">
+</span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">letter</span><span class="hl-code"> == </span><span class="hl-quotes">'</span><span class="hl-string">h</span><span class="hl-quotes">'</span><span class="hl-code">:
+      </span><span class="hl-reserved">continue</span><span class="hl-code">
+</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">当前字母 :</span><span class="hl-quotes">'</span><span class="hl-code">, </span><span class="hl-identifier">letter</span><span class="hl-code">
+</span><span class="hl-identifier">var</span><span class="hl-code"> = </span><span class="hl-number">10</span><span class="hl-code"> </span><span class="hl-comment"># 第二个实例</span><span class="hl-code">
+</span><span class="hl-reserved">while</span><span class="hl-code"> </span><span class="hl-identifier">var</span><span class="hl-code"> &gt; </span><span class="hl-number">0</span><span class="hl-code">:              
+   </span><span class="hl-identifier">var</span><span class="hl-code"> = </span><span class="hl-identifier">var</span><span class="hl-code"> -</span><span class="hl-number">1</span><span class="hl-code">
+</span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">var</span><span class="hl-code"> == </span><span class="hl-number">5</span><span class="hl-code">:
+      </span><span class="hl-reserved">continue</span><span class="hl-code">
+</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">当前变量值 :</span><span class="hl-quotes">'</span><span class="hl-code">, </span><span class="hl-identifier">var</span><span class="hl-code">
+</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Good bye!</span><span class="hl-quotes">"</span></div>
+</div></div>
+<p>以上实例执行结果：</p>
+<pre>
+当前字母 : P
+当前字母 : y
+当前字母 : t
+当前字母 : o
+当前字母 : n
+当前变量值 : 9
+当前变量值 : 8
+当前变量值 : 7
+当前变量值 : 6
+当前变量值 : 4
+当前变量值 : 3
+当前变量值 : 2
+当前变量值 : 1
+当前变量值 : 0
+Good bye!
+</pre> <!-- 其他扩展 -->
+</div>
+</div>

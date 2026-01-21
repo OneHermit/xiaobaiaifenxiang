@@ -1,0 +1,164 @@
+<div class="article-body">
+<div class="article-intro" id="content">
+<h1>Python GUI编程(Tkinter)</h1>
+<p>Python 提供了多个图形开发界面的库，几个常用 Python GUI 库如下：</p>
+<ul>
+<li><p><strong>Tkinter：</strong> Tkinter 模块(Tk 接口)是 Python 的标准 Tk GUI 工具包的接口 .Tk 和 Tkinter 可以在大多数的 Unix 平台下使用,同样可以应用在 Windows 和 Macintosh 系统里。Tk8.0 的后续版本可以实现本地窗口风格,并良好地运行在绝大多数平台中。</p>
+</li>
+<li><p><strong>wxPython：</strong>wxPython 是一款开源软件，是 Python 语言的一套优秀的 GUI 图形库，允许 Python 程序员很方便的创建完整的、功能健全的 GUI 用户界面。</p>
+</li>
+<li><p><strong>Jython：</strong>Jython 程序可以和 Java 无缝集成。除了一些标准模块，Jython 使用 Java 的模块。Jython 几乎拥有标准的Python 中不依赖于 C 语言的全部模块。比如，Jython 的用户界面将使用  Swing，AWT或者 SWT。Jython 可以被动态或静态地编译成 Java 字节码。</p>
+</li>
+</ul>
+<hr/>
+<h2>Tkinter 编程</h2>
+<p>Tkinter 是 Python 的标准 GUI 库。Python 使用 Tkinter 可以快速的创建 GUI 应用程序。</p>
+<p>由于 Tkinter 是内置到 python 的安装包中、只要安装好 Python 之后就能 import Tkinter 库、而且 IDLE 也是用 Tkinter 编写而成、对于简单的图形界面 Tkinter 还是能应付自如。</p>
+<blockquote><p><strong>注意</strong>：Python3.x 版本使用的库名为 tkinter,即首写字母 T 为小写。</p>
+<pre>import tkinter</pre></blockquote>
+<p>创建一个GUI程序</p>
+<ul>
+<li>1、导入 Tkinter 模块</li>
+<li>2、创建控件</li>
+<li>3、指定这个控件的 master， 即这个控件属于哪一个</li>
+<li>4、告诉 GM(geometry manager) 有一个控件产生了。</li>
+</ul>
+<div class="example">
+<h2 class="example">实例(Python3.x)</h2>
+<div class="example_code">
+<div class="hl-main"><span class="hl-comment">#!/usr/bin/python3</span><span class="hl-code">
+</span><span class="hl-reserved">import</span><span class="hl-code"> </span><span class="hl-identifier">tkinter</span><span class="hl-code">
+</span><span class="hl-identifier">top</span><span class="hl-code"> = </span><span class="hl-identifier">tkinter</span><span class="hl-code">.</span><span class="hl-identifier">Tk</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">
+</span><span class="hl-comment"># 进入消息循环</span><span class="hl-code">
+</span><span class="hl-identifier">top</span><span class="hl-code">.</span><span class="hl-identifier">mainloop</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span></div>
+</div>
+</div>
+<div class="example">
+<h2 class="example">实例(Python2.x)</h2>
+<div class="example_code">
+<div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code">
+</span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code">
+</span><span class="hl-reserved">import</span><span class="hl-code"> </span><span class="hl-identifier">Tkinter</span><span class="hl-code">
+</span><span class="hl-identifier">top</span><span class="hl-code"> = </span><span class="hl-identifier">Tkinter</span><span class="hl-code">.</span><span class="hl-identifier">Tk</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">
+</span><span class="hl-comment"># 进入消息循环</span><span class="hl-code">
+</span><span class="hl-identifier">top</span><span class="hl-code">.</span><span class="hl-identifier">mainloop</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span></div>
+</div>
+</div>
+<p>以上代码执行结果如下图:</p>
+<p><img alt="tkwindow" class="attachment-full" decoding="async" src="../../image/python/cb5e88b6-0e4b-4398-82d2-1db5563f064c.jpg"/>
+</p>
+<div class="example">
+<h2 class="example">实例</h2>
+<div class="example_code">
+<div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code">
+</span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code">
+</span><span class="hl-comment"># Python2.x 导入方法</span><span class="hl-code">
+</span><span class="hl-reserved">from</span><span class="hl-code"> </span><span class="hl-identifier">Tkinter</span><span class="hl-code"> </span><span class="hl-reserved">import</span><span class="hl-code"> *           </span><span class="hl-comment"># 导入 Tkinter 库</span><span class="hl-code">
+</span><span class="hl-comment"># Python3.x 导入方法</span><span class="hl-code">
+</span><span class="hl-comment">#from tkinter import * </span><span class="hl-code">
+</span><span class="hl-identifier">root</span><span class="hl-code"> = </span><span class="hl-identifier">Tk</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-comment"># 创建窗口对象的背景色</span><span class="hl-code">
+</span><span class="hl-comment"># 创建两个列表</span><span class="hl-code">
+</span><span class="hl-identifier">li</span><span class="hl-code">     = </span><span class="hl-brackets">[</span><span class="hl-quotes">'</span><span class="hl-string">C</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">python</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">php</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">html</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">SQL</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">java</span><span class="hl-quotes">'</span><span class="hl-brackets">]</span><span class="hl-code">
+</span><span class="hl-identifier">movie</span><span class="hl-code">  = </span><span class="hl-brackets">[</span><span class="hl-quotes">'</span><span class="hl-string">CSS</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">jQuery</span><span class="hl-quotes">'</span><span class="hl-code">,</span><span class="hl-quotes">'</span><span class="hl-string">Bootstrap</span><span class="hl-quotes">'</span><span class="hl-brackets">]</span><span class="hl-code">
+</span><span class="hl-identifier">listb</span><span class="hl-code">  = </span><span class="hl-identifier">Listbox</span><span class="hl-brackets">(</span><span class="hl-identifier">root</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-comment">#  创建两个列表组件</span><span class="hl-code">
+</span><span class="hl-identifier">listb2</span><span class="hl-code"> = </span><span class="hl-identifier">Listbox</span><span class="hl-brackets">(</span><span class="hl-identifier">root</span><span class="hl-brackets">)</span><span class="hl-code">
+</span><span class="hl-reserved">for</span><span class="hl-code"> </span><span class="hl-identifier">item</span><span class="hl-code"> </span><span class="hl-reserved">in</span><span class="hl-code"> </span><span class="hl-identifier">li</span><span class="hl-code">:                 </span><span class="hl-comment"># 第一个小部件插入数据</span><span class="hl-code">
+</span><span class="hl-identifier">listb</span><span class="hl-code">.</span><span class="hl-identifier">insert</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-identifier">item</span><span class="hl-brackets">)</span><span class="hl-code">
+</span><span class="hl-reserved">for</span><span class="hl-code"> </span><span class="hl-identifier">item</span><span class="hl-code"> </span><span class="hl-reserved">in</span><span class="hl-code"> </span><span class="hl-identifier">movie</span><span class="hl-code">:              </span><span class="hl-comment"># 第二个小部件插入数据</span><span class="hl-code">
+</span><span class="hl-identifier">listb2</span><span class="hl-code">.</span><span class="hl-identifier">insert</span><span class="hl-brackets">(</span><span class="hl-number">0</span><span class="hl-code">,</span><span class="hl-identifier">item</span><span class="hl-brackets">)</span><span class="hl-code">
+</span><span class="hl-identifier">listb</span><span class="hl-code">.</span><span class="hl-identifier">pack</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-comment"># 将小部件放置到主窗口中</span><span class="hl-code">
+</span><span class="hl-identifier">listb2</span><span class="hl-code">.</span><span class="hl-identifier">pack</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">
+</span><span class="hl-identifier">root</span><span class="hl-code">.</span><span class="hl-identifier">mainloop</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-comment"># 进入消息循环</span></div>
+</div>
+</div>
+<p>以上代码执行结果如下图:</p><img decoding="async" src="../../image/python/a8774d5b-96f6-40a9-bbdc-fbd160542b36.jpg" style="height: 300px"/>
+<hr/>
+<h2>Tkinter 组件</h2>
+<p>Tkinter的提供各种控件，如按钮，标签和文本框，一个GUI应用程序中使用。这些控件通常被称为控件或者部件。</p>
+<p>目前有15种Tkinter的部件。我们提出这些部件以及一个简短的介绍，在下面的表:</p>
+<table class="reference">
+<tbody><tr>
+<th style="width:10%">控件</th><th>描述</th></tr>
+<tr><td><a href="/python/python-tk-button.html" rel="noopener noreferrer" target="_blank">Button</a></td><td>按钮控件；在程序中显示按钮。</td></tr>
+<tr><td><a href="/python/python-tk-canvas.html" rel="noopener noreferrer" target="_blank">Canvas</a></td><td>画布控件；显示图形元素如线条或文本</td></tr>
+<tr><td><a href="/python/python-tk-checkbutton.html" rel="noopener noreferrer" target="_blank">Checkbutton</a></td><td>多选框控件；用于在程序中提供多项选择框</td></tr>
+<tr><td><a href="/python/python-tkinter-entry.html" rel="noopener noreferrer" target="_blank">Entry</a></td><td>输入控件；用于显示简单的文本内容</td></tr>
+<tr><td><a href="/python/python-tk-frame.html" rel="noopener noreferrer" target="_blank">Frame</a></td><td>框架控件；在屏幕上显示一个矩形区域，多用来作为容器</td></tr>
+<tr><td><a href="/python/python-tk-label.html" rel="noopener noreferrer" target="_blank">Label</a></td><td>标签控件；可以显示文本和位图</td></tr>
+<tr><td>Listbox</td><td>列表框控件；在Listbox窗口小部件是用来显示一个字符串列表给用户</td></tr>
+<tr><td>Menubutton</td><td>菜单按钮控件，用于显示菜单项。</td></tr>
+<tr><td>Menu</td><td>菜单控件；显示菜单栏,下拉菜单和弹出菜单</td></tr>
+<tr><td>Message</td><td>消息控件；用来显示多行文本，与label比较类似</td></tr>
+<tr><td>Radiobutton</td><td>单选按钮控件；显示一个单选的按钮状态</td></tr>
+<tr><td>Scale</td><td>范围控件；显示一个数值刻度，为输出限定范围的数字区间</td></tr>
+<tr><td>Scrollbar</td><td>滚动条控件，当内容超过可视化区域时使用，如列表框。.</td></tr>
+<tr><td>Text</td><td>文本控件；用于显示多行文本</td></tr>
+<tr><td>Toplevel</td><td>容器控件；用来提供一个单独的对话框，和Frame比较类似</td></tr>
+<tr><td>Spinbox</td><td>输入控件；与Entry类似，但是可以指定输入范围值</td></tr>
+<tr><td>PanedWindow</td><td>PanedWindow是一个窗口布局管理的插件，可以包含一个或者多个子控件。</td></tr>
+<tr><td>LabelFrame</td><td> labelframe 是一个简单的容器控件。常用于复杂的窗口布局。</td></tr>
+<tr><td>tkMessageBox</td><td>用于显示你应用程序的消息框。</td></tr>
+</tbody></table>
+<hr/>
+<h2>标准属性</h2>
+<p>标准属性也就是所有控件的共同属性，如大小，字体和颜色等等。</p>
+<table class="reference">
+<tbody>
+<tr>
+<td>属性</td>
+<td>描述</td>
+</tr>
+<tr>
+<td>Dimension</td>
+<td>控件大小；</td>
+</tr>
+<tr>
+<td>Color</td>
+<td>控件颜色；</td>
+</tr>
+<tr>
+<td>Font</td>
+<td>控件字体；</td>
+</tr>
+<tr>
+<td>Anchor</td>
+<td>锚点；</td>
+</tr>
+<tr>
+<td>Relief</td>
+<td>控件样式；</td>
+</tr>
+<tr>
+<td>Bitmap</td>
+<td>位图；</td>
+</tr>
+<tr>
+<td>Cursor</td>
+<td>光标；</td>
+</tr>
+</tbody>
+</table>
+<hr/><h2>几何管理</h2>
+<p>Tkinter控件有特定的几何状态管理方法，管理整个控件区域组织，以下是Tkinter公开的几何管理类：包、网格、位置</p>
+<table class="reference">
+<tbody>
+<tr>
+<td>几何方法</td>
+<td>描述</td>
+</tr>
+<tr>
+<td>pack()</td>
+<td>包装；</td>
+</tr>
+<tr>
+<td>grid()</td>
+<td>网格；</td>
+</tr>
+<tr>
+<td>place()</td>
+<td>位置；</td>
+</tr>
+</tbody>
+</table> <!-- 其他扩展 -->
+</div>
+</div>

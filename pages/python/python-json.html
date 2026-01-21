@@ -1,0 +1,213 @@
+<div class="article-body">
+<div class="article-intro" id="content">
+<h1>Python JSON</h1>
+<p>本章节我们将为大家介绍如何使用 Python 语言来编码和解码 JSON 对象。</p>
+<p>JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式，易于人阅读和编写。</p>
+<hr/>
+<h2>JSON 函数</h2>
+<p>使用 JSON 函数需要导入 json 库：<b>import json</b>。</p>
+<table class="reference">
+<tbody><tr><th style="width:20%">函数</th><th>描述</th></tr>
+<tr><td>json.dumps </td><td>将 Python 对象编码成 JSON 字符串</td></tr>
+<tr><td>json.loads</td><td>将已编码的 JSON 字符串解码为 Python 对象</td></tr>
+</tbody></table>
+<hr/>
+<h2>json.dumps</h2>
+<p>json.dumps 用于将 Python 对象编码成 JSON 字符串。</p>
+<h3>语法</h3>
+<pre>
+json.dumps(obj, skipkeys=False, ensure_ascii=True, check_circular=True, allow_nan=True, cls=None, indent=None, separators=None, encoding="utf-8", default=None, sort_keys=False, **kw)
+</pre>
+<h3>
+实例</h3>
+<p>以下实例将数组编码为 JSON 格式数据：</p>
+<div class="example"><h2 class="example">实例</h2> <div class="example_code">
+<span style="color: #a50">#!/usr/bin/python</span><br>
+<span style="color: Green;font-weight:bold;">import</span> json<br/>
+<br/>
+data <span style="color: Gray;">=</span> <span style="color: Olive;">[</span> <span style="color: Olive;">{</span> <span style="color: #a11;">'a'</span> : <span style="color: Maroon;">1</span><span style="color: Gray;">,</span> <span style="color: #a11;">'b'</span> : <span style="color: Maroon;">2</span><span style="color: Gray;">,</span> <span style="color: #a11;">'c'</span> : <span style="color: Maroon;">3</span><span style="color: Gray;">,</span> <span style="color: #a11;">'d'</span> : <span style="color: Maroon;">4</span><span style="color: Gray;">,</span> <span style="color: #a11;">'e'</span> : <span style="color: Maroon;">5</span> <span style="color: Olive;">}</span> <span style="color: Olive;">]</span><br/>
+<br/>
+data2 <span style="color: Gray;">=</span> json.<span style="color: #05a;">dumps</span><span style="color: Olive;">(</span>data<span style="color: Olive;">)</span><br/>
+<span style="color: Green;font-weight:bold;">print</span><span style="color: Olive;">(</span>data2<span style="color: Olive;">)</span><br/>
+</br></div></div>
+<p>以上代码执行结果为：</p>
+<pre>
+[{"a": 1, "c": 3, "b": 2, "e": 5, "d": 4}]
+</pre>
+<p>使用参数让 JSON 数据格式化输出：</p>
+<div class="example"><h2 class="example">实例</h2> <div class="example_code">
+<span style="color: #a50">#!/usr/bin/python</span><br/>
+<span style="color: Green;font-weight:bold;">import</span> json<br/>
+<br/>
+data <span style="color: Gray;">=</span> <span style="color: Olive;">[</span> <span style="color: Olive;">{</span> <span style="color: #a11;">'a'</span> : <span style="color: Maroon;">1</span><span style="color: Gray;">,</span> <span style="color: #a11;">'b'</span> : <span style="color: Maroon;">2</span><span style="color: Gray;">,</span> <span style="color: #a11;">'c'</span> : <span style="color: Maroon;">3</span><span style="color: Gray;">,</span> <span style="color: #a11;">'d'</span> : <span style="color: Maroon;">4</span><span style="color: Gray;">,</span> <span style="color: #a11;">'e'</span> : <span style="color: Maroon;">5</span> <span style="color: Olive;">}</span> <span style="color: Olive;">]</span><br/>
+<br/>
+data2 <span style="color: Gray;">=</span> json.<span style="color: #05a;">dumps</span><span style="color: Olive;">(</span><span style="color: Olive;">{</span><span style="color: #a11;">'a'</span>: <span style="color: #a11;">'Runoob'</span><span style="color: Gray;">,</span> <span style="color: #a11;">'b'</span>: <span style="color: Maroon;">7</span><span style="color: Olive;">}</span><span style="color: Gray;">,</span> sort_keys<span style="color: Gray;">=</span><span style="color: Teal;">True</span><span style="color: Gray;">,</span> indent<span style="color: Gray;">=</span><span style="color: Maroon;">4</span><span style="color: Gray;">,</span> separators<span style="color: Gray;">=</span><span style="color: Olive;">(</span><span style="color: #a11;">','</span><span style="color: Gray;">,</span> <span style="color: #a11;">': '</span><span style="color: Olive;">)</span><span style="color: Olive;">)</span><br/>
+<span style="color: Green;font-weight:bold;">print</span><span style="color: Olive;">(</span>data2<span style="color: Olive;">)</span><br/>
+</div></div>
+<p>以上代码执行结果为：</p>
+<pre>
+{
+    "a": "Runoob",
+    "b": 7
+}
+</pre>
+<p>python 原始类型向 json 类型的转化对照表：</p>
+<table class="reference">
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Python</th>
+<th class="head">JSON</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>dict</td>
+<td>object</td>
+</tr>
+<tr class="row-odd"><td>list, tuple</td>
+<td>array</td>
+</tr>
+<tr class="row-even"><td>str, unicode</td>
+<td>string</td>
+</tr>
+<tr class="row-odd"><td>int, long, float</td>
+<td>number</td>
+</tr>
+<tr class="row-even"><td>True</td>
+<td>true</td>
+</tr>
+<tr class="row-odd"><td>False</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>None</td>
+<td>null</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2>json.loads</h2>
+<p>json.loads 用于解码 JSON 数据。该函数返回 Python 字段的数据类型。</p>
+<h3>语法</h3>
+<pre>
+json.loads(s[, encoding[, cls[, object_hook[, parse_float[, parse_int[, parse_constant[, object_pairs_hook[, **kw]]]]]]]])
+</pre>
+<h3>
+实例</h3>
+<p>以下实例展示了Python 如何解码 JSON 对象：</p>
+<div class="example"><h2 class="example">实例</h2> <div class="example_code">
+<span style="color: #a50">#!/usr/bin/python</span><br/>
+<span style="color: Green;font-weight:bold;">import</span> json<br/>
+<br/>
+jsonData <span style="color: Gray;">=</span> <span style="color: #a11;">'{"a":1,"b":2,"c":3,"d":4,"e":5}'</span><span style="color: Gray;">;</span><br/>
+<br/>
+text <span style="color: Gray;">=</span> json.<span style="color: #05a;">loads</span><span style="color: Olive;">(</span>jsonData<span style="color: Olive;">)</span><br/>
+<span style="color: Green;font-weight:bold;">print</span><span style="color: Olive;">(</span>text<span style="color: Olive;">)</span><br/>
+</div></div>
+<p>以上代码执行结果为：</p>
+<pre>
+{u'a': 1, u'c': 3, u'b': 2, u'e': 5, u'd': 4}
+</pre>
+<p>json 类型转换到 python 的类型对照表：</p>
+<table class="reference">
+<colgroup>
+<col width="44%"/>
+<col width="56%"/>
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">JSON</th>
+<th class="head">Python</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>object</td>
+<td>dict</td>
+</tr>
+<tr class="row-odd"><td>array</td>
+<td>list</td>
+</tr>
+<tr class="row-even"><td>string</td>
+<td>unicode</td>
+</tr>
+<tr class="row-odd"><td>number (int)</td>
+<td>int, long</td>
+</tr>
+<tr class="row-even"><td>number (real)</td>
+<td>float</td>
+</tr>
+<tr class="row-odd"><td>true</td>
+<td>True</td>
+</tr>
+<tr class="row-even"><td>false</td>
+<td>False</td>
+</tr>
+<tr class="row-odd"><td>null</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+<p>更多内容参考：<a href="https://docs.python.org/2/library/json.html" rel="noopener noreferrer" target="_blank">https://docs.python.org/2/library/json.html</a>。</p>
+<hr/>
+<h2>使用第三方库：Demjson</h2>
+<p>Demjson 是 python 的第三方模块库，可用于编码和解码 JSON 数据，包含了 JSONLint 的格式化及校验功能。</p>
+<p>Github 地址：<a href="https://github.com/dmeranda/demjson" rel="noopener noreferrer" target="_blank">https://github.com/dmeranda/demjson</a></p>
+<p>官方地址：<a href="http://deron.meranda.us/python/demjson/" rel="noopener noreferrer" target="_blank">http://deron.meranda.us/python/demjson/</a></p>
+<h3>环境配置</h3>
+<p>在使用 Demjson 编码或解码 JSON 数据前，我们需要先安装 Demjson 模块。本教程我们会下载 <a href="http://deron.meranda.us/python/demjson/download" rel="nofollow noopener noreferrer" target="_blank">Demjson</a> 并安装：</p>
+<pre>
+$ tar -xvzf demjson-2.2.3.tar.gz
+$ cd demjson-2.2.3
+$ python setup.py install
+</pre>
+<p>更多安装介绍查看：<a href="http://deron.meranda.us/python/demjson/install" rel="noopener noreferrer" target="_blank">http://deron.meranda.us/python/demjson/install</a></p>
+<h2>JSON 函数</h2>
+<table class="reference">
+<tbody><tr><th style="width:20%">函数</th><th>描述</th></tr>
+<tr><td>encode </td><td>将 Python 对象编码成 JSON 字符串</td></tr>
+<tr><td>decode</td><td>将已编码的 JSON 字符串解码为 Python 对象</td></tr>
+</tbody></table>
+<hr/>
+<h2>encode</h2>
+<p>Python encode() 函数用于将 Python 对象编码成 JSON 字符串。</p>
+<h3>语法</h3>
+<pre>
+demjson.encode(self, obj, nest_level=0)
+</pre>
+<h3>
+实例</h3>
+<p>以下实例将数组编码为 JSON 格式数据：</p>
+<div class="example"><h2 class="example">实例</h2> <div class="example_code">
+<span style="color: #a50">#!/usr/bin/python</span><br/>
+<span style="color: Green;font-weight:bold;">import</span> demjson<br/>
+<br/>
+data <span style="color: Gray;">=</span> <span style="color: Olive;">[</span> <span style="color: Olive;">{</span> <span style="color: #a11;">'a'</span> : <span style="color: Maroon;">1</span><span style="color: Gray;">,</span> <span style="color: #a11;">'b'</span> : <span style="color: Maroon;">2</span><span style="color: Gray;">,</span> <span style="color: #a11;">'c'</span> : <span style="color: Maroon;">3</span><span style="color: Gray;">,</span> <span style="color: #a11;">'d'</span> : <span style="color: Maroon;">4</span><span style="color: Gray;">,</span> <span style="color: #a11;">'e'</span> : <span style="color: Maroon;">5</span> <span style="color: Olive;">}</span> <span style="color: Olive;">]</span><br/>
+<br/>
+json <span style="color: Gray;">=</span> demjson.<span style="color: #05a;">encode</span><span style="color: Olive;">(</span>data<span style="color: Olive;">)</span><br/>
+<span style="color: Green;font-weight:bold;">print</span><span style="color: Olive;">(</span>json<span style="color: Olive;">)</span><br/>
+</div></div>
+<p>以上代码执行结果为：</p>
+<pre>
+[{"a":1,"b":2,"c":3,"d":4,"e":5}]
+</pre>
+<hr/>
+<h2>decode</h2>
+<p>Python 可以使用 demjson.decode() 函数解码 JSON 数据。该函数返回 Python 字段的数据类型。</p>
+<h3>语法</h3>
+<pre>
+demjson.decode(self, txt)
+</pre>
+<h3>
+实例</h3>
+<p>以下实例展示了Python 如何解码 JSON 对象：</p>
+<div class="example"><h2 class="example">实例</h2> <div class="example_code">
+<span style="color: #a50">#!/usr/bin/python</span><br/>
+<span style="color: Green;font-weight:bold;">import</span> demjson<br/>
+<br/>
+json <span style="color: Gray;">=</span> <span style="color: #a11;">'{"a":1,"b":2,"c":3,"d":4,"e":5}'</span><span style="color: Gray;">;</span><br/>
+<br/>
+text <span style="color: Gray;">=</span> demjson.<span style="color: #05a;">decode</span><span style="color: Olive;">(</span>json<span style="color: Olive;">)</span><br/>
+<span style="color: Green;font-weight:bold;">print</span><span style="color: Olive;">(</span>text<span style="color: Olive;">)</span><br/>
+</div></div>
+<p>以上代码执行结果为：</p>
+<pre>
+{u'a': 1, u'c': 3, u'b': 2, u'e': 5, u'd': 4}
+</pre> <!-- 其他扩展 -->
+</div>
+</div>

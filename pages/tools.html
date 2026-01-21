@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线工具 - 小白爱分享</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav id="mainNav"></nav>
+    
+    <div class="container">
+        <!-- 左侧内容区 -->
+        <main id="contentArea">
+            <header class="blog-header">
+                <h1>在线工具</h1>
+                <p>为开发者准备的实用工具集合</p>
+            </header>
+            
+            <section>
+                <div class="article-card">
+                    <h2>JSON格式化工具</h2>
+                    <textarea id="jsonInput" placeholder="请输入JSON数据..." style="width: 100%; height: 150px;"></textarea>
+                    <br>
+                    <button onclick="formatJSON()" style="margin-top: 10px;">格式化</button>
+                    <textarea id="jsonOutput" placeholder="格式化后的JSON..." style="width: 100%; height: 150px; margin-top: 10px;"></textarea>
+                </div>
+                
+                <div class="article-card">
+                    <h2>CSS压缩工具</h2>
+                    <textarea id="cssInput" placeholder="请输入CSS代码..." style="width: 100%; height: 150px;"></textarea>
+                    <br>
+                    <button onclick="minifyCSS()" style="margin-top: 10px;">压缩</button>
+                    <textarea id="cssOutput" placeholder="压缩后的CSS..." style="width: 100%; height: 150px; margin-top: 10px;"></textarea>
+                </div>
+                
+                <div class="article-card">
+                    <h2>Base64编码/解码工具</h2>
+                    <textarea id="base64Input" placeholder="请输入待处理的文本..." style="width: 100%; height: 100px;"></textarea>
+                    <br>
+                    <button onclick="encodeBase64()" style="margin-top: 10px;">编码</button>
+                    <button onclick="decodeBase64()" style="margin-top: 10px;">解码</button>
+                    <textarea id="base64Output" placeholder="处理后的结果..." style="width: 100%; height: 100px; margin-top: 10px;"></textarea>
+                </div>
+            </section>
+        </main>
+        
+        <!-- 右侧边栏 -->
+        <aside id="sidebar"></aside>
+    </div>
+    
+    <!-- 页脚 -->
+    <footer id="mainFooter"></footer>
+    
+    <script src="../js/data.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        // 页面加载完成后执行初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 生成导航栏
+            generateNavigation();
+            
+            // 生成侧边栏
+            generateSidebar();
+            
+            // 生成页脚
+            generateFooter();
+        });
+        
+        // JSON格式化功能
+        function formatJSON() {
+            const input = document.getElementById('jsonInput').value;
+            try {
+                const jsonObj = JSON.parse(input);
+                const formatted = JSON.stringify(jsonObj, null, 4);
+                document.getElementById('jsonOutput').value = formatted;
+            } catch (e) {
+                alert('JSON格式错误: ' + e.message);
+            }
+        }
+        
+        // CSS压缩功能
+        function minifyCSS() {
+            const input = document.getElementById('cssInput').value;
+            const minified = input
+                .replace(/\s+/g, ' ')           // 多个空白字符替换为单个空格
+                .replace(/\/\*(.*?)\*\//g, '')  // 移除注释
+                .replace(/\s*([{}:;,])\s*/g, '$1') // 移除选择器周围的空格
+                .trim();
+            document.getElementById('cssOutput').value = minified;
+        }
+        
+        // Base64编码
+        function encodeBase64() {
+            const input = document.getElementById('base64Input').value;
+            const encoded = btoa(unescape(encodeURIComponent(input)));
+            document.getElementById('base64Output').value = encoded;
+        }
+        
+        // Base64解码
+        function decodeBase64() {
+            const input = document.getElementById('base64Input').value;
+            try {
+                const decoded = decodeURIComponent(escape(atob(input)));
+                document.getElementById('base64Output').value = decoded;
+            } catch (e) {
+                alert('Base64解码错误: ' + e.message);
+            }
+        }
+    </script>
+</body>
+</html>

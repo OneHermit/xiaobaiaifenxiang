@@ -1,0 +1,120 @@
+<div class="article-body">
+<div class="article-intro" id="content">
+<h1>Python <span class="color_h1">条件语句</span></h1>
+<p>Python条件语句是通过一条或多条语句的执行结果（True或者False）来决定执行的代码块。</p>
+<p>可以通过下图来简单了解条件语句的执行过程:<p>
+<img decoding="async" src="../../image/python/c0f040c5-5f12-4f0a-91b2-ac590bfb76f5.jpg"/>
+<p>Python程序语言指定任何非0和非空（null）值为true，0 或者 null为false。</p>
+<p>Python 编程中 if 语句用于控制程序的执行，基本形式为：</p>
+<pre>
+if 判断条件：
+    执行语句……
+else：
+    执行语句……
+</pre>
+<p>其中"判断条件"成立时（非零），则执行后面的语句，而执行内容可以多行，以缩进来区分表示同一范围。</p>
+<p>else 为可选语句，当需要在条件不成立时执行内容则可以执行相关语句。</p>
+<p>Gif 演示：</p>
+<p><img decoding="async" src="../../image/python/e6f8a5a2-913b-47ed-9f3f-9b1ecffa9bd2.gif"/></p>
+<p>具体例子如下：	</p>
+<div class="example">
+<h2 class="example">实例</h2>
+<div class="example_code">
+<div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code">
+</span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code">
+</span><span class="hl-comment"># 例1：if 基本用法</span><span class="hl-code">
+</span><span class="hl-identifier">flag</span><span class="hl-code"> = </span><span class="hl-reserved">False</span><span class="hl-code">
+</span><span class="hl-identifier">name</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">luren</span><span class="hl-quotes">'</span><span class="hl-code">
+</span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">name</span><span class="hl-code"> == </span><span class="hl-quotes">'</span><span class="hl-string">python</span><span class="hl-quotes">'</span><span class="hl-code">:         </span><span class="hl-comment"># 判断变量是否为 python </span><span class="hl-code">
+</span><span class="hl-identifier">flag</span><span class="hl-code"> = </span><span class="hl-reserved">True</span><span class="hl-code"> </span><span class="hl-comment"># 条件成立时设置标志为真</span><span class="hl-code">
+</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">welcome boss</span><span class="hl-quotes">'</span><span class="hl-code"> </span><span class="hl-comment"># 并输出欢迎信息</span><span class="hl-code">
+</span><span class="hl-reserved">else</span><span class="hl-code">:
+    </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-identifier">name</span><span class="hl-code"> </span><span class="hl-comment"># 条件不成立时输出变量名称</span></div>
+</div>
+</div>
+<p>输出结果为：</p>
+<pre>
+luren            # 输出结果
+</pre>
+<p>if 语句的判断条件可以用&gt;（大于）、&lt;(小于)、==（等于）、&gt;=（大于等于）、&lt;=（小于等于）来表示其关系。</p>
+<p>当判断条件为多个值时，可以使用以下形式：</p>
+<pre>
+if 判断条件1:
+    执行语句1……
+elif 判断条件2:
+    执行语句2……
+elif 判断条件3:
+    执行语句3……
+else:
+    执行语句4……
+</pre>
+<p>实例如下：</p>
+<div class="example">
+<h2 class="example">实例</h2>
+<div class="example_code">
+<div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code">
+</span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code">
+</span><span class="hl-comment"># 例2：elif用法</span><span class="hl-code">
+</span><span class="hl-identifier">num</span><span class="hl-code"> = </span><span class="hl-number">5</span><span class="hl-code">
+</span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">num</span><span class="hl-code"> == </span><span class="hl-number">3</span><span class="hl-code">:            </span><span class="hl-comment"># 判断num的值</span><span class="hl-code">
+</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">boss</span><span class="hl-quotes">'</span><span class="hl-code">
+</span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">num</span><span class="hl-code"> == </span><span class="hl-number">2</span><span class="hl-code">:
+    </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">user</span><span class="hl-quotes">'</span><span class="hl-code">
+</span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">num</span><span class="hl-code"> == </span><span class="hl-number">1</span><span class="hl-code">:
+    </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">worker</span><span class="hl-quotes">'</span><span class="hl-code">
+</span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">num</span><span class="hl-code"> &lt; </span><span class="hl-number">0</span><span class="hl-code">:           </span><span class="hl-comment"># 值小于零时输出</span><span class="hl-code">
+</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">error</span><span class="hl-quotes">'</span><span class="hl-code">
+</span><span class="hl-reserved">else</span><span class="hl-code">:
+    </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">roadman</span><span class="hl-quotes">'</span><span class="hl-code"> </span><span class="hl-comment"># 条件均不成立时输出</span></div>
+</div>
+</div>
+<p>输出结果为：</p>
+<pre>
+roadman        # 输出结果
+</pre>
+<p>由于 python 并不支持 switch 语句，所以多个条件判断，只能用 elif 来实现，如果判断需要多个条件需同时判断时，可以使用 or （或），表示两个条件有一个成立时判断条件成功；使用 and （与）时，表示只有两个条件同时成立的情况下，判断条件才成功。</p>
+<div class="example">
+<h2 class="example">实例</h2>
+<div class="example_code">
+<div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code">
+</span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code">
+</span><span class="hl-comment"># 例3：if语句多个条件</span><span class="hl-code">
+</span><span class="hl-identifier">num</span><span class="hl-code"> = </span><span class="hl-number">9</span><span class="hl-code">
+</span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">num</span><span class="hl-code"> &gt;= </span><span class="hl-number">0</span><span class="hl-code"> </span><span class="hl-reserved">and</span><span class="hl-code"> </span><span class="hl-identifier">num</span><span class="hl-code"> &lt;= </span><span class="hl-number">10</span><span class="hl-code">:    </span><span class="hl-comment"># 判断值是否在0~10之间</span><span class="hl-code">
+</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">hello</span><span class="hl-quotes">'</span><span class="hl-code">
+</span><span class="hl-comment"># 输出结果: hello</span><span class="hl-code">
+</span><span class="hl-identifier">num</span><span class="hl-code"> = </span><span class="hl-number">10</span><span class="hl-code">
+</span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">num</span><span class="hl-code"> &lt; </span><span class="hl-number">0</span><span class="hl-code"> </span><span class="hl-reserved">or</span><span class="hl-code"> </span><span class="hl-identifier">num</span><span class="hl-code"> &gt; </span><span class="hl-number">10</span><span class="hl-code">:    </span><span class="hl-comment"># 判断值是否在小于0或大于10</span><span class="hl-code">
+</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">hello</span><span class="hl-quotes">'</span><span class="hl-code">
+</span><span class="hl-reserved">else</span><span class="hl-code">:
+    </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">undefine</span><span class="hl-quotes">'</span><span class="hl-code">
+</span><span class="hl-comment"># 输出结果: undefine</span><span class="hl-code">
+</span><span class="hl-identifier">num</span><span class="hl-code"> = </span><span class="hl-number">8</span><span class="hl-code">
+</span><span class="hl-comment"># 判断值是否在0~5或者10~15之间</span><span class="hl-code">
+</span><span class="hl-identifier">if</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-identifier">num</span><span class="hl-code"> &gt;= </span><span class="hl-number">0</span><span class="hl-code"> </span><span class="hl-reserved">and</span><span class="hl-code"> </span><span class="hl-identifier">num</span><span class="hl-code"> &lt;= </span><span class="hl-number">5</span><span class="hl-brackets">)</span><span class="hl-code"> </span><span class="hl-identifier">or</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-identifier">num</span><span class="hl-code"> &gt;= </span><span class="hl-number">10</span><span class="hl-code"> </span><span class="hl-reserved">and</span><span class="hl-code"> </span><span class="hl-identifier">num</span><span class="hl-code"> &lt;= </span><span class="hl-number">15</span><span class="hl-brackets">)</span><span class="hl-code">:    
+    </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">hello</span><span class="hl-quotes">'</span><span class="hl-code">
+</span><span class="hl-reserved">else</span><span class="hl-code">:
+    </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">undefine</span><span class="hl-quotes">'</span><span class="hl-code">
+</span><span class="hl-comment"># 输出结果: undefine</span></div>
+</div>
+</div>
+<p>当if有多个条件时可使用括号来区分判断的先后顺序，括号中的判断优先执行，此外 and 和 or 的优先级低于&gt;（大于）、&lt;（小于）等判断符号，即大于和小于在没有括号的情况下会比与或要优先判断。</p>
+<h2>简单的语句组</h2>
+<p>你也可以在同一行的位置上使用if条件判断语句，如下实例：</p>
+<div class="example">
+<h2 class="example">实例</h2>
+<div class="example_code">
+<div class="hl-main"><span class="hl-comment">#!/usr/bin/python </span><span class="hl-code">
+</span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code">
+</span><span class="hl-identifier">var</span><span class="hl-code"> = </span><span class="hl-number">100</span><span class="hl-code">
+</span><span class="hl-identifier">if</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">var</span><span class="hl-code">  == </span><span class="hl-number">100</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"> : </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">变量 var 的值为100</span><span class="hl-quotes">"</span><span class="hl-code">
+</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Good bye!</span><span class="hl-quotes">"</span></div>
+</div>
+</div>
+<p>以上代码执行输出结果如下：</p>
+<pre>
+变量 var 的值为100
+Good bye!
+</pre> <!-- 其他扩展 -->
+</p></p></div>
+</div>

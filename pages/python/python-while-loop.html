@@ -1,0 +1,125 @@
+<div class="article-body">
+<div class="article-intro" id="content">
+<h1>Python <span class="color_h1">While 循环语句</span></h1>
+<p>Python 编程中 while 语句用于循环执行程序，即在某条件下，循环执行某段程序，以处理需要重复处理的相同任务。其基本形式为：</p>
+<pre>
+while 判断条件(condition)：
+    执行语句(statements)……
+</pre>
+<p>执行语句可以是单个语句或语句块。判断条件可以是任何表达式，任何非零、或非空（null）的值均为true。</p>
+<p>当判断条件假 false 时，循环结束。</p>
+<p>执行流程图如下：</p>
+<p><img decoding="async" src="../../image/python/02654de3-48f8-4518-9313-15acedb85ff5.jpg"/></p>
+<h3>Gif 演示 Python while 语句执行过程</h3>
+<p><img decoding="async" src="../../image/python/f989d87d-712f-4fb3-afc3-8a5408fefddf.gif"/></p>
+<p>复杂一点:</p><p>
+<img decoding="async" src="../../image/python/c7578e18-6a68-49a0-8071-b7350b104e4b.gif"/></p>
+<div class="example">
+<h2 class="example">实例</h2>
+<div class="example_code">
+<div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code">
+</span><span class="hl-identifier">count</span><span class="hl-code"> = </span><span class="hl-number">0</span><span class="hl-code">
+</span><span class="hl-identifier">while</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-identifier">count</span><span class="hl-code"> &lt; </span><span class="hl-number">9</span><span class="hl-brackets">)</span><span class="hl-code">:
+   </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">The count is:</span><span class="hl-quotes">'</span><span class="hl-code">, </span><span class="hl-identifier">count</span><span class="hl-code">
+</span><span class="hl-identifier">count</span><span class="hl-code"> = </span><span class="hl-identifier">count</span><span class="hl-code"> + </span><span class="hl-number">1</span><span class="hl-code">
+</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Good bye!</span><span class="hl-quotes">"</span></div>
+</div><br/><a class="tryitbtn" href="/try/runcode.php?filename=test_while&amp;type=python" rel="noopener noreferrer" target="_blank">运行实例 »</a> </div>
+<p>以上代码执行输出结果:</p>
+<pre>
+The count is: 0
+The count is: 1
+The count is: 2
+The count is: 3
+The count is: 4
+The count is: 5
+The count is: 6
+The count is: 7
+The count is: 8
+Good bye!
+</pre>
+<p>
+while 语句时还有另外两个重要的命令 continue，break 来跳过循环，continue 用于跳过该次循环，break 则是用于退出循环，此外"判断条件"还可以是个常值，表示循环必定成立，具体用法如下：</p>
+<div class="example">
+<div class="example_code">
+<div class="hl-main"><span class="hl-comment"># continue 和 break 用法</span><span class="hl-code">
+</span><span class="hl-identifier">i</span><span class="hl-code"> = </span><span class="hl-number">1</span><span class="hl-code">
+</span><span class="hl-reserved">while</span><span class="hl-code"> </span><span class="hl-identifier">i</span><span class="hl-code"> &lt; </span><span class="hl-number">10</span><span class="hl-code">:   
+    </span><span class="hl-identifier">i</span><span class="hl-code"> += </span><span class="hl-number">1</span><span class="hl-code">
+</span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">i</span><span class="hl-code">%</span><span class="hl-number">2</span><span class="hl-code"> &gt; </span><span class="hl-number">0</span><span class="hl-code">:     </span><span class="hl-comment"># 非双数时跳过输出</span><span class="hl-code">
+</span><span class="hl-reserved">continue</span><span class="hl-code">
+</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-identifier">i</span><span class="hl-code"> </span><span class="hl-comment"># 输出双数2、4、6、8、10</span><span class="hl-code">
+</span><span class="hl-identifier">i</span><span class="hl-code"> = </span><span class="hl-number">1</span><span class="hl-code">
+</span><span class="hl-reserved">while</span><span class="hl-code"> </span><span class="hl-number">1</span><span class="hl-code">:            </span><span class="hl-comment"># 循环条件为1必定成立</span><span class="hl-code">
+</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-identifier">i</span><span class="hl-code"> </span><span class="hl-comment"># 输出1~10</span><span class="hl-code">
+</span><span class="hl-identifier">i</span><span class="hl-code"> += </span><span class="hl-number">1</span><span class="hl-code">
+</span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">i</span><span class="hl-code"> &gt; </span><span class="hl-number">10</span><span class="hl-code">:     </span><span class="hl-comment"># 当i大于10时跳出循环</span><span class="hl-code">
+</span><span class="hl-reserved">break</span></div>
+</div></div>
+<br/><hr/><h2>无限循环</h2>
+<p>
+如果条件判断语句永远为 true，循环将会无限的执行下去，如下实例：
+</p>
+<div class="example">
+<h2 class="example">实例</h2>
+<div class="example_code">
+<div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code">
+</span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code">
+</span><span class="hl-identifier">var</span><span class="hl-code"> = </span><span class="hl-number">1</span><span class="hl-code">
+</span><span class="hl-reserved">while</span><span class="hl-code"> </span><span class="hl-identifier">var</span><span class="hl-code"> == </span><span class="hl-number">1</span><span class="hl-code"> :  </span><span class="hl-comment"># 该条件永远为true，循环将无限执行下去</span><span class="hl-code">
+</span><span class="hl-identifier">num</span><span class="hl-code"> = </span><span class="hl-builtin">raw_input</span><span class="hl-brackets">(</span><span class="hl-quotes">"</span><span class="hl-string">Enter a number  :</span><span class="hl-quotes">"</span><span class="hl-brackets">)</span><span class="hl-code">
+</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">You entered: </span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">num</span><span class="hl-code">
+</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Good bye!</span><span class="hl-quotes">"</span></div>
+</div></div>
+<p>
+<p>以上实例输出结果：</p>
+<pre>
+Enter a number  :20
+You entered:  20
+Enter a number  :29
+You entered:  29
+Enter a number  :3
+You entered:  3
+Enter a number between :Traceback (most recent call last):
+  File "test.py", line 5, in &lt;module&gt;
+    num = raw_input("Enter a number :")
+KeyboardInterrupt
+</pre>
+</p>
+<p><strong>注意：</strong>以上的无限循环你可以使用  CTRL+C 来中断循环。</p>
+<br/><hr/><h2>循环使用 else 语句</h2>
+<p>
+在 python 中，while … else 在循环条件为 false 时执行 else 语句块：</p>
+<div class="example">
+<h2 class="example">实例</h2>
+<div class="example_code">
+<div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code">
+</span><span class="hl-identifier">count</span><span class="hl-code"> = </span><span class="hl-number">0</span><span class="hl-code">
+</span><span class="hl-reserved">while</span><span class="hl-code"> </span><span class="hl-identifier">count</span><span class="hl-code"> &lt; </span><span class="hl-number">5</span><span class="hl-code">:
+   </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-identifier">count</span><span class="hl-code">, </span><span class="hl-quotes">"</span><span class="hl-string"> is  less than 5</span><span class="hl-quotes">"</span><span class="hl-code">
+</span><span class="hl-identifier">count</span><span class="hl-code"> = </span><span class="hl-identifier">count</span><span class="hl-code"> + </span><span class="hl-number">1</span><span class="hl-code">
+</span><span class="hl-reserved">else</span><span class="hl-code">:
+   </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-identifier">count</span><span class="hl-code">, </span><span class="hl-quotes">"</span><span class="hl-string"> is not less than 5</span><span class="hl-quotes">"</span></div>
+</div></div>
+<p>以上实例输出结果为：</p>
+<pre>
+0 is less than 5
+1 is less than 5
+2 is less than 5
+3 is less than 5
+4 is less than 5
+5 is not less than 5
+</pre>
+<br/><hr/><h2>简单语句组</h2>
+<p>类似 if 语句的语法，如果你的 while 循环体中只有一条语句，你可以将该语句与while写在同一行中，
+如下所示：</p>
+<div class="example">
+<h2 class="example">实例</h2>
+<div class="example_code">
+<div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code">
+</span><span class="hl-identifier">flag</span><span class="hl-code"> = </span><span class="hl-number">1</span><span class="hl-code">
+</span><span class="hl-identifier">while</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-identifier">flag</span><span class="hl-brackets">)</span><span class="hl-code">: </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">Given flag is really true!</span><span class="hl-quotes">'</span><span class="hl-code">
+</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Good bye!</span><span class="hl-quotes">"</span></div>
+</div></div>
+<p><strong>注意：</strong>以上的无限循环你可以使用  <span class="marked">CTRL+C</span> 来中断循环。</p> <!-- 其他扩展 -->
+</div>
+</div>

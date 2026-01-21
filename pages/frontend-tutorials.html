@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前端教程 - 小白爱分享</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav id="mainNav"></nav>
+
+    <div class="container tutorial-container">
+        <iframe src="https://www.w3school.com.cn/html/index.asp" class="tutorial-iframe" scrolling="yes"></iframe>
+    </div>
+
+    <!-- 页脚 -->
+    <footer id="mainFooter"></footer>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        // 页面加载完成后执行初始化
+        document.addEventListener('DOMContentLoaded', function () {
+            // 生成导航栏
+            generateNavigation();
+
+            // 生成页脚
+            generateFooter();
+        });
+    </script>
+</body>
+
+</html>

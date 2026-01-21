@@ -1,0 +1,46 @@
+<div class="article-body">
+<div class="article-intro" id="content">
+<h1>Python <span class="color_h1"> break 语句</span></h1>
+<p>Python break语句，就像在C语言中，打破了最小封闭for或while循环。</p>
+<p>break语句用来终止循环语句，即循环条件没有False条件或者序列还没被完全递归完，也会停止执行循环语句。</p>
+<p> break语句用在while和for循环中。</p>
+<p>
+如果您使用嵌套循环，break语句将停止执行最深层的循环，并开始执行下一行代码。
+</p>
+<p><strong>Python语言 break 语句语法：</strong></p>
+<pre>
+break
+</pre>
+<p><strong>流程图：</strong></p>
+<p><img decoding="async" src="../../image/python/8d840c9d-2ce9-407f-848c-345e5cf42994.jpg"/></p>
+<div class="example">
+<h2 class="example">实例(Python 2.0+)</h2>
+<div class="example_code">
+<div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code">
+</span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code">
+</span><span class="hl-reserved">for</span><span class="hl-code"> </span><span class="hl-identifier">letter</span><span class="hl-code"> </span><span class="hl-reserved">in</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">Python</span><span class="hl-quotes">'</span><span class="hl-code">:     </span><span class="hl-comment"># 第一个实例</span><span class="hl-code">
+</span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">letter</span><span class="hl-code"> == </span><span class="hl-quotes">'</span><span class="hl-string">h</span><span class="hl-quotes">'</span><span class="hl-code">:
+      </span><span class="hl-reserved">break</span><span class="hl-code">
+</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">当前字母 :</span><span class="hl-quotes">'</span><span class="hl-code">, </span><span class="hl-identifier">letter</span><span class="hl-code">
+</span><span class="hl-identifier">var</span><span class="hl-code"> = </span><span class="hl-number">10</span><span class="hl-code"> </span><span class="hl-comment"># 第二个实例</span><span class="hl-code">
+</span><span class="hl-reserved">while</span><span class="hl-code"> </span><span class="hl-identifier">var</span><span class="hl-code"> &gt; </span><span class="hl-number">0</span><span class="hl-code">:              
+   </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">'</span><span class="hl-string">当前变量值 :</span><span class="hl-quotes">'</span><span class="hl-code">, </span><span class="hl-identifier">var</span><span class="hl-code">
+</span><span class="hl-identifier">var</span><span class="hl-code"> = </span><span class="hl-identifier">var</span><span class="hl-code"> -</span><span class="hl-number">1</span><span class="hl-code">
+</span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">var</span><span class="hl-code"> == </span><span class="hl-number">5</span><span class="hl-code">:   </span><span class="hl-comment"># 当变量 var 等于 5 时退出循环</span><span class="hl-code">
+</span><span class="hl-reserved">break</span><span class="hl-code">
+</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Good bye!</span><span class="hl-quotes">"</span></div>
+</div></div>
+<p>以上实例执行结果：</p>
+<pre>
+当前字母 : P
+当前字母 : y
+当前字母 : t
+当前变量值 : 10
+当前变量值 : 9
+当前变量值 : 8
+当前变量值 : 7
+当前变量值 : 6
+Good bye!
+</pre> <!-- 其他扩展 -->
+</div>
+</div>
