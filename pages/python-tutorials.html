@@ -202,30 +202,73 @@
         // 导入 Python 导航数据
         import pyNavigation from '../js/pyNavigation.js';
 
-        // 页面加载完成后执行初始化
-        document.addEventListener('DOMContentLoaded', function () {
-            // 生成顶部导航栏
-            generateNavigation();
+        // 初始化函数
+        function init() {
+            console.log('开始初始化页面...');
+            try {
+                // 生成顶部导航栏
+                if (typeof generateNavigation === 'function') generateNavigation();
 
-            // 生成页脚
-            generateFooter();
+                // 生成页脚
+                if (typeof generateFooter === 'function') generateFooter();
 
-            // 生成教程导航列表
-            generateTutorialNav();
+                // 生成教程导航列表
+                generateTutorialNav();
 
-            // 从 URL 参数中获取要显示的教程
-            const urlParams = new URLSearchParams(window.location.search);
-            const tutorialUrl = urlParams.get('tutorial');
-            if (tutorialUrl) {
-                loadTutorial(tutorialUrl);
+                const iframe = document.getElementById('tutorialFrame');
+                if (iframe) {
+                    // 统一设置 iframe 加载后的逻辑
+                    iframe.onload = function () {
+                        console.log('iframe 加载完成');
+                        injectCodeStyles(iframe);
+                        updateActiveNavByIframeUrl(iframe);
+                    };
+
+                    // 处理初次加载或缓存情况
+                    const checkIframeLoaded = () => {
+                        try {
+                            if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+                                injectCodeStyles(iframe);
+                                updateActiveNavByIframeUrl(iframe);
+                            }
+                        } catch (e) {
+                            console.log('无法直接访问 iframe 内容，等待 onload 事件');
+                        }
+                    };
+
+                    // 延迟检查一下，确保 iframe 的 contentDocument 已存在
+                    setTimeout(checkIframeLoaded, 100);
+                }
+
+                // 从 URL 参数中获取要显示的教程
+                const urlParams = new URLSearchParams(window.location.search);
+                const tutorialUrl = urlParams.get('tutorial');
+                if (tutorialUrl) {
+                    loadTutorial(tutorialUrl);
+                }
+            } catch (error) {
+                console.error('初始化失败:', error);
             }
-        });
+        }
+
+        // 立即执行初始化（module 脚本本身就是 deferred 的）
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
 
         // 生成教程导航列表
         function generateTutorialNav() {
             const navList = document.getElementById('tutorialNavList');
-            let navHTML = '';
+            if (!navList) return;
 
+            if (!pyNavigation || !Array.isArray(pyNavigation)) {
+                console.error('pyNavigation 数据加载失败');
+                return;
+            }
+
+            let navHTML = '';
             pyNavigation.forEach((item, index) => {
                 const isActive = index === 0 ? 'active' : '';
                 navHTML += `
@@ -242,9 +285,7 @@
 
         // 从导航加载教程
         window.loadTutorialFromNav = function (url, title, event) {
-            if (event) {
-                event.preventDefault();
-            }
+            if (event) event.preventDefault();
 
             // 更新活动状态
             document.querySelectorAll('.tutorial-nav-item').forEach(item => {
@@ -257,12 +298,13 @@
             }
 
             // 更新标题
-            document.getElementById('currentTutorialTitle').textContent = title;
+            const titleElem = document.getElementById('currentTutorialTitle');
+            if (titleElem) titleElem.textContent = title;
 
             // 加载教程内容
             loadTutorial(url);
 
-            // 更新 URL（不刷新页面）
+            // 更新 URL
             const newUrl = new URL(window.location);
             newUrl.searchParams.set('tutorial', url);
             window.history.pushState({}, '', newUrl);
@@ -271,55 +313,37 @@
         // 加载教程内容到 iframe
         function loadTutorial(url) {
             const iframe = document.getElementById('tutorialFrame');
-            iframe.src = url;
-
-            // 监听 iframe 加载完成
-            iframe.onload = function () {
-                injectCodeStyles(iframe);
-                updateActiveNavByIframeUrl(iframe);
-            };
+            if (iframe) iframe.src = url;
         }
 
         // 根据 iframe 当前 URL 更新左侧导航激活状态
         function updateActiveNavByIframeUrl(iframe) {
             try {
-                // 获取 iframe 当前的 URL
-                const iframeUrl = iframe.contentWindow.location.href;
-                const iframePath = iframe.contentWindow.location.pathname;
+                const iframeWindow = iframe.contentWindow;
+                if (!iframeWindow) return;
 
-                // 从路径中提取文件名
+                const iframePath = iframeWindow.location.pathname;
                 const fileName = iframePath.split('/').pop();
 
-                console.log('iframe 当前页面:', fileName);
-
-                // 查找匹配的导航项
-                pyNavigation.forEach((item, index) => {
+                pyNavigation.forEach((item) => {
                     const itemFileName = item.url.split('/').pop();
 
                     if (itemFileName === fileName) {
-                        // 清除所有激活状态
                         document.querySelectorAll('.tutorial-nav-item').forEach(navItem => {
                             navItem.classList.remove('active');
                         });
 
-                        // 激活匹配的导航项
                         const activeItem = document.querySelector(`[data-url="${item.url}"]`);
                         if (activeItem) {
                             activeItem.classList.add('active');
-
-                            // 更新标题
-                            document.getElementById('currentTutorialTitle').textContent = item.name;
-
-                            // 滚动到可视区域
+                            const titleElem = document.getElementById('currentTutorialTitle');
+                            if (titleElem) titleElem.textContent = item.name;
                             activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-                            console.log('已激活导航项:', item.name);
                         }
                     }
                 });
-
             } catch (error) {
-                console.log('无法访问 iframe URL（可能是跨域）:', error);
+                console.log('无法访问 iframe URL:', error);
             }
         }
 
@@ -327,19 +351,20 @@
         function injectCodeStyles(iframe) {
             try {
                 const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                if (!iframeDoc) return;
 
-                // 检查是否已经注入过样式
-                if (iframeDoc.getElementById('injected-code-highlight-style')) {
-                    return;
-                }
+                // 移除旧样式
+                const oldStyle = iframeDoc.getElementById('injected-code-highlight-style');
+                if (oldStyle) oldStyle.remove();
 
                 // 创建样式标签
                 const style = iframeDoc.createElement('style');
                 style.id = 'injected-code-highlight-style';
                 style.textContent = `
-                    /* 代码块浅灰色背景和美化 */
-                    .example_code {
+                    /* 代码块浅灰色背景 */
+                    .example_code, .hl-main {
                         background: #f5f5f5 !important;
+                        background-color: #f5f5f5 !important;
                         border-radius: 6px !important;
                         padding: 15px !important;
                         border: 1px solid #ddd !important;
@@ -347,138 +372,87 @@
                         overflow-x: auto !important;
                     }
                     
-                    /* 代码格式化和换行 */
-                    .example_code,
-                    .example_code *,
-                    .example_code .hl-main,
-                    .example_code div,
-                    .example_code span {
+                    /* 代码格式化 */
+                    .example_code, .example_code *, .hl-main, .hl-main * {
                         white-space: pre-wrap !important;
                         word-wrap: break-word !important;
-                        word-break: break-word !important;
                         font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
                         font-size: 14px !important;
-                        line-height: 1.6 !important;
                     }
                     
-                    /* pre 标签浅绿色背景 */
+                    /* pre 标签 */
                     pre {
                         background: #e8f5e9 !important;
-                        border-radius: 6px !important;
                         padding: 12px 15px !important;
-                        margin: 10px 0 !important;
                         border: 1px solid #a5d6a7 !important;
                         white-space: pre-wrap !important;
-                        word-wrap: break-word !important;
-                        overflow-x: auto !important;
                     }
                     
-                    /* Python 语法高亮颜色 */
-                    .example_code .hl-comment {
-                        color: #008000 !important;
-                        font-style: italic !important;
-                    }
-                    
-                    .example_code .hl-identifier {
-                        color: #0000FF !important;
-                        font-weight: bold !important;
-                    }
-                    
-                    .example_code .hl-string {
-                        color: #A31515 !important;
-                    }
-                    
-                    .example_code .hl-quotes {
-                        color: #A31515 !important;
-                    }
-                    
-                    .example_code .hl-brackets {
-                        color: #000000 !important;
-                    }
-                    
-                    .example_code .hl-code {
-                        color: #000000 !important;
-                    }
-                    
-                    .example_code .hl-number {
-                        color: #098658 !important;
-                    }
-                    
-                    .example_code .hl-reserved {
-                        color: #0000FF !important;
-                        font-weight: bold !important;
-                    }
-                    
-                    .example_code .hl-builtin {
-                        color: #795E26 !important;
-                    }
+                    /* 高亮颜色 */
+                    .hl-comment { color: #008000 !important; font-style: italic !important; }
+                    .hl-identifier { color: #0000FF !important; font-weight: bold !important; }
+                    .hl-string, .hl-quotes { color: #A31515 !important; }
+                    .hl-number { color: #098658 !important; }
+                    .hl-reserved { color: #0000FF !important; font-weight: bold !important; }
+                    .hl-builtin { color: #795E26 !important; }
                             
-                    /* 隐藏运行实例按钮 */
-                    .showbtn,
-                    a.showbtn,
-                    .tryitbtn,
-                    a.tryitbtn {
+                    /* 隐藏运行按钮 - 增强版 */
+                    .showbtn, a.showbtn, .tryitbtn, a.tryitbtn, 
+                    [class*="showbtn"], [class*="tryitbtn"],
+                    .example a, .example_code + br + a {
                         display: none !important;
+                        visibility: hidden !important;
+                        opacity: 0 !important;
+                        pointer-events: none !important;
+                        height: 0 !important;
+                        width: 0 !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        position: absolute !important;
                     }
                 `;
 
-                // 注入样式到 iframe
-                iframeDoc.head.appendChild(style);
+                const head = iframeDoc.head || iframeDoc.getElementsByTagName('head')[0];
+                if (head) {
+                    head.appendChild(style);
+                } else {
+                    iframeDoc.documentElement.appendChild(style);
+                }
 
-                console.log('代码样式已注入：背景改为浅灰色，按钮已隐藏');
-
-                // 拦截 iframe 内的链接点击，确保在 iframe 内跳转
                 interceptIframeLinks(iframeDoc);
-
             } catch (error) {
-                console.error('注入代码样式失败（可能是跨域问题）:', error);
+                console.error('注入代码样式失败:', error);
             }
         }
 
-        // 拦截 iframe 内的链接点击
+        // 拦截链接
         function interceptIframeLinks(iframeDoc) {
             try {
-                // 获取所有链接
                 const links = iframeDoc.querySelectorAll('a');
-
                 links.forEach(link => {
                     const href = link.getAttribute('href');
-
-                    // 只处理相对路径的 Python 教程链接
                     if (href && (href.startsWith('/python/') || href.startsWith('python-') || href.includes('.html'))) {
                         link.addEventListener('click', function (e) {
                             e.preventDefault();
-
                             let targetUrl = href;
-
-                            // 处理不同格式的链接
                             if (href.startsWith('/python/')) {
-                                // 绝对路径：/python/python-xxx.html
                                 targetUrl = 'python/' + href.split('/python/')[1];
                             } else if (href.startsWith('python-')) {
-                                // 相对路径：python-xxx.html
                                 targetUrl = 'python/' + href;
                             } else if (href.includes('/python/')) {
-                                // 其他包含 /python/ 的路径
                                 const parts = href.split('/python/');
                                 targetUrl = 'python/' + parts[parts.length - 1];
                             }
-
-                            console.log('拦截链接点击:', href, '→', targetUrl);
-
-                            // 在父页面的 iframe 中加载
                             const iframe = document.getElementById('tutorialFrame');
-                            iframe.src = targetUrl;
+                            if (iframe) iframe.src = targetUrl;
                         });
                     }
                 });
-
-                console.log('已拦截', links.length, '个链接');
-
             } catch (error) {
                 console.error('拦截链接失败:', error);
             }
         }
+    </script>
     </script>
 </body>
 
