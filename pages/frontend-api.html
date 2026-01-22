@@ -143,41 +143,10 @@
 
     <!-- 引入API数据文件 -->
     <script src="../js/apidata.js"></script>
+    <script src="../js/data.js"></script>
+    <script src="../js/main.js"></script>
 
     <script>
-        // 生成导航栏
-        function generateNavigation() {
-            const navElement = document.getElementById('mainNav');
-
-            let navHTML = `
-                <div class="nav-container">
-                    <a href="../index.html" class="logo">
-                        <img src="../image/logo.jpeg" alt="Logo" class="logo-img">
-                        <span class="logo-text">${websiteInfo.title}</span>
-                    </a>
-                    <ul class="nav-links">
-            `;
-
-            navItems.forEach(item => {
-                const isActive = item.url.includes('frontend-api.html') ? 'active' : '';
-                navHTML += `<li><a href="${item.url}" class="${isActive}">${item.name}</a></li>`;
-            });
-
-            navHTML += `
-                    </ul>
-                </div>
-            `;
-
-            navElement.innerHTML = navHTML;
-        }
-
-        // 生成底部条
-        function generateFooter() {
-            const footerElement = document.getElementById('mainFooter');
-            if (footerElement) {
-                footerElement.innerHTML = `<p>© 2024 ${websiteInfo.title} | ${websiteInfo.description}</p>`;
-            }
-        }
 
         document.addEventListener('DOMContentLoaded', function () {
             // 生成导航栏和底部条
