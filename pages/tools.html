@@ -1,113 +1,33 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>在线工具 - 小白爱分享</title>
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
-    <!-- 导航栏 -->
-    <nav id="mainNav"></nav>
-    
-    <div class="container">
-        <!-- 左侧内容区 -->
-        <main id="contentArea">
-            <header class="blog-header">
-                <h1>在线工具</h1>
-                <p>为开发者准备的实用工具集合</p>
-            </header>
-            
-            <section>
-                <div class="article-card">
-                    <h2>JSON格式化工具</h2>
-                    <textarea id="jsonInput" placeholder="请输入JSON数据..." style="width: 100%; height: 150px;"></textarea>
-                    <br>
-                    <button onclick="formatJSON()" style="margin-top: 10px;">格式化</button>
-                    <textarea id="jsonOutput" placeholder="格式化后的JSON..." style="width: 100%; height: 150px; margin-top: 10px;"></textarea>
-                </div>
-                
-                <div class="article-card">
-                    <h2>CSS压缩工具</h2>
-                    <textarea id="cssInput" placeholder="请输入CSS代码..." style="width: 100%; height: 150px;"></textarea>
-                    <br>
-                    <button onclick="minifyCSS()" style="margin-top: 10px;">压缩</button>
-                    <textarea id="cssOutput" placeholder="压缩后的CSS..." style="width: 100%; height: 150px; margin-top: 10px;"></textarea>
-                </div>
-                
-                <div class="article-card">
-                    <h2>Base64编码/解码工具</h2>
-                    <textarea id="base64Input" placeholder="请输入待处理的文本..." style="width: 100%; height: 100px;"></textarea>
-                    <br>
-                    <button onclick="encodeBase64()" style="margin-top: 10px;">编码</button>
-                    <button onclick="decodeBase64()" style="margin-top: 10px;">解码</button>
-                    <textarea id="base64Output" placeholder="处理后的结果..." style="width: 100%; height: 100px; margin-top: 10px;"></textarea>
-                </div>
-            </section>
-        </main>
-        
-        <!-- 右侧边栏 -->
-        <aside id="sidebar"></aside>
-    </div>
-    
-    <!-- 页脚 -->
-    <footer id="mainFooter"></footer>
-    
-    <script src="../js/data.js"></script>
-    <script src="../js/main.js"></script>
-    <script>
-        // 页面加载完成后执行初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            // 生成导航栏
-            generateNavigation();
-            
-            // 生成侧边栏
-            generateSidebar();
-            
-            // 生成页脚
-            generateFooter();
-        });
-        
-        // JSON格式化功能
-        function formatJSON() {
-            const input = document.getElementById('jsonInput').value;
-            try {
-                const jsonObj = JSON.parse(input);
-                const formatted = JSON.stringify(jsonObj, null, 4);
-                document.getElementById('jsonOutput').value = formatted;
-            } catch (e) {
-                alert('JSON格式错误: ' + e.message);
-            }
-        }
-        
-        // CSS压缩功能
-        function minifyCSS() {
-            const input = document.getElementById('cssInput').value;
-            const minified = input
-                .replace(/\s+/g, ' ')           // 多个空白字符替换为单个空格
-                .replace(/\/\*(.*?)\*\//g, '')  // 移除注释
-                .replace(/\s*([{}:;,])\s*/g, '$1') // 移除选择器周围的空格
-                .trim();
-            document.getElementById('cssOutput').value = minified;
-        }
-        
-        // Base64编码
-        function encodeBase64() {
-            const input = document.getElementById('base64Input').value;
-            const encoded = btoa(unescape(encodeURIComponent(input)));
-            document.getElementById('base64Output').value = encoded;
-        }
-        
-        // Base64解码
-        function decodeBase64() {
-            const input = document.getElementById('base64Input').value;
-            try {
-                const decoded = decodeURIComponent(escape(atob(input)));
-                document.getElementById('base64Output').value = decoded;
-            } catch (e) {
-                alert('Base64解码错误: ' + e.message);
-            }
-        }
-    </script>
-</body>
-</html>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>在线工具 - 小白爱分享</title><link rel="stylesheet" href="../css/style.css"><style>.sidebar-list li.active a{color:#7c3aed;font-weight:bold}.tool-section{display:none}.tool-section.active{display:block}.sidebar-list li{cursor:pointer}.sidebar-list li:hover{background-color:#f3e8ff}</style></head><body><nav id="mainNav"></nav><div class="container"><aside id="sidebar"></aside><main id="contentArea"><header class="blog-header"><h1 id="toolTitle">在线工具</h1><p id="toolDesc">为开发者准备的实用工具集合</p></header><section id="toolsContainer"><div id="json-format" class="tool-section"><div class="article-card"><h2>JSON格式化工具</h2><textarea id="jsonInput" placeholder="请输入JSON数据..." style="width: 100%; height: 150px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;"></textarea><br><button class="page-btn" onclick="formatJSON()" style="margin-top: 10px;">格式化</button><textarea id="jsonOutput" placeholder="格式化后的JSON..." style="width: 100%; height: 200px; margin-top: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" readonly></textarea></div></div><div id="js-minify" class="tool-section"><div class="article-card"><h2>JS压缩工具</h2><textarea id="jsInput" placeholder="请输入JS代码..." style="width: 100%; height: 150px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;"></textarea><br><button class="page-btn" onclick="minifyJS()" style="margin-top: 10px;">压缩</button><textarea id="jsOutput" placeholder="压缩后的JS..." style="width: 100%; height: 150px; margin-top: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" readonly></textarea></div></div><div id="css-minify" class="tool-section"><div class="article-card"><h2>CSS压缩工具</h2><textarea id="cssInput" placeholder="请输入CSS代码..." style="width: 100%; height: 150px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;"></textarea><br><button class="page-btn" onclick="minifyCSS()" style="margin-top: 10px;">压缩</button><textarea id="cssOutput" placeholder="压缩后的CSS..." style="width: 100%; height: 150px; margin-top: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" readonly></textarea></div></div><div id="base64-codec" class="tool-section"><div class="article-card"><h2>Base64编码/解码工具</h2><textarea id="base64Input" placeholder="请输入待处理的文本..." style="width: 100%; height: 100px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;"></textarea><br><button class="page-btn" onclick="encodeBase64()" style="margin-top: 10px;">编码</button><button class="page-btn" onclick="decodeBase64()" style="margin-top: 10px; margin-left: 10px;">解码</button><textarea id="base64Output" placeholder="处理后的结果..." style="width: 100%; height: 100px; margin-top: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" readonly></textarea></div></div></section></main></div><footer id="mainFooter"></footer><script src="../js/data.js"></script><script src="../js/main.js"></script><script>document.addEventListener('DOMContentLoaded',function(){generateNavigation();generateFooter();renderToolsSidebar();if(typeof tools!=='undefined'&&tools.length>0){switchTool(tools[0].id);}});function renderToolsSidebar(){const sidebar=document.getElementById('sidebar');if(!sidebar)return;let sidebarHTML='';if(typeof tools!=='undefined'){sidebarHTML+=`
+                    <div class="sidebar-section">
+                        <h3>工具列表</h3>
+                        <ul class="sidebar-list" id="toolList">
+                `;tools.forEach(tool=>{sidebarHTML+=`
+                        <li id="nav-${tool.id}">
+                            <a href="javascript:void(0)" onclick="switchTool('${tool.id}')">${tool.icon} ${tool.name}</a>
+                        </li>
+                    `;});sidebarHTML+=`
+                        </ul>
+                    </div>
+                `;}
+if(typeof links!=='undefined'){sidebarHTML+=`
+                    <div class="sidebar-section">
+                        <h3>友情链接</h3>
+                        <ul class="sidebar-list">
+                `;links.forEach(link=>{sidebarHTML+=`
+                        <li>
+                            <a href="${link.url}" target="_blank">${link.name}</a>
+                        </li>
+                    `;});sidebarHTML+=`
+                        </ul>
+                    </div>
+                `;}
+sidebar.innerHTML=sidebarHTML;}
+function switchTool(toolId){const sections=document.querySelectorAll('.tool-section');sections.forEach(section=>{section.classList.remove('active');});const activeSection=document.getElementById(toolId);if(activeSection){activeSection.classList.add('active');}
+const navItems=document.querySelectorAll('#toolList li');navItems.forEach(item=>{item.classList.remove('active');});const activeNavItem=document.getElementById(`nav-${toolId}`);if(activeNavItem){activeNavItem.classList.add('active');}
+const tool=tools.find(t=>t.id===toolId);if(tool){document.getElementById('toolTitle').textContent=tool.name;document.getElementById('toolDesc').textContent=`小白爱分享提供的实用${tool.name}工具`;}}
+function formatJSON(){const input=document.getElementById('jsonInput').value;if(!input.trim())return;try{const jsonObj=JSON.parse(input);const formatted=JSON.stringify(jsonObj,null,4);document.getElementById('jsonOutput').value=formatted;}catch(e){alert('JSON格式错误: '+e.message);}}
+function minifyJS(){const input=document.getElementById('jsInput').value;if(!input.trim())return;const minified=input.replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/gm,'$1').replace(/\s+/g,' ').replace(/([\{\}\(\)\[\]\+\-\*\/=><!&\|;,:])\s+/g,'$1').replace(/\s+([\{\}\(\)\[\]\+\-\*\/=><!&\|;,:])/g,'$1').trim();document.getElementById('jsOutput').value=minified;}
+function minifyCSS(){const input=document.getElementById('cssInput').value;if(!input.trim())return;const minified=input.replace(/\s+/g,' ').replace(/\/\*(.*?)\*\//g,'').replace(/\s*([{}:;,])\s*/g,'$1').trim();document.getElementById('cssOutput').value=minified;}
+function encodeBase64(){const input=document.getElementById('base64Input').value;if(!input.trim())return;try{const encoded=btoa(unescape(encodeURIComponent(input)));document.getElementById('base64Output').value=encoded;}catch(e){alert('编码错误: '+e.message);}}
+function decodeBase64(){const input=document.getElementById('base64Input').value;if(!input.trim())return;try{const decoded=decodeURIComponent(escape(atob(input)));document.getElementById('base64Output').value=decoded;}catch(e){alert('Base64解码错误: '+e.message);}}</script></body></html>

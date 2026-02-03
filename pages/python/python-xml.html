@@ -1,294 +1,127 @@
-<div class="article-body">
-<div class="article-intro" id="content">
-<h1>Python XML 解析</h1>
-<hr/>
-<h2>什么是 XML？</h2>
-<p>XML 指可扩展标记语言（e<b>X</b>tensible <b>M</b>arkup <b>L</b>anguage）。
-你可以通过本站学习 <a href="/xml/xml-tutorial.html" target="_blank" title="XML教程">XML 教程</a>
-</p>
-<p>XML 被设计用来传输和存储数据。</p>
-<p>XML 是一套定义语义标记的规则，这些标记将文档分成许多部件并对这些部件加以标识。</p>
-<p>它也是元标记语言，即定义了用于定义其他与特定领域有关的、语义的、结构化的标记语言的句法语言。</p>
-<hr/>
-<h2>Python 对 XML 的解析</h2>
-<p>常见的 XML 编程接口有 DOM 和 SAX，这两种接口处理 XML 文件的方式不同，当然使用场合也不同。</p>
-<p>Python 有三种方法解析 XML，SAX，DOM，以及 ElementTree:</p>
-<h3>1.SAX (simple API for XML )</h3>
-<p>Python 标准库包含 SAX 解析器，SAX 用事件驱动模型，通过在解析XML的过程中触发一个个的事件并调用用户定义的回调函数来处理XML文件。</p>
-<h3>2.DOM(Document Object Model)</h3>
-<p>将 XML 数据在内存中解析成一个树，通过对树的操作来操作XML。</p>
-<h3>3.ElementTree(元素树)</h3>
-<p>ElementTree就像一个轻量级的DOM，具有方便友好的API。代码可用性好，速度快，消耗内存少。</p>
-<p><strong>注：</strong>因DOM需要将XML数据映射到内存中的树，一是比较慢，二是比较耗内存，而SAX流式读取XML文件，比较快，占用内存少，但需要用户实现回调函数（handler）。</p>
-<p>本章节使用到的 XML 实例文件 movies.xml 内容如下：</p>
-<div class="example">
-<h2 class="example">movies.xml</h2>
-<div class="example_code">
-<div class="hl-main"><span class="hl-brackets">&lt;</span><span class="hl-reserved">collection</span><span class="hl-code"> </span><span class="hl-var">shelf</span><span class="hl-code">=</span><span class="hl-quotes">"</span><span class="hl-string">New Arrivals</span><span class="hl-quotes">"</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">movie</span><span class="hl-code"> </span><span class="hl-var">title</span><span class="hl-code">=</span><span class="hl-quotes">"</span><span class="hl-string">Enemy Behind</span><span class="hl-quotes">"</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">type</span><span class="hl-brackets">&gt;</span><span class="hl-code">War, Thriller</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">type</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">format</span><span class="hl-brackets">&gt;</span><span class="hl-code">DVD</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">format</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">year</span><span class="hl-brackets">&gt;</span><span class="hl-code">2003</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">year</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">rating</span><span class="hl-brackets">&gt;</span><span class="hl-code">PG</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">rating</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">stars</span><span class="hl-brackets">&gt;</span><span class="hl-code">10</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">stars</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">description</span><span class="hl-brackets">&gt;</span><span class="hl-code">Talk about a US-Japan war</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">description</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">movie</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">movie</span><span class="hl-code"> </span><span class="hl-var">title</span><span class="hl-code">=</span><span class="hl-quotes">"</span><span class="hl-string">Transformers</span><span class="hl-quotes">"</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">type</span><span class="hl-brackets">&gt;</span><span class="hl-code">Anime, Science Fiction</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">type</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">format</span><span class="hl-brackets">&gt;</span><span class="hl-code">DVD</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">format</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">year</span><span class="hl-brackets">&gt;</span><span class="hl-code">1989</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">year</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">rating</span><span class="hl-brackets">&gt;</span><span class="hl-code">R</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">rating</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">stars</span><span class="hl-brackets">&gt;</span><span class="hl-code">8</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">stars</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">description</span><span class="hl-brackets">&gt;</span><span class="hl-code">A schientific fiction</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">description</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">movie</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">movie</span><span class="hl-code"> </span><span class="hl-var">title</span><span class="hl-code">=</span><span class="hl-quotes">"</span><span class="hl-string">Trigun</span><span class="hl-quotes">"</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">type</span><span class="hl-brackets">&gt;</span><span class="hl-code">Anime, Action</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">type</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">format</span><span class="hl-brackets">&gt;</span><span class="hl-code">DVD</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">format</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">episodes</span><span class="hl-brackets">&gt;</span><span class="hl-code">4</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">episodes</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">rating</span><span class="hl-brackets">&gt;</span><span class="hl-code">PG</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">rating</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">stars</span><span class="hl-brackets">&gt;</span><span class="hl-code">10</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">stars</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">description</span><span class="hl-brackets">&gt;</span><span class="hl-code">Vash the Stampede!</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">description</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">movie</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">movie</span><span class="hl-code"> </span><span class="hl-var">title</span><span class="hl-code">=</span><span class="hl-quotes">"</span><span class="hl-string">Ishtar</span><span class="hl-quotes">"</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">type</span><span class="hl-brackets">&gt;</span><span class="hl-code">Comedy</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">type</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">format</span><span class="hl-brackets">&gt;</span><span class="hl-code">VHS</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">format</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">rating</span><span class="hl-brackets">&gt;</span><span class="hl-code">PG</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">rating</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">stars</span><span class="hl-brackets">&gt;</span><span class="hl-code">2</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">stars</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;</span><span class="hl-reserved">description</span><span class="hl-brackets">&gt;</span><span class="hl-code">Viewable boredom</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">description</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">movie</span><span class="hl-brackets">&gt;</span><span class="hl-code">
-</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">collection</span><span class="hl-brackets">&gt;</span></div>
-</div>
-</div>
-<hr/>
-<h2>python使用SAX解析xml</h2>
-<p>SAX是一种基于事件驱动的 API。</p>
-<p>利用SAX解析XML文档牵涉到两个部分: <strong>解析器</strong>和<strong>事件处理器</strong>。</p>
-<p>解析器负责读取XML文档，并向事件处理器发送事件，如元素开始跟元素结束事件。</p>
-<p>而事件处理器则负责对事件作出响应，对传递的XML数据进行处理。
-</p>
-<psax适于处理下面的问题：< p="">
-<ul>
-<li>
-1、对大型文件进行处理；</li><li>
-2、只需要文件的部分内容，或者只需从文件中得到特定信息。</li><li>
-3、想建立自己的对象模型的时候。</li></ul>
-<p>在python中使用sax方式处理xml要先引入xml.sax中的parse函数，还有xml.sax.handler中的ContentHandler。</p>
-<h3>ContentHandler类方法介绍</h3>
-<p><strong>characters(content)方法</strong></p>
-<p>调用时机：</p>
-<p>从行开始，遇到标签之前，存在字符，content 的值为这些字符串。</p>
-<p>从一个标签，遇到下一个标签之前， 存在字符，content 的值为这些字符串。</p>
-<p>从一个标签，遇到行结束符之前，存在字符，content 的值为这些字符串。</p>
-<p>标签可以是开始标签，也可以是结束标签。</p>
-<p><strong>startDocument() 方法</strong></p>
-<p>文档启动的时候调用。</p>
-<p><strong>endDocument() 方法</strong></p>
-<p>解析器到达文档结尾时调用。</p>
-<p><strong>startElement(name, attrs)方法</strong></p>
-<p>遇到XML开始标签时调用，name是标签的名字，attrs是标签的属性值字典。</p>
-<p><strong>endElement(name) 方法</strong></p>
-<p>遇到XML结束标签时调用。 </p>
-<hr/>
-<h2>make_parser方法</h2>
-<p>以下方法创建一个新的解析器对象并返回。</p>
-<pre>
-xml.sax.make_parser( [parser_list] )
-</pre>
-<p>参数说明:</p>
-<ul>
-<li><strong>parser_list</strong> - 
-可选参数，解析器列表</li>
-</ul>
-<hr/>
-<h2>parser方法</h2>
-<p>以下方法创建一个 SAX 解析器并解析xml文档：</p>
-<pre>
-xml.sax.parse( xmlfile, contenthandler[, errorhandler])
-</pre>
-<p>参数说明:</p>
-<ul>
-<li><strong>xmlfile</strong> - 
-xml文件名</li>
-<li><strong>contenthandler</strong> - 
-必须是一个ContentHandler的对象</li>
-<li><strong>errorhandler</strong> - 
-如果指定该参数，errorhandler必须是一个SAX ErrorHandler对象</li>
-</ul>
-<hr/>
-<h2>parseString方法</h2>
-<p>parseString方法创建一个XML解析器并解析xml字符串：</p>
-<pre>
-xml.sax.parseString(xmlstring, contenthandler[, errorhandler])
-</pre>
-<p>参数说明:</p>
-<ul>
-<li><strong>xmlstring</strong> - 
-xml字符串</li>
-<li><strong>contenthandler</strong> - 
-必须是一个ContentHandler的对象</li>
-<li><strong>errorhandler</strong> - 
-如果指定该参数，errorhandler必须是一个SAX ErrorHandler对象</li>
-</ul>
-<hr/>
-<h2>Python 解析XML实例</h2>
-<div class="example">
-<h2 class="example">实例</h2>
-<div class="example_code">
-<div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code">
-</span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code">
-</span><span class="hl-reserved">import</span><span class="hl-code"> </span><span class="hl-identifier">xml</span><span class="hl-code">.</span><span class="hl-identifier">sax</span><span class="hl-code">
-</span><span class="hl-reserved">class</span><span class="hl-code"> </span><span class="hl-identifier">MovieHandler</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">xml</span><span class="hl-code">.</span><span class="hl-identifier">sax</span><span class="hl-code">.</span><span class="hl-identifier">ContentHandler</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">:
-   </span><span class="hl-reserved">def</span><span class="hl-code"> </span><span class="hl-identifier">__init__</span><span class="hl-brackets">(</span><span class="hl-identifier">self</span><span class="hl-brackets">)</span><span class="hl-code">:
-      </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-quotes">"</span><span class="hl-code">
-</span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">type</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-quotes">"</span><span class="hl-code">
-</span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">format</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-quotes">"</span><span class="hl-code">
-</span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">year</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-quotes">"</span><span class="hl-code">
-</span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">rating</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-quotes">"</span><span class="hl-code">
-</span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">stars</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-quotes">"</span><span class="hl-code">
-</span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">description</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-quotes">"</span><span class="hl-code">
-</span><span class="hl-comment"># 元素开始事件处理</span><span class="hl-code">
-</span><span class="hl-reserved">def</span><span class="hl-code"> </span><span class="hl-identifier">startElement</span><span class="hl-brackets">(</span><span class="hl-identifier">self</span><span class="hl-code">, </span><span class="hl-identifier">tag</span><span class="hl-code">, </span><span class="hl-identifier">attributes</span><span class="hl-brackets">)</span><span class="hl-code">:
-      </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> = </span><span class="hl-identifier">tag</span><span class="hl-code">
-</span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">tag</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">movie</span><span class="hl-quotes">"</span><span class="hl-code">:
-         </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">*****Movie*****</span><span class="hl-quotes">"</span><span class="hl-code">
-</span><span class="hl-identifier">title</span><span class="hl-code"> = </span><span class="hl-identifier">attributes</span><span class="hl-brackets">[</span><span class="hl-quotes">"</span><span class="hl-string">title</span><span class="hl-quotes">"</span><span class="hl-brackets">]</span><span class="hl-code">
-</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Title:</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">title</span><span class="hl-code">
-</span><span class="hl-comment"># 元素结束事件处理</span><span class="hl-code">
-</span><span class="hl-reserved">def</span><span class="hl-code"> </span><span class="hl-identifier">endElement</span><span class="hl-brackets">(</span><span class="hl-identifier">self</span><span class="hl-code">, </span><span class="hl-identifier">tag</span><span class="hl-brackets">)</span><span class="hl-code">:
-      </span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">type</span><span class="hl-quotes">"</span><span class="hl-code">:
-         </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Type:</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">type</span><span class="hl-code">
-</span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">format</span><span class="hl-quotes">"</span><span class="hl-code">:
-         </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Format:</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">format</span><span class="hl-code">
-</span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">year</span><span class="hl-quotes">"</span><span class="hl-code">:
-         </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Year:</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">year</span><span class="hl-code">
-</span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">rating</span><span class="hl-quotes">"</span><span class="hl-code">:
-         </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Rating:</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">rating</span><span class="hl-code">
-</span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">stars</span><span class="hl-quotes">"</span><span class="hl-code">:
-         </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Stars:</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">stars</span><span class="hl-code">
-</span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">description</span><span class="hl-quotes">"</span><span class="hl-code">:
-         </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Description:</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">description</span><span class="hl-code">
-</span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-quotes">"</span><span class="hl-code">
-</span><span class="hl-comment"># 内容事件处理</span><span class="hl-code">
-</span><span class="hl-reserved">def</span><span class="hl-code"> </span><span class="hl-identifier">characters</span><span class="hl-brackets">(</span><span class="hl-identifier">self</span><span class="hl-code">, </span><span class="hl-identifier">content</span><span class="hl-brackets">)</span><span class="hl-code">:
-      </span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">type</span><span class="hl-quotes">"</span><span class="hl-code">:
-         </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">type</span><span class="hl-code"> = </span><span class="hl-identifier">content</span><span class="hl-code">
-</span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">format</span><span class="hl-quotes">"</span><span class="hl-code">:
-         </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">format</span><span class="hl-code"> = </span><span class="hl-identifier">content</span><span class="hl-code">
-</span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">year</span><span class="hl-quotes">"</span><span class="hl-code">:
-         </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">year</span><span class="hl-code"> = </span><span class="hl-identifier">content</span><span class="hl-code">
-</span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">rating</span><span class="hl-quotes">"</span><span class="hl-code">:
-         </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">rating</span><span class="hl-code"> = </span><span class="hl-identifier">content</span><span class="hl-code">
-</span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">stars</span><span class="hl-quotes">"</span><span class="hl-code">:
-         </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">stars</span><span class="hl-code"> = </span><span class="hl-identifier">content</span><span class="hl-code">
-</span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">description</span><span class="hl-quotes">"</span><span class="hl-code">:
-         </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">description</span><span class="hl-code"> = </span><span class="hl-identifier">content</span><span class="hl-code">
-</span><span class="hl-identifier">if</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">__name__</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">__main__</span><span class="hl-quotes">"</span><span class="hl-brackets">)</span><span class="hl-code">:
-   
-   </span><span class="hl-comment"># 创建一个 XMLReader</span><span class="hl-code">
-</span><span class="hl-identifier">parser</span><span class="hl-code"> = </span><span class="hl-identifier">xml</span><span class="hl-code">.</span><span class="hl-identifier">sax</span><span class="hl-code">.</span><span class="hl-identifier">make_parser</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">
-</span><span class="hl-comment"># turn off namepsaces</span><span class="hl-code">
-</span><span class="hl-identifier">parser</span><span class="hl-code">.</span><span class="hl-identifier">setFeature</span><span class="hl-brackets">(</span><span class="hl-identifier">xml</span><span class="hl-code">.</span><span class="hl-identifier">sax</span><span class="hl-code">.</span><span class="hl-identifier">handler</span><span class="hl-code">.</span><span class="hl-identifier">feature_namespaces</span><span class="hl-code">, </span><span class="hl-number">0</span><span class="hl-brackets">)</span><span class="hl-code">
-</span><span class="hl-comment"># 重写 ContextHandler</span><span class="hl-code">
-</span><span class="hl-identifier">Handler</span><span class="hl-code"> = </span><span class="hl-identifier">MovieHandler</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code">
-</span><span class="hl-identifier">parser</span><span class="hl-code">.</span><span class="hl-identifier">setContentHandler</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">Handler</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">
-</span><span class="hl-identifier">parser</span><span class="hl-code">.</span><span class="hl-identifier">parse</span><span class="hl-brackets">(</span><span class="hl-quotes">"</span><span class="hl-string">movies.xml</span><span class="hl-quotes">"</span><span class="hl-brackets">)</span></div>
-</div></div>
-<p>以上代码执行结果如下：</p>
-<pre>
-*****Movie*****
-Title: Enemy Behind
-Type: War, Thriller
-Format: DVD
-Year: 2003
-Rating: PG
-Stars: 10
-Description: Talk about a US-Japan war
-*****Movie*****
-Title: Transformers
-Type: Anime, Science Fiction
-Format: DVD
-Year: 1989
-Rating: R
-Stars: 8
-Description: A schientific fiction
-*****Movie*****
-Title: Trigun
-Type: Anime, Action
-Format: DVD
-Rating: PG
-Stars: 10
-Description: Vash the Stampede!
-*****Movie*****
-Title: Ishtar
-Type: Comedy
-Format: VHS
-Rating: PG
-Stars: 2
-Description: Viewable boredom
-</pre>
-<p>完整的 SAX API 文档请查阅<a href="http://docs.python.org/library/xml.sax.html" rel="nofollow" target="_blank">Python SAX APIs</a></p>
-<hr/>
-<h2>使用xml.dom解析xml</h2>
-<p>文件对象模型（Document Object Model，简称DOM），是W3C组织推荐的处理可扩展置标语言的标准编程接口。</p>
-<p>一个 DOM 的解析器在解析一个 XML 文档时，一次性读取整个文档，把文档中所有元素保存在内存中的一个树结构里，之后你可以利用DOM 提供的不同的函数来读取或修改文档的内容和结构，也可以把修改过的内容写入xml文件。
-</p>
-<p> python中用xml.dom.minidom来解析xml文件，实例如下：</p>
-<div class="example">
-<h2 class="example">实例</h2>
-<div class="example_code">
-<div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code">
-</span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code">
-</span><span class="hl-reserved">from</span><span class="hl-code"> </span><span class="hl-identifier">xml</span><span class="hl-code">.</span><span class="hl-identifier">dom</span><span class="hl-code">.</span><span class="hl-identifier">minidom</span><span class="hl-code"> </span><span class="hl-reserved">import</span><span class="hl-code"> </span><span class="hl-identifier">parse</span><span class="hl-code">
-</span><span class="hl-reserved">import</span><span class="hl-code"> </span><span class="hl-identifier">xml</span><span class="hl-code">.</span><span class="hl-identifier">dom</span><span class="hl-code">.</span><span class="hl-identifier">minidom</span><span class="hl-code">
-</span><span class="hl-comment"># 使用minidom解析器打开 XML 文档</span><span class="hl-code">
-</span><span class="hl-identifier">DOMTree</span><span class="hl-code"> = </span><span class="hl-identifier">xml</span><span class="hl-code">.</span><span class="hl-identifier">dom</span><span class="hl-code">.</span><span class="hl-identifier">minidom</span><span class="hl-code">.</span><span class="hl-identifier">parse</span><span class="hl-brackets">(</span><span class="hl-quotes">"</span><span class="hl-string">movies.xml</span><span class="hl-quotes">"</span><span class="hl-brackets">)</span><span class="hl-code">
-</span><span class="hl-identifier">collection</span><span class="hl-code"> = </span><span class="hl-identifier">DOMTree</span><span class="hl-code">.</span><span class="hl-identifier">documentElement</span><span class="hl-code">
-</span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">collection</span><span class="hl-code">.</span><span class="hl-identifier">hasAttribute</span><span class="hl-brackets">(</span><span class="hl-quotes">"</span><span class="hl-string">shelf</span><span class="hl-quotes">"</span><span class="hl-brackets">)</span><span class="hl-code">:
-   </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Root element : %s</span><span class="hl-quotes">"</span><span class="hl-code"> % </span><span class="hl-identifier">collection</span><span class="hl-code">.</span><span class="hl-identifier">getAttribute</span><span class="hl-brackets">(</span><span class="hl-quotes">"</span><span class="hl-string">shelf</span><span class="hl-quotes">"</span><span class="hl-brackets">)</span><span class="hl-code">
-</span><span class="hl-comment"># 在集合中获取所有电影</span><span class="hl-code">
-</span><span class="hl-identifier">movies</span><span class="hl-code"> = </span><span class="hl-identifier">collection</span><span class="hl-code">.</span><span class="hl-identifier">getElementsByTagName</span><span class="hl-brackets">(</span><span class="hl-quotes">"</span><span class="hl-string">movie</span><span class="hl-quotes">"</span><span class="hl-brackets">)</span><span class="hl-code">
-</span><span class="hl-comment"># 打印每部电影的详细信息</span><span class="hl-code">
-</span><span class="hl-reserved">for</span><span class="hl-code"> </span><span class="hl-identifier">movie</span><span class="hl-code"> </span><span class="hl-reserved">in</span><span class="hl-code"> </span><span class="hl-identifier">movies</span><span class="hl-code">:
-   </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">*****Movie*****</span><span class="hl-quotes">"</span><span class="hl-code">
-</span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">movie</span><span class="hl-code">.</span><span class="hl-identifier">hasAttribute</span><span class="hl-brackets">(</span><span class="hl-quotes">"</span><span class="hl-string">title</span><span class="hl-quotes">"</span><span class="hl-brackets">)</span><span class="hl-code">:
-      </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Title: %s</span><span class="hl-quotes">"</span><span class="hl-code"> % </span><span class="hl-identifier">movie</span><span class="hl-code">.</span><span class="hl-identifier">getAttribute</span><span class="hl-brackets">(</span><span class="hl-quotes">"</span><span class="hl-string">title</span><span class="hl-quotes">"</span><span class="hl-brackets">)</span><span class="hl-code">
-</span><span class="hl-identifier">type</span><span class="hl-code"> = </span><span class="hl-identifier">movie</span><span class="hl-code">.</span><span class="hl-identifier">getElementsByTagName</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">type</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">
-</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Type: %s</span><span class="hl-quotes">"</span><span class="hl-code"> % </span><span class="hl-identifier">type</span><span class="hl-code">.</span><span class="hl-identifier">childNodes</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">.</span><span class="hl-identifier">data</span><span class="hl-code">
-</span><span class="hl-identifier">format</span><span class="hl-code"> = </span><span class="hl-identifier">movie</span><span class="hl-code">.</span><span class="hl-identifier">getElementsByTagName</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">format</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">
-</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Format: %s</span><span class="hl-quotes">"</span><span class="hl-code"> % </span><span class="hl-identifier">format</span><span class="hl-code">.</span><span class="hl-identifier">childNodes</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">.</span><span class="hl-identifier">data</span><span class="hl-code">
-</span><span class="hl-identifier">rating</span><span class="hl-code"> = </span><span class="hl-identifier">movie</span><span class="hl-code">.</span><span class="hl-identifier">getElementsByTagName</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">rating</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">
-</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Rating: %s</span><span class="hl-quotes">"</span><span class="hl-code"> % </span><span class="hl-identifier">rating</span><span class="hl-code">.</span><span class="hl-identifier">childNodes</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">.</span><span class="hl-identifier">data</span><span class="hl-code">
-</span><span class="hl-identifier">description</span><span class="hl-code"> = </span><span class="hl-identifier">movie</span><span class="hl-code">.</span><span class="hl-identifier">getElementsByTagName</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">description</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">
-</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Description: %s</span><span class="hl-quotes">"</span><span class="hl-code"> % </span><span class="hl-identifier">description</span><span class="hl-code">.</span><span class="hl-identifier">childNodes</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">.</span><span class="hl-identifier">data</span></div>
-</div></div>
-<p>以上程序执行结果如下：</p>
-<pre>
-Root element : New Arrivals
-*****Movie*****
-Title: Enemy Behind
-Type: War, Thriller
-Format: DVD
-Rating: PG
-Description: Talk about a US-Japan war
-*****Movie*****
-Title: Transformers
-Type: Anime, Science Fiction
-Format: DVD
-Rating: R
-Description: A schientific fiction
-*****Movie*****
-Title: Trigun
-Type: Anime, Action
-Format: DVD
-Rating: PG
-Description: Vash the Stampede!
-*****Movie*****
-Title: Ishtar
-Type: Comedy
-Format: VHS
-Rating: PG
-Description: Viewable boredom
-</pre>
-<p>完整的  DOM API 文档请查阅<a href="http://docs.python.org/library/xml.dom.html" rel="nofollow" target="_blank">Python DOM APIs</a>。</p> <!-- 其他扩展 -->
-</psax适于处理下面的问题：<></div>
-</div>
+<div class="article-body"><div class="article-intro" id="content"><h1>Python XML 解析</h1><hr><h2>什么是 XML？</h2><p>XML 指可扩展标记语言（e<b>X</b>tensible <b>M</b>arkup <b>L</b>anguage）。 你可以通过本站学习 <a href="/xml/xml-tutorial.html" target="_blank" title="XML教程">XML 教程</a></p><p>XML 被设计用来传输和存储数据。</p><p>XML 是一套定义语义标记的规则，这些标记将文档分成许多部件并对这些部件加以标识。</p><p>它也是元标记语言，即定义了用于定义其他与特定领域有关的、语义的、结构化的标记语言的句法语言。</p><hr><h2>Python 对 XML 的解析</h2><p>常见的 XML 编程接口有 DOM 和 SAX，这两种接口处理 XML 文件的方式不同，当然使用场合也不同。</p><p>Python 有三种方法解析 XML，SAX，DOM，以及 ElementTree:</p><h3>1.SAX (simple API for XML )</h3><p>Python 标准库包含 SAX 解析器，SAX 用事件驱动模型，通过在解析XML的过程中触发一个个的事件并调用用户定义的回调函数来处理XML文件。</p><h3>2.DOM(Document Object Model)</h3><p>将 XML 数据在内存中解析成一个树，通过对树的操作来操作XML。</p><h3>3.ElementTree(元素树)</h3><p>ElementTree就像一个轻量级的DOM，具有方便友好的API。代码可用性好，速度快，消耗内存少。</p><p><strong>注：</strong>因DOM需要将XML数据映射到内存中的树，一是比较慢，二是比较耗内存，而SAX流式读取XML文件，比较快，占用内存少，但需要用户实现回调函数（handler）。</p><p>本章节使用到的 XML 实例文件 movies.xml 内容如下：</p><div class="example"><h2 class="example">movies.xml</h2><div class="example_code"><div class="hl-main"><span class="hl-brackets">&lt;</span><span class="hl-reserved">collection</span><span class="hl-code"> </span><span class="hl-var">shelf</span><span class="hl-code">=</span><span class="hl-quotes">"</span><span class="hl-string">New Arrivals</span><span class="hl-quotes">"</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">movie</span><span class="hl-code"> </span><span class="hl-var">title</span><span class="hl-code">=</span><span class="hl-quotes">"</span><span class="hl-string">Enemy Behind</span><span class="hl-quotes">"</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">type</span><span class="hl-brackets">&gt;</span><span class="hl-code">War, Thriller</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">type</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">format</span><span class="hl-brackets">&gt;</span><span class="hl-code">DVD</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">format</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">year</span><span class="hl-brackets">&gt;</span><span class="hl-code">2003</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">year</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">rating</span><span class="hl-brackets">&gt;</span><span class="hl-code">PG</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">rating</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">stars</span><span class="hl-brackets">&gt;</span><span class="hl-code">10</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">stars</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">description</span><span class="hl-brackets">&gt;</span><span class="hl-code">Talk about a US-Japan war</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">description</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">movie</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">movie</span><span class="hl-code"> </span><span class="hl-var">title</span><span class="hl-code">=</span><span class="hl-quotes">"</span><span class="hl-string">Transformers</span><span class="hl-quotes">"</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">type</span><span class="hl-brackets">&gt;</span><span class="hl-code">Anime, Science Fiction</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">type</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">format</span><span class="hl-brackets">&gt;</span><span class="hl-code">DVD</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">format</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">year</span><span class="hl-brackets">&gt;</span><span class="hl-code">1989</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">year</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">rating</span><span class="hl-brackets">&gt;</span><span class="hl-code">R</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">rating</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">stars</span><span class="hl-brackets">&gt;</span><span class="hl-code">8</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">stars</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">description</span><span class="hl-brackets">&gt;</span><span class="hl-code">A schientific fiction</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">description</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">movie</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">movie</span><span class="hl-code"> </span><span class="hl-var">title</span><span class="hl-code">=</span><span class="hl-quotes">"</span><span class="hl-string">Trigun</span><span class="hl-quotes">"</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">type</span><span class="hl-brackets">&gt;</span><span class="hl-code">Anime, Action</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">type</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">format</span><span class="hl-brackets">&gt;</span><span class="hl-code">DVD</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">format</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">episodes</span><span class="hl-brackets">&gt;</span><span class="hl-code">4</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">episodes</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">rating</span><span class="hl-brackets">&gt;</span><span class="hl-code">PG</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">rating</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">stars</span><span class="hl-brackets">&gt;</span><span class="hl-code">10</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">stars</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">description</span><span class="hl-brackets">&gt;</span><span class="hl-code">Vash the Stampede!</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">description</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">movie</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">movie</span><span class="hl-code"> </span><span class="hl-var">title</span><span class="hl-code">=</span><span class="hl-quotes">"</span><span class="hl-string">Ishtar</span><span class="hl-quotes">"</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">type</span><span class="hl-brackets">&gt;</span><span class="hl-code">Comedy</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">type</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">format</span><span class="hl-brackets">&gt;</span><span class="hl-code">VHS</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">format</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">rating</span><span class="hl-brackets">&gt;</span><span class="hl-code">PG</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">rating</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">stars</span><span class="hl-brackets">&gt;</span><span class="hl-code">2</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">stars</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;</span><span class="hl-reserved">description</span><span class="hl-brackets">&gt;</span><span class="hl-code">Viewable boredom</span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">description</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">movie</span><span class="hl-brackets">&gt;</span><span class="hl-code"></span><span class="hl-brackets">&lt;/</span><span class="hl-reserved">collection</span><span class="hl-brackets">&gt;</span></div></div></div><hr><h2>python使用SAX解析xml</h2><p>SAX是一种基于事件驱动的 API。</p><p>利用SAX解析XML文档牵涉到两个部分: <strong>解析器</strong>和<strong>事件处理器</strong>。</p><p>解析器负责读取XML文档，并向事件处理器发送事件，如元素开始跟元素结束事件。</p><p>而事件处理器则负责对事件作出响应，对传递的XML数据进行处理。 </p><psax适于处理下面的问题：&lt; p><ul><li> 1、对大型文件进行处理；</li><li> 2、只需要文件的部分内容，或者只需从文件中得到特定信息。</li><li> 3、想建立自己的对象模型的时候。</li></ul><p>在python中使用sax方式处理xml要先引入xml.sax中的parse函数，还有xml.sax.handler中的ContentHandler。</p><h3>ContentHandler类方法介绍</h3><p><strong>characters(content)方法</strong></p><p>调用时机：</p><p>从行开始，遇到标签之前，存在字符，content 的值为这些字符串。</p><p>从一个标签，遇到下一个标签之前， 存在字符，content 的值为这些字符串。</p><p>从一个标签，遇到行结束符之前，存在字符，content 的值为这些字符串。</p><p>标签可以是开始标签，也可以是结束标签。</p><p><strong>startDocument() 方法</strong></p><p>文档启动的时候调用。</p><p><strong>endDocument() 方法</strong></p><p>解析器到达文档结尾时调用。</p><p><strong>startElement(name, attrs)方法</strong></p><p>遇到XML开始标签时调用，name是标签的名字，attrs是标签的属性值字典。</p><p><strong>endElement(name) 方法</strong></p><p>遇到XML结束标签时调用。 </p><hr><h2>make_parser方法</h2><p>以下方法创建一个新的解析器对象并返回。</p><pre>
+
+xml.sax.make_parser( [parser_list] )
+
+</pre><p>参数说明:</p><ul><li><strong>parser_list</strong> - 可选参数，解析器列表</li></ul><hr><h2>parser方法</h2><p>以下方法创建一个 SAX 解析器并解析xml文档：</p><pre>
+
+xml.sax.parse( xmlfile, contenthandler[, errorhandler])
+
+</pre><p>参数说明:</p><ul><li><strong>xmlfile</strong> - xml文件名</li><li><strong>contenthandler</strong> - 必须是一个ContentHandler的对象</li><li><strong>errorhandler</strong> - 如果指定该参数，errorhandler必须是一个SAX ErrorHandler对象</li></ul><hr><h2>parseString方法</h2><p>parseString方法创建一个XML解析器并解析xml字符串：</p><pre>
+
+xml.sax.parseString(xmlstring, contenthandler[, errorhandler])
+
+</pre><p>参数说明:</p><ul><li><strong>xmlstring</strong> - xml字符串</li><li><strong>contenthandler</strong> - 必须是一个ContentHandler的对象</li><li><strong>errorhandler</strong> - 如果指定该参数，errorhandler必须是一个SAX ErrorHandler对象</li></ul><hr><h2>Python 解析XML实例</h2><div class="example"><h2 class="example">实例</h2><div class="example_code"><div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code"></span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code"></span><span class="hl-reserved">import</span><span class="hl-code"> </span><span class="hl-identifier">xml</span><span class="hl-code">.</span><span class="hl-identifier">sax</span><span class="hl-code"></span><span class="hl-reserved">class</span><span class="hl-code"> </span><span class="hl-identifier">MovieHandler</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">xml</span><span class="hl-code">.</span><span class="hl-identifier">sax</span><span class="hl-code">.</span><span class="hl-identifier">ContentHandler</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code">: </span><span class="hl-reserved">def</span><span class="hl-code"> </span><span class="hl-identifier">__init__</span><span class="hl-brackets">(</span><span class="hl-identifier">self</span><span class="hl-brackets">)</span><span class="hl-code">: </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-quotes">"</span><span class="hl-code"></span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">type</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-quotes">"</span><span class="hl-code"></span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">format</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-quotes">"</span><span class="hl-code"></span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">year</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-quotes">"</span><span class="hl-code"></span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">rating</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-quotes">"</span><span class="hl-code"></span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">stars</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-quotes">"</span><span class="hl-code"></span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">description</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-quotes">"</span><span class="hl-code"></span><span class="hl-comment"># 元素开始事件处理</span><span class="hl-code"></span><span class="hl-reserved">def</span><span class="hl-code"> </span><span class="hl-identifier">startElement</span><span class="hl-brackets">(</span><span class="hl-identifier">self</span><span class="hl-code">, </span><span class="hl-identifier">tag</span><span class="hl-code">, </span><span class="hl-identifier">attributes</span><span class="hl-brackets">)</span><span class="hl-code">: </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> = </span><span class="hl-identifier">tag</span><span class="hl-code"></span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">tag</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">movie</span><span class="hl-quotes">"</span><span class="hl-code">: </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">*****Movie*****</span><span class="hl-quotes">"</span><span class="hl-code"></span><span class="hl-identifier">title</span><span class="hl-code"> = </span><span class="hl-identifier">attributes</span><span class="hl-brackets">[</span><span class="hl-quotes">"</span><span class="hl-string">title</span><span class="hl-quotes">"</span><span class="hl-brackets">]</span><span class="hl-code"></span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Title:</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">title</span><span class="hl-code"></span><span class="hl-comment"># 元素结束事件处理</span><span class="hl-code"></span><span class="hl-reserved">def</span><span class="hl-code"> </span><span class="hl-identifier">endElement</span><span class="hl-brackets">(</span><span class="hl-identifier">self</span><span class="hl-code">, </span><span class="hl-identifier">tag</span><span class="hl-brackets">)</span><span class="hl-code">: </span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">type</span><span class="hl-quotes">"</span><span class="hl-code">: </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Type:</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">type</span><span class="hl-code"></span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">format</span><span class="hl-quotes">"</span><span class="hl-code">: </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Format:</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">format</span><span class="hl-code"></span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">year</span><span class="hl-quotes">"</span><span class="hl-code">: </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Year:</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">year</span><span class="hl-code"></span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">rating</span><span class="hl-quotes">"</span><span class="hl-code">: </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Rating:</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">rating</span><span class="hl-code"></span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">stars</span><span class="hl-quotes">"</span><span class="hl-code">: </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Stars:</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">stars</span><span class="hl-code"></span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">description</span><span class="hl-quotes">"</span><span class="hl-code">: </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Description:</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">description</span><span class="hl-code"></span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-quotes">"</span><span class="hl-code"></span><span class="hl-comment"># 内容事件处理</span><span class="hl-code"></span><span class="hl-reserved">def</span><span class="hl-code"> </span><span class="hl-identifier">characters</span><span class="hl-brackets">(</span><span class="hl-identifier">self</span><span class="hl-code">, </span><span class="hl-identifier">content</span><span class="hl-brackets">)</span><span class="hl-code">: </span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">type</span><span class="hl-quotes">"</span><span class="hl-code">: </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">type</span><span class="hl-code"> = </span><span class="hl-identifier">content</span><span class="hl-code"></span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">format</span><span class="hl-quotes">"</span><span class="hl-code">: </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">format</span><span class="hl-code"> = </span><span class="hl-identifier">content</span><span class="hl-code"></span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">year</span><span class="hl-quotes">"</span><span class="hl-code">: </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">year</span><span class="hl-code"> = </span><span class="hl-identifier">content</span><span class="hl-code"></span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">rating</span><span class="hl-quotes">"</span><span class="hl-code">: </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">rating</span><span class="hl-code"> = </span><span class="hl-identifier">content</span><span class="hl-code"></span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">stars</span><span class="hl-quotes">"</span><span class="hl-code">: </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">stars</span><span class="hl-code"> = </span><span class="hl-identifier">content</span><span class="hl-code"></span><span class="hl-reserved">elif</span><span class="hl-code"> </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">CurrentData</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">description</span><span class="hl-quotes">"</span><span class="hl-code">: </span><span class="hl-identifier">self</span><span class="hl-code">.</span><span class="hl-identifier">description</span><span class="hl-code"> = </span><span class="hl-identifier">content</span><span class="hl-code"></span><span class="hl-identifier">if</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">__name__</span><span class="hl-code"> == </span><span class="hl-quotes">"</span><span class="hl-string">__main__</span><span class="hl-quotes">"</span><span class="hl-brackets">)</span><span class="hl-code">: </span><span class="hl-comment"># 创建一个 XMLReader</span><span class="hl-code"></span><span class="hl-identifier">parser</span><span class="hl-code"> = </span><span class="hl-identifier">xml</span><span class="hl-code">.</span><span class="hl-identifier">sax</span><span class="hl-code">.</span><span class="hl-identifier">make_parser</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code"></span><span class="hl-comment"># turn off namepsaces</span><span class="hl-code"></span><span class="hl-identifier">parser</span><span class="hl-code">.</span><span class="hl-identifier">setFeature</span><span class="hl-brackets">(</span><span class="hl-identifier">xml</span><span class="hl-code">.</span><span class="hl-identifier">sax</span><span class="hl-code">.</span><span class="hl-identifier">handler</span><span class="hl-code">.</span><span class="hl-identifier">feature_namespaces</span><span class="hl-code">, </span><span class="hl-number">0</span><span class="hl-brackets">)</span><span class="hl-code"></span><span class="hl-comment"># 重写 ContextHandler</span><span class="hl-code"></span><span class="hl-identifier">Handler</span><span class="hl-code"> = </span><span class="hl-identifier">MovieHandler</span><span class="hl-brackets">(</span><span class="hl-brackets">)</span><span class="hl-code"></span><span class="hl-identifier">parser</span><span class="hl-code">.</span><span class="hl-identifier">setContentHandler</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-identifier">Handler</span><span class="hl-code"> </span><span class="hl-brackets">)</span><span class="hl-code"></span><span class="hl-identifier">parser</span><span class="hl-code">.</span><span class="hl-identifier">parse</span><span class="hl-brackets">(</span><span class="hl-quotes">"</span><span class="hl-string">movies.xml</span><span class="hl-quotes">"</span><span class="hl-brackets">)</span></div></div></div><p>以上代码执行结果如下：</p><pre>
+
+*****Movie*****
+
+Title: Enemy Behind
+
+Type: War, Thriller
+
+Format: DVD
+
+Year: 2003
+
+Rating: PG
+
+Stars: 10
+
+Description: Talk about a US-Japan war
+
+*****Movie*****
+
+Title: Transformers
+
+Type: Anime, Science Fiction
+
+Format: DVD
+
+Year: 1989
+
+Rating: R
+
+Stars: 8
+
+Description: A schientific fiction
+
+*****Movie*****
+
+Title: Trigun
+
+Type: Anime, Action
+
+Format: DVD
+
+Rating: PG
+
+Stars: 10
+
+Description: Vash the Stampede!
+
+*****Movie*****
+
+Title: Ishtar
+
+Type: Comedy
+
+Format: VHS
+
+Rating: PG
+
+Stars: 2
+
+Description: Viewable boredom
+
+</pre><p>完整的 SAX API 文档请查阅<a href="http://docs.python.org/library/xml.sax.html" rel="nofollow" target="_blank">Python SAX APIs</a></p><hr><h2>使用xml.dom解析xml</h2><p>文件对象模型（Document Object Model，简称DOM），是W3C组织推荐的处理可扩展置标语言的标准编程接口。</p><p>一个 DOM 的解析器在解析一个 XML 文档时，一次性读取整个文档，把文档中所有元素保存在内存中的一个树结构里，之后你可以利用DOM 提供的不同的函数来读取或修改文档的内容和结构，也可以把修改过的内容写入xml文件。 </p><p> python中用xml.dom.minidom来解析xml文件，实例如下：</p><div class="example"><h2 class="example">实例</h2><div class="example_code"><div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code"></span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code"></span><span class="hl-reserved">from</span><span class="hl-code"> </span><span class="hl-identifier">xml</span><span class="hl-code">.</span><span class="hl-identifier">dom</span><span class="hl-code">.</span><span class="hl-identifier">minidom</span><span class="hl-code"> </span><span class="hl-reserved">import</span><span class="hl-code"> </span><span class="hl-identifier">parse</span><span class="hl-code"></span><span class="hl-reserved">import</span><span class="hl-code"> </span><span class="hl-identifier">xml</span><span class="hl-code">.</span><span class="hl-identifier">dom</span><span class="hl-code">.</span><span class="hl-identifier">minidom</span><span class="hl-code"></span><span class="hl-comment"># 使用minidom解析器打开 XML 文档</span><span class="hl-code"></span><span class="hl-identifier">DOMTree</span><span class="hl-code"> = </span><span class="hl-identifier">xml</span><span class="hl-code">.</span><span class="hl-identifier">dom</span><span class="hl-code">.</span><span class="hl-identifier">minidom</span><span class="hl-code">.</span><span class="hl-identifier">parse</span><span class="hl-brackets">(</span><span class="hl-quotes">"</span><span class="hl-string">movies.xml</span><span class="hl-quotes">"</span><span class="hl-brackets">)</span><span class="hl-code"></span><span class="hl-identifier">collection</span><span class="hl-code"> = </span><span class="hl-identifier">DOMTree</span><span class="hl-code">.</span><span class="hl-identifier">documentElement</span><span class="hl-code"></span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">collection</span><span class="hl-code">.</span><span class="hl-identifier">hasAttribute</span><span class="hl-brackets">(</span><span class="hl-quotes">"</span><span class="hl-string">shelf</span><span class="hl-quotes">"</span><span class="hl-brackets">)</span><span class="hl-code">: </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Root element : %s</span><span class="hl-quotes">"</span><span class="hl-code"> % </span><span class="hl-identifier">collection</span><span class="hl-code">.</span><span class="hl-identifier">getAttribute</span><span class="hl-brackets">(</span><span class="hl-quotes">"</span><span class="hl-string">shelf</span><span class="hl-quotes">"</span><span class="hl-brackets">)</span><span class="hl-code"></span><span class="hl-comment"># 在集合中获取所有电影</span><span class="hl-code"></span><span class="hl-identifier">movies</span><span class="hl-code"> = </span><span class="hl-identifier">collection</span><span class="hl-code">.</span><span class="hl-identifier">getElementsByTagName</span><span class="hl-brackets">(</span><span class="hl-quotes">"</span><span class="hl-string">movie</span><span class="hl-quotes">"</span><span class="hl-brackets">)</span><span class="hl-code"></span><span class="hl-comment"># 打印每部电影的详细信息</span><span class="hl-code"></span><span class="hl-reserved">for</span><span class="hl-code"> </span><span class="hl-identifier">movie</span><span class="hl-code"> </span><span class="hl-reserved">in</span><span class="hl-code"> </span><span class="hl-identifier">movies</span><span class="hl-code">: </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">*****Movie*****</span><span class="hl-quotes">"</span><span class="hl-code"></span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">movie</span><span class="hl-code">.</span><span class="hl-identifier">hasAttribute</span><span class="hl-brackets">(</span><span class="hl-quotes">"</span><span class="hl-string">title</span><span class="hl-quotes">"</span><span class="hl-brackets">)</span><span class="hl-code">: </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Title: %s</span><span class="hl-quotes">"</span><span class="hl-code"> % </span><span class="hl-identifier">movie</span><span class="hl-code">.</span><span class="hl-identifier">getAttribute</span><span class="hl-brackets">(</span><span class="hl-quotes">"</span><span class="hl-string">title</span><span class="hl-quotes">"</span><span class="hl-brackets">)</span><span class="hl-code"></span><span class="hl-identifier">type</span><span class="hl-code"> = </span><span class="hl-identifier">movie</span><span class="hl-code">.</span><span class="hl-identifier">getElementsByTagName</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">type</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code"></span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Type: %s</span><span class="hl-quotes">"</span><span class="hl-code"> % </span><span class="hl-identifier">type</span><span class="hl-code">.</span><span class="hl-identifier">childNodes</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">.</span><span class="hl-identifier">data</span><span class="hl-code"></span><span class="hl-identifier">format</span><span class="hl-code"> = </span><span class="hl-identifier">movie</span><span class="hl-code">.</span><span class="hl-identifier">getElementsByTagName</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">format</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code"></span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Format: %s</span><span class="hl-quotes">"</span><span class="hl-code"> % </span><span class="hl-identifier">format</span><span class="hl-code">.</span><span class="hl-identifier">childNodes</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">.</span><span class="hl-identifier">data</span><span class="hl-code"></span><span class="hl-identifier">rating</span><span class="hl-code"> = </span><span class="hl-identifier">movie</span><span class="hl-code">.</span><span class="hl-identifier">getElementsByTagName</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">rating</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code"></span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Rating: %s</span><span class="hl-quotes">"</span><span class="hl-code"> % </span><span class="hl-identifier">rating</span><span class="hl-code">.</span><span class="hl-identifier">childNodes</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">.</span><span class="hl-identifier">data</span><span class="hl-code"></span><span class="hl-identifier">description</span><span class="hl-code"> = </span><span class="hl-identifier">movie</span><span class="hl-code">.</span><span class="hl-identifier">getElementsByTagName</span><span class="hl-brackets">(</span><span class="hl-quotes">'</span><span class="hl-string">description</span><span class="hl-quotes">'</span><span class="hl-brackets">)</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code"></span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Description: %s</span><span class="hl-quotes">"</span><span class="hl-code"> % </span><span class="hl-identifier">description</span><span class="hl-code">.</span><span class="hl-identifier">childNodes</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">.</span><span class="hl-identifier">data</span></div></div></div><p>以上程序执行结果如下：</p><pre>
+
+Root element : New Arrivals
+
+*****Movie*****
+
+Title: Enemy Behind
+
+Type: War, Thriller
+
+Format: DVD
+
+Rating: PG
+
+Description: Talk about a US-Japan war
+
+*****Movie*****
+
+Title: Transformers
+
+Type: Anime, Science Fiction
+
+Format: DVD
+
+Rating: R
+
+Description: A schientific fiction
+
+*****Movie*****
+
+Title: Trigun
+
+Type: Anime, Action
+
+Format: DVD
+
+Rating: PG
+
+Description: Vash the Stampede!
+
+*****Movie*****
+
+Title: Ishtar
+
+Type: Comedy
+
+Format: VHS
+
+Rating: PG
+
+Description: Viewable boredom
+
+</pre><p>完整的 DOM API 文档请查阅<a href="http://docs.python.org/library/xml.dom.html" rel="nofollow" target="_blank">Python DOM APIs</a>。</p> </psax适于处理下面的问题：&lt;></div></div>

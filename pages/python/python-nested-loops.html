@@ -1,75 +1,55 @@
-<div class="article-body">
-<div class="article-intro" id="content">
-<h1>Python <span class="color_h1">循环嵌套</span></h1>
-<p>Python 语言允许在一个循环体里面嵌入另一个循环。</p>
-<p><strong>Python for 循环嵌套语法：</strong></p>
-<div class="example">
-<div class="example_code">
-<div class="hl-main"><span class="hl-reserved">for</span><span class="hl-code"> </span><span class="hl-identifier">iterating_var</span><span class="hl-code"> </span><span class="hl-reserved">in</span><span class="hl-code"> </span><span class="hl-identifier">sequence</span><span class="hl-code">:
-   </span><span class="hl-reserved">for</span><span class="hl-code"> </span><span class="hl-identifier">iterating_var</span><span class="hl-code"> </span><span class="hl-reserved">in</span><span class="hl-code"> </span><span class="hl-identifier">sequence</span><span class="hl-code">:
-      </span><span class="hl-identifier">statements</span><span class="hl-brackets">(</span><span class="hl-identifier">s</span><span class="hl-brackets">)</span><span class="hl-code">
-</span><span class="hl-identifier">statements</span><span class="hl-brackets">(</span><span class="hl-identifier">s</span><span class="hl-brackets">)</span></div>
-</div>
-</div>
-<p><strong>Python while 循环嵌套语法：</strong></p>
-<div class="example">
-<div class="example_code">
-<div class="hl-main"><span class="hl-reserved">while</span><span class="hl-code"> </span><span class="hl-identifier">expression</span><span class="hl-code">:
-   </span><span class="hl-reserved">while</span><span class="hl-code"> </span><span class="hl-identifier">expression</span><span class="hl-code">:
-      </span><span class="hl-identifier">statement</span><span class="hl-brackets">(</span><span class="hl-identifier">s</span><span class="hl-brackets">)</span><span class="hl-code">
-</span><span class="hl-identifier">statement</span><span class="hl-brackets">(</span><span class="hl-identifier">s</span><span class="hl-brackets">)</span></div>
-</div>
-</div>
-<p>你可以在循环体内嵌入其他的循环体，如在while循环中可以嵌入for循环，
-反之，你可以在for循环中嵌入while循环。</p>
-<p><strong>实例：</strong></p>
-<p>以下实例使用了嵌套循环输出2~100之间的素数：</p>
-<div class="example">
-<h2 class="example">实例</h2>
-<div class="example_code">
-<div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code">
-</span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code">
-</span><span class="hl-identifier">i</span><span class="hl-code"> = </span><span class="hl-number">2</span><span class="hl-code">
-</span><span class="hl-identifier">while</span><span class="hl-brackets">(</span><span class="hl-identifier">i</span><span class="hl-code"> &lt; </span><span class="hl-number">100</span><span class="hl-brackets">)</span><span class="hl-code">:
-   </span><span class="hl-identifier">j</span><span class="hl-code"> = </span><span class="hl-number">2</span><span class="hl-code">
-</span><span class="hl-identifier">while</span><span class="hl-brackets">(</span><span class="hl-identifier">j</span><span class="hl-code"> &lt;= </span><span class="hl-brackets">(</span><span class="hl-identifier">i</span><span class="hl-code">/</span><span class="hl-identifier">j</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">:
-      </span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">not</span><span class="hl-brackets">(</span><span class="hl-identifier">i</span><span class="hl-code">%</span><span class="hl-identifier">j</span><span class="hl-brackets">)</span><span class="hl-code">: </span><span class="hl-reserved">break</span><span class="hl-code">
-</span><span class="hl-identifier">j</span><span class="hl-code"> = </span><span class="hl-identifier">j</span><span class="hl-code"> + </span><span class="hl-number">1</span><span class="hl-code">
-</span><span class="hl-identifier">if</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-identifier">j</span><span class="hl-code"> &gt; </span><span class="hl-identifier">i</span><span class="hl-code">/</span><span class="hl-identifier">j</span><span class="hl-brackets">)</span><span class="hl-code"> : </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-identifier">i</span><span class="hl-code">, </span><span class="hl-quotes">"</span><span class="hl-string"> 是素数</span><span class="hl-quotes">"</span><span class="hl-code">
-</span><span class="hl-identifier">i</span><span class="hl-code"> = </span><span class="hl-identifier">i</span><span class="hl-code"> + </span><span class="hl-number">1</span><span class="hl-code">
-</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Good bye!</span><span class="hl-quotes">"</span></div>
-</div>
-</div>
-<p>以上实例输出结果:
-</p>
-<pre>
-2 是素数
-3 是素数
-5 是素数
-7 是素数
-11 是素数
-13 是素数
-17 是素数
-19 是素数
-23 是素数
-29 是素数
-31 是素数
-37 是素数
-41 是素数
-43 是素数
-47 是素数
-53 是素数
-59 是素数
-61 是素数
-67 是素数
-71 是素数
-73 是素数
-79 是素数
-83 是素数
-89 是素数
-97 是素数
-Good bye!
-</pre>
-<!-- 其他扩展 -->
-</div>
-</div>
+<div class="article-body"><div class="article-intro" id="content"><h1>Python <span class="color_h1">循环嵌套</span></h1><p>Python 语言允许在一个循环体里面嵌入另一个循环。</p><p><strong>Python for 循环嵌套语法：</strong></p><div class="example"><div class="example_code"><div class="hl-main"><span class="hl-reserved">for</span><span class="hl-code"> </span><span class="hl-identifier">iterating_var</span><span class="hl-code"> </span><span class="hl-reserved">in</span><span class="hl-code"> </span><span class="hl-identifier">sequence</span><span class="hl-code">: </span><span class="hl-reserved">for</span><span class="hl-code"> </span><span class="hl-identifier">iterating_var</span><span class="hl-code"> </span><span class="hl-reserved">in</span><span class="hl-code"> </span><span class="hl-identifier">sequence</span><span class="hl-code">: </span><span class="hl-identifier">statements</span><span class="hl-brackets">(</span><span class="hl-identifier">s</span><span class="hl-brackets">)</span><span class="hl-code"></span><span class="hl-identifier">statements</span><span class="hl-brackets">(</span><span class="hl-identifier">s</span><span class="hl-brackets">)</span></div></div></div><p><strong>Python while 循环嵌套语法：</strong></p><div class="example"><div class="example_code"><div class="hl-main"><span class="hl-reserved">while</span><span class="hl-code"> </span><span class="hl-identifier">expression</span><span class="hl-code">: </span><span class="hl-reserved">while</span><span class="hl-code"> </span><span class="hl-identifier">expression</span><span class="hl-code">: </span><span class="hl-identifier">statement</span><span class="hl-brackets">(</span><span class="hl-identifier">s</span><span class="hl-brackets">)</span><span class="hl-code"></span><span class="hl-identifier">statement</span><span class="hl-brackets">(</span><span class="hl-identifier">s</span><span class="hl-brackets">)</span></div></div></div><p>你可以在循环体内嵌入其他的循环体，如在while循环中可以嵌入for循环， 反之，你可以在for循环中嵌入while循环。</p><p><strong>实例：</strong></p><p>以下实例使用了嵌套循环输出2~100之间的素数：</p><div class="example"><h2 class="example">实例</h2><div class="example_code"><div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code"></span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code"></span><span class="hl-identifier">i</span><span class="hl-code"> = </span><span class="hl-number">2</span><span class="hl-code"></span><span class="hl-identifier">while</span><span class="hl-brackets">(</span><span class="hl-identifier">i</span><span class="hl-code"> &lt; </span><span class="hl-number">100</span><span class="hl-brackets">)</span><span class="hl-code">: </span><span class="hl-identifier">j</span><span class="hl-code"> = </span><span class="hl-number">2</span><span class="hl-code"></span><span class="hl-identifier">while</span><span class="hl-brackets">(</span><span class="hl-identifier">j</span><span class="hl-code"> &lt;= </span><span class="hl-brackets">(</span><span class="hl-identifier">i</span><span class="hl-code">/</span><span class="hl-identifier">j</span><span class="hl-brackets">)</span><span class="hl-brackets">)</span><span class="hl-code">: </span><span class="hl-reserved">if</span><span class="hl-code"> </span><span class="hl-identifier">not</span><span class="hl-brackets">(</span><span class="hl-identifier">i</span><span class="hl-code">%</span><span class="hl-identifier">j</span><span class="hl-brackets">)</span><span class="hl-code">: </span><span class="hl-reserved">break</span><span class="hl-code"></span><span class="hl-identifier">j</span><span class="hl-code"> = </span><span class="hl-identifier">j</span><span class="hl-code"> + </span><span class="hl-number">1</span><span class="hl-code"></span><span class="hl-identifier">if</span><span class="hl-code"> </span><span class="hl-brackets">(</span><span class="hl-identifier">j</span><span class="hl-code"> &gt; </span><span class="hl-identifier">i</span><span class="hl-code">/</span><span class="hl-identifier">j</span><span class="hl-brackets">)</span><span class="hl-code"> : </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-identifier">i</span><span class="hl-code">, </span><span class="hl-quotes">"</span><span class="hl-string"> 是素数</span><span class="hl-quotes">"</span><span class="hl-code"></span><span class="hl-identifier">i</span><span class="hl-code"> = </span><span class="hl-identifier">i</span><span class="hl-code"> + </span><span class="hl-number">1</span><span class="hl-code"></span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">Good bye!</span><span class="hl-quotes">"</span></div></div></div><p>以上实例输出结果: </p><pre>
+
+2 是素数
+
+3 是素数
+
+5 是素数
+
+7 是素数
+
+11 是素数
+
+13 是素数
+
+17 是素数
+
+19 是素数
+
+23 是素数
+
+29 是素数
+
+31 是素数
+
+37 是素数
+
+41 是素数
+
+43 是素数
+
+47 是素数
+
+53 是素数
+
+59 是素数
+
+61 是素数
+
+67 是素数
+
+71 是素数
+
+73 是素数
+
+79 是素数
+
+83 是素数
+
+89 是素数
+
+97 是素数
+
+Good bye!
+
+</pre></div></div>

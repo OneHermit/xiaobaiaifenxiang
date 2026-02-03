@@ -1,48 +1,25 @@
-<div class="article-body">
-<div class="article-intro" id="content">
-<h1>Python 中文编码</h1><p>前面章节中我们已经学会了如何用 Python 输出 <strong>"Hello, World!"</strong>，英文没有问题，但是如果你输出中文字符 <strong>"你好，世界"</strong> 就有可能会碰到中文编码问题。</p>
-<p>Python 文件中如果未指定编码，在执行过程会出现报错：</p>
-<pre>
-#!/usr/bin/python
-
-print ("你好，世界")
-</pre>
-<p>以上程序执行输出结果为：</p>
-<pre>
-  File "test.py", line 2
-SyntaxError: Non-ASCII character '\xe4' in file test.py on line 2, but no encoding declared; see http://www.python.org/peps/pep-0263.html for details
-</pre>
-<p>
- Python中默认的编码格式是 ASCII 格式，在没修改编码格式时无法正确打印汉字，所以在读取中文时会报错。</p><p>解决方法为只要在文件开头加入 <span class="marked"># -*- coding: UTF-8 -*-</span> 或者 <span class="marked"># coding=utf-8</span> 就行了
-</p>
-<blockquote><p><strong>注意：</strong><span class="marked"># coding=utf-8</span> 的 <span class="marked">=</span> 号两边不要空格。</p></blockquote>
-<div class="example">
-<h2 class="example">实例(Python 2.0+)</h2>
-<div class="example_code">
-<div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code">
-</span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code">
-</span><span class="hl-identifier">print</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">你好，世界</span><span class="hl-quotes">"</span><span class="hl-code"> </span><span class="hl-brackets">)</span></div>
-</div><br/>
-<a class="showbtn" href="/try/showpy.php?filename=helloworld_cn&amp;language=py" rel="noopener noreferrer" target="_blank">运行实例 »</a>
-</div>
-<p>输出结果为：</p>
-<pre>
-你好，世界
-</pre>
-<p>所以如果大家在学习过程中，代码中包含中文，就需要在头部指定编码。</p>
-<blockquote>
-<p><strong>注意：</strong>Python3.X 源码文件默认使用utf-8编码，所以可以正常解析中文，无需指定 UTF-8 编码。</p>
-<p><strong>注意：</strong>如果你使用编辑器，同时需要设置 py 文件存储的格式为 UTF-8，否则会出现类似以下错误信息：</p>
-<pre>
-SyntaxError: (unicode error) ‘utf-8’ codec can’t decode byte 0xc4 in position 0:
-invalid continuation byte
-</pre>
-<p>Pycharm 设置步骤：</p><ul>
-<li>
-进入 <strong>file &gt; Settings</strong>，在输入框搜索 <strong>encoding</strong>。</li>
-<li>找到 <strong>Editor &gt; File encodings</strong>，将 <strong>IDE Encoding</strong> 和 <strong>Project Encoding</strong> 设置为utf-8。</li>
-</ul>
-<p><img decoding="async" src="../../image/python/f3de92dc-000d-4901-b86e-a57cd09c5f9c.jpg"/></p>
-</blockquote> <!-- 其他扩展 -->
-</div>
-</div>
+<div class="article-body"><div class="article-intro" id="content"><h1>Python 中文编码</h1><p>前面章节中我们已经学会了如何用 Python 输出 <strong>"Hello, World!"</strong>，英文没有问题，但是如果你输出中文字符 <strong>"你好，世界"</strong> 就有可能会碰到中文编码问题。</p><p>Python 文件中如果未指定编码，在执行过程会出现报错：</p><pre>
+
+#!/usr/bin/python
+
+
+
+print ("你好，世界")
+
+</pre><p>以上程序执行输出结果为：</p><pre>
+
+  File "test.py", line 2
+
+SyntaxError: Non-ASCII character '\xe4' in file test.py on line 2, but no encoding declared; see http://www.python.org/peps/pep-0263.html for details
+
+</pre><p> Python中默认的编码格式是 ASCII 格式，在没修改编码格式时无法正确打印汉字，所以在读取中文时会报错。</p><p>解决方法为只要在文件开头加入 <span class="marked"># -*- coding: UTF-8 -*-</span> 或者 <span class="marked"># coding=utf-8</span> 就行了 </p><blockquote><p><strong>注意：</strong><span class="marked"># coding=utf-8</span> 的 <span class="marked">=</span> 号两边不要空格。</p></blockquote><div class="example"><h2 class="example">实例(Python 2.0+)</h2><div class="example_code"><div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code"></span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code"></span><span class="hl-identifier">print</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">你好，世界</span><span class="hl-quotes">"</span><span class="hl-code"> </span><span class="hl-brackets">)</span></div></div><br><a class="showbtn" href="/try/showpy.php?filename=helloworld_cn&language=py" rel="noopener noreferrer" target="_blank">运行实例 »</a></div><p>输出结果为：</p><pre>
+
+你好，世界
+
+</pre><p>所以如果大家在学习过程中，代码中包含中文，就需要在头部指定编码。</p><blockquote><p><strong>注意：</strong>Python3.X 源码文件默认使用utf-8编码，所以可以正常解析中文，无需指定 UTF-8 编码。</p><p><strong>注意：</strong>如果你使用编辑器，同时需要设置 py 文件存储的格式为 UTF-8，否则会出现类似以下错误信息：</p><pre>
+
+SyntaxError: (unicode error) ‘utf-8’ codec can’t decode byte 0xc4 in position 0:
+
+invalid continuation byte
+
+</pre><p>Pycharm 设置步骤：</p><ul><li> 进入 <strong>file &gt; Settings</strong>，在输入框搜索 <strong>encoding</strong>。</li><li>找到 <strong>Editor &gt; File encodings</strong>，将 <strong>IDE Encoding</strong> 和 <strong>Project Encoding</strong> 设置为utf-8。</li></ul><p><img decoding="async" src="../../image/python/f3de92dc-000d-4901-b86e-a57cd09c5f9c.jpg"></p></blockquote> </div></div>

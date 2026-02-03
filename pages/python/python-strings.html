@@ -1,647 +1,107 @@
-<div class="article-body">
-<div class="article-intro" id="content">
-<h1>Python <span class="color_h1">字符串</span></h1>
-<p>字符串是 Python 中最常用的数据类型。我们可以使用引号 ( <span class="marked">'</span> 或 <span class="marked">"</span> ) 来创建字符串。</p>
-<p>创建字符串很简单，只要为变量分配一个值即可。例如：</p>
-<pre>
-var1 = 'Hello World!'
-var2 = "Python Runoob"
-</pre>
-<hr/>
-<h2>Python 访问字符串中的值</h2>
-<p>Python 不支持单字符类型，单字符在 Python 中也是作为一个字符串使用。</p>
-<p>Python 访问子字符串，可以使用方括号来截取字符串，如下实例：</p>
-<div class="example">
-<h2 class="example">实例(Python 2.0+)</h2>
-<div class="example_code">
-<div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code">
-</span><span class="hl-identifier">var1</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">Hello World!</span><span class="hl-quotes">'</span><span class="hl-code">
-</span><span class="hl-identifier">var2</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-string">Python Runoob</span><span class="hl-quotes">"</span><span class="hl-code">
-</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">var1[0]: </span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">var1</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code">
-</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">var2[1:5]: </span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">var2</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-code">:</span><span class="hl-number">5</span><span class="hl-brackets">]</span></div>
-</div>
-</div>
-<p>以上实例执行结果：</p>
-<pre>
-var1[0]:  H
-var2[1:5]:  ytho
-</pre>
-<hr/>
-<h2>Python 字符串连接</h2>
-<p>我们可以对字符串进行截取并与其他字符串进行连接，如下实例：</p>
-<div class="example">
-<h2 class="example">实例(Python 2.0+)</h2>
-<div class="example_code">
-<div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code">
-</span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code">
-</span><span class="hl-identifier">var1</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">Hello World!</span><span class="hl-quotes">'</span><span class="hl-code">
-</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">输出 :- </span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">var1</span><span class="hl-brackets">[</span><span class="hl-code">:</span><span class="hl-number">6</span><span class="hl-brackets">]</span><span class="hl-code"> + </span><span class="hl-quotes">'</span><span class="hl-string">Runoob!</span><span class="hl-quotes">'</span></div>
-</div>
-</div>
-<p>以上实例执行结果</p>
-<pre>
-输出 :-  Hello Runoob!
-</pre><hr/>
-<h2>Python 转义字符</h2>
-<p>在需要在字符中使用特殊字符时，python 用反斜杠 <span class="marked">\</span> 转义字符。如下表：</p>
-<table class="reference">
-<thead>
-<tr>
-<th>转义字符</th><th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>\(在行尾时)</td>
-<td>续行符</td>
-</tr>
-<tr>
-<td>\\</td>
-<td>反斜杠符号</td>
-</tr>
-<tr>
-<td>\'</td>
-<td>单引号</td>
-</tr>
-<tr>
-<td>\"</td>
-<td>双引号</td>
-</tr>
-<tr>
-<td>\a</td>
-<td>响铃</td>
-</tr>
-<tr>
-<td>\b</td>
-<td>退格(Backspace)</td>
-</tr>
-<tr>
-<td>\e</td>
-<td>转义</td>
-</tr>
-<tr>
-<td>\000</td>
-<td>空</td>
-</tr>
-<tr>
-<td>\n</td>
-<td>换行</td>
-</tr>
-<tr>
-<td>\v</td>
-<td>纵向制表符</td>
-</tr>
-<tr>
-<td>\t</td>
-<td>横向制表符</td>
-</tr>
-<tr>
-<td>\r</td>
-<td>回车</td>
-</tr>
-<tr>
-<td>\f</td>
-<td>换页</td>
-</tr>
-<tr>
-<td>\oyy</td>
-<td>八进制数，y 代表 0~7 的字符，例如：\012 代表换行。</td>
-</tr>
-<tr>
-<td>\xyy</td>
-<td>十六进制数，以 \x 开头，yy代表的字符，例如：\x0a代表换行</td>
-</tr>
-<tr>
-<td>\other</td>
-<td>其它的字符以普通格式输出</td>
-</tr>
-</tbody>
-</table><hr/>
-<h2>Python字符串运算符</h2>
-<p>下表实例变量 a 值为字符串 "Hello"，b 变量值为 "Python"：</p>
-<table class="reference">
-<tbody><tr>
-<th width="10%">操作符</th><th width="60%">描述</th><th>实例</th>
-</tr>
-<tr>
-<td>+</td><td>字符串连接</td><td>
-<div class="hl-main"><span class="hl-code">&gt;&gt;&gt;</span><span class="hl-identifier">a</span><span class="hl-code"> + </span><span class="hl-identifier">b</span><span class="hl-code">
-</span><span class="hl-quotes">'</span><span class="hl-string">HelloPython</span><span class="hl-quotes">'</span></div>
-</td>
-</tr>
-<tr>
-<td>*</td><td>重复输出字符串</td><td>
-<div class="hl-main"><span class="hl-code">&gt;&gt;&gt;</span><span class="hl-identifier">a</span><span class="hl-code"> * </span><span class="hl-number">2</span><span class="hl-code">
-</span><span class="hl-quotes">'</span><span class="hl-string">HelloHello</span><span class="hl-quotes">'</span></div>
-</td>
-</tr>
-<tr>
-<td>[]</td><td>通过索引获取字符串中字符</td><td>
-<div class="hl-main"><span class="hl-code">&gt;&gt;&gt;</span><span class="hl-identifier">a</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code">
-</span><span class="hl-quotes">'</span><span class="hl-string">e</span><span class="hl-quotes">'</span></div>
-</td>
-</tr>
-<tr>
-<td>[ : ]</td><td>截取字符串中的一部分</td><td>
-<div class="hl-main"><span class="hl-code">&gt;&gt;&gt;</span><span class="hl-identifier">a</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-code">:</span><span class="hl-number">4</span><span class="hl-brackets">]</span><span class="hl-code">
-</span><span class="hl-quotes">'</span><span class="hl-string">ell</span><span class="hl-quotes">'</span></div>
-</td>
-</tr>
-<tr>
-<td>in</td><td>成员运算符 - 如果字符串中包含给定的字符返回 True </td><td>
-<div class="hl-main"><span class="hl-code">&gt;&gt;&gt;</span><span class="hl-quotes">"</span><span class="hl-string">H</span><span class="hl-quotes">"</span><span class="hl-code"> </span><span class="hl-reserved">in</span><span class="hl-code"> </span><span class="hl-identifier">a</span><span class="hl-code">
-</span><span class="hl-reserved">True</span></div>
-</td>
-</tr>
-<tr>
-<td>not in </td><td>成员运算符 - 如果字符串中不包含给定的字符返回 True </td><td>
-<div class="hl-main"><span class="hl-code">&gt;&gt;&gt;</span><span class="hl-quotes">"</span><span class="hl-string">M</span><span class="hl-quotes">"</span><span class="hl-code"> </span><span class="hl-reserved">not</span><span class="hl-code"> </span><span class="hl-reserved">in</span><span class="hl-code"> </span><span class="hl-identifier">a</span><span class="hl-code">
-</span><span class="hl-reserved">True</span></div>
-</td>
-</tr>
-<tr>
-<td>r/R</td><td>原始字符串 - 原始字符串：所有的字符串都是直接按照字面的意思来使用，没有转义特殊或不能打印的字符。
-
-原始字符串除在字符串的第一个引号前加上字母"r"（可以大小写）以外，与普通字符串有着几乎完全相同的语法。</td><td> <div class="hl-main"><span class="hl-code">&gt;&gt;&gt;</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-identifier">r</span><span class="hl-quotes">'</span><span class="hl-special">\n</span><span class="hl-quotes">'</span><span class="hl-code">
-\</span><span class="hl-identifier">n</span><span class="hl-code">
-&gt;&gt;&gt; </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-identifier">R</span><span class="hl-quotes">'</span><span class="hl-special">\n</span><span class="hl-quotes">'</span><span class="hl-code">
-\</span><span class="hl-identifier">n</span></div> </td>
-</tr>
-<tr>
-<td>%</td><td>格式字符串</td><td>请看下一章节</td>
-</tr>
-</tbody></table>
-<div class="example">
-<h2 class="example">实例(Python 2.0+)</h2>
-<div class="example_code">
-<div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code">
-</span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code">
-</span><span class="hl-identifier">a</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-string">Hello</span><span class="hl-quotes">"</span><span class="hl-code">
-</span><span class="hl-identifier">b</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-string">Python</span><span class="hl-quotes">"</span><span class="hl-code">
-</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">a + b 输出结果：</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">a</span><span class="hl-code"> + </span><span class="hl-identifier">b</span><span class="hl-code">
-</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">a * 2 输出结果：</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">a</span><span class="hl-code"> * </span><span class="hl-number">2</span><span class="hl-code">
-</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">a[1] 输出结果：</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">a</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code">
-</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">a[1:4] 输出结果：</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">a</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-code">:</span><span class="hl-number">4</span><span class="hl-brackets">]</span><span class="hl-code">
-</span><span class="hl-identifier">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">H</span><span class="hl-quotes">"</span><span class="hl-code"> </span><span class="hl-reserved">in</span><span class="hl-code"> </span><span class="hl-identifier">a</span><span class="hl-brackets">)</span><span class="hl-code"> :
-    </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">H 在变量 a 中</span><span class="hl-quotes">"</span><span class="hl-code">
-</span><span class="hl-reserved">else</span><span class="hl-code"> :
-    </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">H 不在变量 a 中</span><span class="hl-quotes">"</span><span class="hl-code">
-</span><span class="hl-identifier">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">M</span><span class="hl-quotes">"</span><span class="hl-code"> </span><span class="hl-reserved">not</span><span class="hl-code"> </span><span class="hl-reserved">in</span><span class="hl-code"> </span><span class="hl-identifier">a</span><span class="hl-brackets">)</span><span class="hl-code"> :
-    </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">M 不在变量 a 中</span><span class="hl-quotes">"</span><span class="hl-code">
-</span><span class="hl-reserved">else</span><span class="hl-code"> :
-    </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">M 在变量 a 中</span><span class="hl-quotes">"</span><span class="hl-code">
-</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-identifier">r</span><span class="hl-quotes">'</span><span class="hl-special">\n</span><span class="hl-quotes">'</span><span class="hl-code">
-</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-identifier">R</span><span class="hl-quotes">'</span><span class="hl-special">\n</span><span class="hl-quotes">'</span></div>
-</div>
-</div>
-<p>以上程序执行结果为：</p>
-<pre>
-a + b 输出结果： HelloPython
-a * 2 输出结果： HelloHello
-a[1] 输出结果： e
-a[1:4] 输出结果： ell
-H 在变量 a 中
-M 不在变量 a 中
-\n
-\n
-</pre>
-<hr/>
-<h2>Python 字符串格式化</h2>
-<p>Python 支持格式化字符串的输出 。尽管这样可能会用到非常复杂的表达式，但最基本的用法是将一个值插入到一个有字符串格式符 %s 的字符串中。</p>
-<p>在 Python 中，字符串格式化使用与 C 中 sprintf 函数一样的语法。</p>
-<p>如下实例：</p>
-<pre>
-#!/usr/bin/python
-
-print "My name is %s and weight is %d kg!" % ('Zara', 21) 
-</pre>
-<p>以上实例输出结果：</p>
-<pre>
-My name is Zara and weight is 21 kg!
-</pre>
-<p>python 字符串格式化符号:</p>
-<table class="reference">
-<tbody<tr><th>
-    符   号</th>
-<th>描述</th><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %c</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 格式化字符及其ASCII码</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %s</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 格式化字符串</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %d</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 格式化整数</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %u</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 格式化无符号整型</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %o</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 格式化无符号八进制数</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %x</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 格式化无符号十六进制数</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %X</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 格式化无符号十六进制数（大写）</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %f</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 格式化浮点数字，可指定小数点后的精度</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %e</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 用科学计数法格式化浮点数</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %E</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 作用同%e，用科学计数法格式化浮点数</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %g</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> %f和%e的简写</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %G</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> %F 和 %E 的简写</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %p</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 用十六进制数格式化变量的地址</font></td></tr></tbody<tr></table>
-<p>格式化操作符辅助指令:</p>
-<table class="reference">
-<tbody><tr>
-<th>符号</th><th>功能</th>
-</tr>
-<tr><td>*</td><td>定义宽度或者小数点精度 </td></tr>
-<tr><td>-</td><td>用做左对齐 </td></tr>
-<tr><td>+</td><td>在正数前面显示加号( + ) </td></tr>
-<tr><td>&lt;sp&gt;</td><td>在正数前面显示空格 </td></tr>
-<tr><td>#</td><td> 在八进制数前面显示零('0')，在十六进制前面显示'0x'或者'0X'(取决于用的是'x'还是'X')</td></tr>
-<tr><td>0</td><td> 显示的数字前面填充'0'而不是默认的空格 </td></tr>
-<tr><td>%</td><td> '%%'输出一个单一的'%' </td></tr>
-<tr><td>(var)</td><td>映射变量(字典参数) </td></tr>
-<tr><td>m.n.</td><td>  m 是显示的最小总宽度,n 是小数点后的位数(如果可用的话)</td></tr>
-</tbody></table>
-<p>Python2.6 开始，新增了一种格式化字符串的函数 <a href="/python/att-string-format.html" rel="noopener noreferrer" target="_blank">str.format()</a>，它增强了字符串格式化的功能。</p>
-<hr/>
-<h2>Python 三引号 </h2>
-<p>Python 中三引号可以将复杂的字符串进行赋值。</p>
-<p>Python 三引号允许一个字符串跨多行，字符串中可以包含换行符、制表符以及其他特殊字符。</p>
-<p>三引号的语法是一对连续的单引号或者双引号（通常都是成对的用）。</p>
-<pre>
- &gt;&gt;&gt; hi = '''hi 
-there'''
-&gt;&gt;&gt; hi   # repr()
-'hi\nthere'
-&gt;&gt;&gt; print hi  # str()
-hi 
-there  
-</pre>
-<p>三引号让程序员从引号和特殊字符串的泥潭里面解脱出来，自始至终保持一小块字符串的格式是所谓的WYSIWYG（所见即所得）格式的。</p>
-<p>一个典型的用例是，当你需要一块HTML或者SQL时，这时当用三引号标记，使用传统的转义字符体系将十分费神。</p>
-<pre>
- errHTML = '''
-&lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt;
-Friends CGI Demo&lt;/TITLE&gt;&lt;/HEAD&gt;
-&lt;BODY&gt;&lt;H3&gt;ERROR&lt;/H3&gt;
-&lt;B&gt;%s&lt;/B&gt;&lt;P&gt;
-&lt;FORM&gt;&lt;INPUT TYPE=button VALUE=Back
-ONCLICK="window.history.back()"&gt;&lt;/FORM&gt;
-&lt;/BODY&gt;&lt;/HTML&gt;
-'''
-cursor.execute('''
-CREATE TABLE users (  
-login VARCHAR(8), 
-uid INTEGER,
-prid INTEGER)
-''')
-</pre>
-<hr/>
-<h2>Unicode 字符串</h2>
-<p>Python 中定义一个 Unicode 字符串和定义一个普通字符串一样简单：</p>
-<pre>
-&gt;&gt;&gt; u'Hello World !'
-u'Hello World !'
-</pre>
-<p>
-引号前小写的"u"表示这里创建的是一个 Unicode 字符串。如果你想加入一个特殊字符，可以使用 Python 的 Unicode-Escape 编码。如下例所示：
-</p>
-<pre>
-&gt;&gt;&gt; u'Hello\u0020World !'
-u'Hello World !'
-</pre>
-<p>被替换的 \u0020 标识表示在给定位置插入编码值为 0x0020 的 Unicode 字符（空格符）。</p><hr/>
-<h2>Python 的字符串内建函数</h2>
-<p>字符串方法是从 Python1.6 到 2.0 慢慢加进来的 —— 它们也被加到了Jython 中。
-</p><p>这些方法实现了 string 模块的大部分方法，如下表所示列出了目前字符串内建支持的方法，所有的方法都包含了对 Unicode 的支持，有一些甚至是专门用于 Unicode 的。
-</p>
-<table class="reference">
-<tbody>
-<tr>
-<th>
-<strong>方法</strong>
-</th>
-<th>
-<strong>描述</strong>
-</th>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-capitalize.html" rel="noopener noreferrer" target="_blank">string.capitalize()</a></p>
-</td>
-<td>
-<p>把字符串的第一个字符大写</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-center.html" rel="noopener noreferrer" target="_blank">string.center(width)</a></p>
-</td>
-<td>
-<p>返回一个原字符串居中,并使用空格填充至长度 width 的新字符串</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><strong><a href="att-string-count.html" rel="noopener noreferrer" target="_blank">string.count(str, beg=0, end=len(string))</a></strong></p>
-</td>
-<td>
-<p>返回 str 在 string 里面出现的次数，如果 beg 或者 end 指定则返回指定范围内 str 出现的次数</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-decode.html" rel="noopener noreferrer" target="_blank">string.decode(encoding='UTF-8', errors='strict')</a></p>
-</td>
-<td>
-<p>以 encoding 指定的编码格式解码 string，如果出错默认报一个 ValueError 的 异 常 ， 除非 errors 指 定 的 是 'ignore' 或 者'replace'</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-encode.html" rel="noopener noreferrer" target="_blank">string.encode(encoding='UTF-8', errors='strict')</a></p>
-</td>
-<td>
-<p>以 encoding 指定的编码格式编码 string，如果出错默认报一个ValueError 的异常，除非 errors 指定的是'ignore'或者'replace'</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><strong><a href="att-string-endswith.html" rel="noopener noreferrer" target="_blank">string.endswith(obj, beg=0, end=len(string))</a></strong></p>
-</td>
-<td>
-<p>检查字符串是否以 obj 结束，如果beg 或者 end 指定则检查指定的范围内是否以 obj 结束，如果是，返回 True,否则返回 False.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-expandtabs.html" rel="noopener noreferrer" target="_blank">string.expandtabs(tabsize=8)</a></p>
-</td>
-<td>
-<p>把字符串 string 中的 tab 符号转为空格，tab 符号默认的空格数是 8。</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><strong><a href="att-string-find.html" rel="noopener noreferrer" target="_blank">string.find(str, beg=0, end=len(string))</a></strong></p>
-</td>
-<td>
-<p>检测 str 是否包含在 string 中，如果 beg 和 end 指定范围，则检查是否包含在指定范围内，如果是返回开始的索引值，否则返回-1</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><strong><a href="att-string-format.html" rel="noopener noreferrer" target="_blank">string.format()</a></strong></p>
-</td>
-<td>
-<p>格式化字符串</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><strong><a href="att-string-index.html" rel="noopener noreferrer" target="_blank">string.index(str, beg=0, end=len(string))</a></strong></p>
-</td>
-<td>
-<p>跟find()方法一样，只不过如果str不在 string中会报一个异常.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-isalnum.html" rel="noopener noreferrer" target="_blank">string.isalnum()</a></p>
-</td>
-<td>
-<p>如果 string 至少有一个字符并且所有字符都是字母或数字则返</p>
-<p>回 True,否则返回 False</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-isalpha.html" rel="noopener noreferrer" target="_blank">string.isalpha()</a></p>
-</td>
-<td>
-<p>如果 string 至少有一个字符并且所有字符都是字母则返回 True,</p>
-<p>否则返回 False</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-isdecimal.html" rel="noopener noreferrer" target="_blank">string.isdecimal()</a></p>
-</td>
-<td>
-<p>如果 string 只包含十进制数字则返回 True 否则返回 False.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-isdigit.html" rel="noopener noreferrer" target="_blank">string.isdigit()</a></p>
-</td>
-<td>
-<p>如果 string 只包含数字则返回 True 否则返回 False.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-islower.html" rel="noopener noreferrer" target="_blank">string.islower()</a></p>
-</td>
-<td>
-<p>如果 string 中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是小写，则返回 True，否则返回 False</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-isnumeric.html" rel="noopener noreferrer" target="_blank">string.isnumeric()</a></p>
-</td>
-<td>
-<p>如果 string 中只包含数字字符，则返回 True，否则返回 False</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-isspace.html" rel="noopener noreferrer" target="_blank">string.isspace()</a></p>
-</td>
-<td>
-<p>如果 string 中只包含空格，则返回 True，否则返回 False.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-istitle.html" rel="noopener noreferrer" target="_blank">string.istitle()</a></p>
-</td>
-<td>
-<p>如果 string 是标题化的(见 title())则返回 True，否则返回 False</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-isupper.html" rel="noopener noreferrer" target="_blank">string.isupper()</a></p>
-</td>
-<td>
-<p>如果 string 中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是大写，则返回 True，否则返回 False</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><strong><a href="att-string-join.html" rel="noopener noreferrer" target="_blank">string.join(seq)</a></strong></p>
-</td>
-<td>
-<p>以 string 作为分隔符，将 seq 中所有的元素(的字符串表示)合并为一个新的字符串</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-ljust.html" rel="noopener noreferrer" target="_blank">string.ljust(width)</a></p>
-</td>
-<td>
-<p>返回一个原字符串左对齐,并使用空格填充至长度 width 的新字符串</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-lower.html" rel="noopener noreferrer" target="_blank">string.lower()</a></p>
-</td>
-<td>
-<p>转换 string 中所有大写字符为小写.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-lstrip.html" rel="noopener noreferrer" target="_blank">string.lstrip()</a></p>
-</td>
-<td>
-<p>截掉 string 左边的空格</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-maketrans.html" rel="noopener noreferrer" target="_blank">string.maketrans(intab, outtab)</a></p>
-</td>
-<td>
-<p> maketrans() 方法用于创建字符映射的转换表，对于接受两个参数的最简单的调用方式，第一个参数是字符串，表示需要转换的字符，第二个参数也是字符串表示转换的目标。</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-max.html" rel="noopener noreferrer" target="_blank">max(str)</a></p>
-</td>
-<td>
-<p> 返回字符串 <em>str</em> 中最大的字母。</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-min.html" rel="noopener noreferrer" target="_blank">min(str)</a></p>
-</td>
-<td>
-<p> 返回字符串 <em>str</em> 中最小的字母。</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><strong><a href="att-string-partition.html" rel="noopener noreferrer" target="_blank">string.partition(str)</a></strong></p>
-</td>
-<td>
-<p>有点像 find()和 split()的结合体,从 str 出现的第一个位置起,把 字 符 串 string 分 成 一 个 3 元 素 的 元 组 (string_pre_str,str,string_post_str),如果 string 中不包含str 则 string_pre_str == string.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><strong><a href="att-string-replace.html" rel="noopener noreferrer" target="_blank">string.replace(str1, str2,  num=string.count(str1))</a></strong></p>
-</td>
-<td>
-<p>把 string 中的 str1 替换成 str2,如果 num 指定，则替换不超过 num 次.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-rfind.html" rel="noopener noreferrer" target="_blank">string.rfind(str, beg=0,end=len(string) )</a></p>
-</td>
-<td>
-<p>类似于 find() 函数，返回字符串最后一次出现的位置，如果没有匹配项则返回 -1。</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-rindex.html" rel="noopener noreferrer" target="_blank">string.rindex( str, beg=0,end=len(string))</a></p>
-</td>
-<td>
-<p>类似于 index()，不过是返回最后一个匹配到的子字符串的索引号。</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-rjust.html" rel="noopener noreferrer" target="_blank">string.rjust(width)</a></p>
-</td>
-<td>
-<p>返回一个原字符串右对齐,并使用空格填充至长度 width 的新字符串</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-rpartition.html" rel="noopener noreferrer" target="_blank">string.rpartition(str)</a></p>
-</td>
-<td>
-<p>类似于 partition()函数,不过是从右边开始查找</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-rstrip.html" rel="noopener noreferrer" target="_blank">string.rstrip()</a></p>
-</td>
-<td>
-<p>删除 string 字符串末尾的空格.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><strong><a href="att-string-split.html" rel="noopener noreferrer" target="_blank">string.split(str="", num=string.count(str))</a></strong></p>
-</td>
-<td>
-<p>以 str 为分隔符切片 string，如果 num 有指定值，则仅分隔 <strong>num+1</strong> 个子字符串</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-splitlines.html" rel="noopener noreferrer" target="_blank">string.splitlines([keepends])</a></p>
-</td>
-<td>
-<p>按照行('\r', '\r\n', '\n')分隔，返回一个包含各行作为元素的列表，如果参数 keepends 为 False，不包含换行符，如果为 True，则保留换行符。</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-startswith.html" rel="noopener noreferrer" target="_blank">string.startswith(obj, beg=0,end=len(string))</a></p>
-</td>
-<td>
-<p>检查字符串是否是以 obj 开头，是则返回 True，否则返回 False。如果beg 和 end 指定值，则在指定范围内检查.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><strong><a href="att-string-strip.html" rel="noopener noreferrer" target="_blank">string.strip([obj])</a></strong></p>
-</td>
-<td>
-<p>在 string 上执行 lstrip()和 rstrip()</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-swapcase.html" rel="noopener noreferrer" target="_blank">string.swapcase()</a></p>
-</td>
-<td>
-<p>翻转 string 中的大小写</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-title.html" rel="noopener noreferrer" target="_blank">string.title()</a></p>
-</td>
-<td>
-<p>返回"标题化"的 string,就是说所有单词都是以大写开始，其余字母均为小写(见 istitle())</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><strong><a href="att-string-translate.html" rel="noopener noreferrer" target="_blank">string.translate(str, del="")</a></strong></p>
-</td>
-<td>
-<p>根据 str 给出的表(包含 256 个字符)转换 string 的字符,</p>
-<p>要过滤掉的字符放到 del 参数中</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-upper.html" rel="noopener noreferrer" target="_blank">string.upper()</a></p>
-</td>
-<td>
-<p>转换 string 中的小写字母为大写</p>
-</td>
-</tr>
-<tr>
-<td>
-<p><a href="att-string-zfill.html" rel="noopener noreferrer" target="_blank">string.zfill(width)</a></p>
-</td>
-<td>
-<p>返回长度为 width 的字符串，原字符串 string 右对齐，前面填充0</p>
-</td>
-</tr>
-</tbody>
-</table> <!-- 其他扩展 -->
-</div>
-</div>
+<div class="article-body"><div class="article-intro" id="content"><h1>Python <span class="color_h1">字符串</span></h1><p>字符串是 Python 中最常用的数据类型。我们可以使用引号 ( <span class="marked">'</span> 或 <span class="marked">"</span> ) 来创建字符串。</p><p>创建字符串很简单，只要为变量分配一个值即可。例如：</p><pre>
+
+var1 = 'Hello World!'
+
+var2 = "Python Runoob"
+
+</pre><hr><h2>Python 访问字符串中的值</h2><p>Python 不支持单字符类型，单字符在 Python 中也是作为一个字符串使用。</p><p>Python 访问子字符串，可以使用方括号来截取字符串，如下实例：</p><div class="example"><h2 class="example">实例(Python 2.0+)</h2><div class="example_code"><div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code"></span><span class="hl-identifier">var1</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">Hello World!</span><span class="hl-quotes">'</span><span class="hl-code"></span><span class="hl-identifier">var2</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-string">Python Runoob</span><span class="hl-quotes">"</span><span class="hl-code"></span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">var1[0]: </span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">var1</span><span class="hl-brackets">[</span><span class="hl-number">0</span><span class="hl-brackets">]</span><span class="hl-code"></span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">var2[1:5]: </span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">var2</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-code">:</span><span class="hl-number">5</span><span class="hl-brackets">]</span></div></div></div><p>以上实例执行结果：</p><pre>
+
+var1[0]:  H
+
+var2[1:5]:  ytho
+
+</pre><hr><h2>Python 字符串连接</h2><p>我们可以对字符串进行截取并与其他字符串进行连接，如下实例：</p><div class="example"><h2 class="example">实例(Python 2.0+)</h2><div class="example_code"><div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code"></span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code"></span><span class="hl-identifier">var1</span><span class="hl-code"> = </span><span class="hl-quotes">'</span><span class="hl-string">Hello World!</span><span class="hl-quotes">'</span><span class="hl-code"></span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">输出 :- </span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">var1</span><span class="hl-brackets">[</span><span class="hl-code">:</span><span class="hl-number">6</span><span class="hl-brackets">]</span><span class="hl-code"> + </span><span class="hl-quotes">'</span><span class="hl-string">Runoob!</span><span class="hl-quotes">'</span></div></div></div><p>以上实例执行结果</p><pre>
+
+输出 :-  Hello Runoob!
+
+</pre><hr><h2>Python 转义字符</h2><p>在需要在字符中使用特殊字符时，python 用反斜杠 <span class="marked">\</span> 转义字符。如下表：</p><table class="reference"><thead><tr><th>转义字符</th><th>描述</th></tr></thead><tbody><tr><td>\(在行尾时)</td><td>续行符</td></tr><tr><td>\\</td><td>反斜杠符号</td></tr><tr><td>\'</td><td>单引号</td></tr><tr><td>\"</td><td>双引号</td></tr><tr><td>\a</td><td>响铃</td></tr><tr><td>\b</td><td>退格(Backspace)</td></tr><tr><td>\e</td><td>转义</td></tr><tr><td>\000</td><td>空</td></tr><tr><td>\n</td><td>换行</td></tr><tr><td>\v</td><td>纵向制表符</td></tr><tr><td>\t</td><td>横向制表符</td></tr><tr><td>\r</td><td>回车</td></tr><tr><td>\f</td><td>换页</td></tr><tr><td>\oyy</td><td>八进制数，y 代表 0~7 的字符，例如：\012 代表换行。</td></tr><tr><td>\xyy</td><td>十六进制数，以 \x 开头，yy代表的字符，例如：\x0a代表换行</td></tr><tr><td>\other</td><td>其它的字符以普通格式输出</td></tr></tbody></table><hr><h2>Python字符串运算符</h2><p>下表实例变量 a 值为字符串 "Hello"，b 变量值为 "Python"：</p><table class="reference"><tbody><tr><th width="10%">操作符</th><th width="60%">描述</th><th>实例</th></tr><tr><td>+</td><td>字符串连接</td><td><div class="hl-main"><span class="hl-code">&gt;&gt;&gt;</span><span class="hl-identifier">a</span><span class="hl-code"> + </span><span class="hl-identifier">b</span><span class="hl-code"></span><span class="hl-quotes">'</span><span class="hl-string">HelloPython</span><span class="hl-quotes">'</span></div></td></tr><tr><td>*</td><td>重复输出字符串</td><td><div class="hl-main"><span class="hl-code">&gt;&gt;&gt;</span><span class="hl-identifier">a</span><span class="hl-code"> * </span><span class="hl-number">2</span><span class="hl-code"></span><span class="hl-quotes">'</span><span class="hl-string">HelloHello</span><span class="hl-quotes">'</span></div></td></tr><tr><td>[]</td><td>通过索引获取字符串中字符</td><td><div class="hl-main"><span class="hl-code">&gt;&gt;&gt;</span><span class="hl-identifier">a</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code"></span><span class="hl-quotes">'</span><span class="hl-string">e</span><span class="hl-quotes">'</span></div></td></tr><tr><td>[ : ]</td><td>截取字符串中的一部分</td><td><div class="hl-main"><span class="hl-code">&gt;&gt;&gt;</span><span class="hl-identifier">a</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-code">:</span><span class="hl-number">4</span><span class="hl-brackets">]</span><span class="hl-code"></span><span class="hl-quotes">'</span><span class="hl-string">ell</span><span class="hl-quotes">'</span></div></td></tr><tr><td>in</td><td>成员运算符 - 如果字符串中包含给定的字符返回 True </td><td><div class="hl-main"><span class="hl-code">&gt;&gt;&gt;</span><span class="hl-quotes">"</span><span class="hl-string">H</span><span class="hl-quotes">"</span><span class="hl-code"> </span><span class="hl-reserved">in</span><span class="hl-code"> </span><span class="hl-identifier">a</span><span class="hl-code"></span><span class="hl-reserved">True</span></div></td></tr><tr><td>not in </td><td>成员运算符 - 如果字符串中不包含给定的字符返回 True </td><td><div class="hl-main"><span class="hl-code">&gt;&gt;&gt;</span><span class="hl-quotes">"</span><span class="hl-string">M</span><span class="hl-quotes">"</span><span class="hl-code"> </span><span class="hl-reserved">not</span><span class="hl-code"> </span><span class="hl-reserved">in</span><span class="hl-code"> </span><span class="hl-identifier">a</span><span class="hl-code"></span><span class="hl-reserved">True</span></div></td></tr><tr><td>r/R</td><td>原始字符串 - 原始字符串：所有的字符串都是直接按照字面的意思来使用，没有转义特殊或不能打印的字符。 原始字符串除在字符串的第一个引号前加上字母"r"（可以大小写）以外，与普通字符串有着几乎完全相同的语法。</td><td> <div class="hl-main"><span class="hl-code">&gt;&gt;&gt;</span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-identifier">r</span><span class="hl-quotes">'</span><span class="hl-special">\n</span><span class="hl-quotes">'</span><span class="hl-code"> \</span><span class="hl-identifier">n</span><span class="hl-code"> &gt;&gt;&gt; </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-identifier">R</span><span class="hl-quotes">'</span><span class="hl-special">\n</span><span class="hl-quotes">'</span><span class="hl-code"> \</span><span class="hl-identifier">n</span></div> </td></tr><tr><td>%</td><td>格式字符串</td><td>请看下一章节</td></tr></tbody></table><div class="example"><h2 class="example">实例(Python 2.0+)</h2><div class="example_code"><div class="hl-main"><span class="hl-comment">#!/usr/bin/python</span><span class="hl-code"></span><span class="hl-comment"># -*- coding: UTF-8 -*-</span><span class="hl-code"></span><span class="hl-identifier">a</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-string">Hello</span><span class="hl-quotes">"</span><span class="hl-code"></span><span class="hl-identifier">b</span><span class="hl-code"> = </span><span class="hl-quotes">"</span><span class="hl-string">Python</span><span class="hl-quotes">"</span><span class="hl-code"></span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">a + b 输出结果：</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">a</span><span class="hl-code"> + </span><span class="hl-identifier">b</span><span class="hl-code"></span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">a * 2 输出结果：</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">a</span><span class="hl-code"> * </span><span class="hl-number">2</span><span class="hl-code"></span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">a[1] 输出结果：</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">a</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-brackets">]</span><span class="hl-code"></span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">a[1:4] 输出结果：</span><span class="hl-quotes">"</span><span class="hl-code">, </span><span class="hl-identifier">a</span><span class="hl-brackets">[</span><span class="hl-number">1</span><span class="hl-code">:</span><span class="hl-number">4</span><span class="hl-brackets">]</span><span class="hl-code"></span><span class="hl-identifier">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">H</span><span class="hl-quotes">"</span><span class="hl-code"> </span><span class="hl-reserved">in</span><span class="hl-code"> </span><span class="hl-identifier">a</span><span class="hl-brackets">)</span><span class="hl-code"> : </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">H 在变量 a 中</span><span class="hl-quotes">"</span><span class="hl-code"></span><span class="hl-reserved">else</span><span class="hl-code"> : </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">H 不在变量 a 中</span><span class="hl-quotes">"</span><span class="hl-code"></span><span class="hl-identifier">if</span><span class="hl-brackets">(</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">M</span><span class="hl-quotes">"</span><span class="hl-code"> </span><span class="hl-reserved">not</span><span class="hl-code"> </span><span class="hl-reserved">in</span><span class="hl-code"> </span><span class="hl-identifier">a</span><span class="hl-brackets">)</span><span class="hl-code"> : </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">M 不在变量 a 中</span><span class="hl-quotes">"</span><span class="hl-code"></span><span class="hl-reserved">else</span><span class="hl-code"> : </span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-quotes">"</span><span class="hl-string">M 在变量 a 中</span><span class="hl-quotes">"</span><span class="hl-code"></span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-identifier">r</span><span class="hl-quotes">'</span><span class="hl-special">\n</span><span class="hl-quotes">'</span><span class="hl-code"></span><span class="hl-reserved">print</span><span class="hl-code"> </span><span class="hl-identifier">R</span><span class="hl-quotes">'</span><span class="hl-special">\n</span><span class="hl-quotes">'</span></div></div></div><p>以上程序执行结果为：</p><pre>
+
+a + b 输出结果： HelloPython
+
+a * 2 输出结果： HelloHello
+
+a[1] 输出结果： e
+
+a[1:4] 输出结果： ell
+
+H 在变量 a 中
+
+M 不在变量 a 中
+
+\n
+
+\n
+
+</pre><hr><h2>Python 字符串格式化</h2><p>Python 支持格式化字符串的输出 。尽管这样可能会用到非常复杂的表达式，但最基本的用法是将一个值插入到一个有字符串格式符 %s 的字符串中。</p><p>在 Python 中，字符串格式化使用与 C 中 sprintf 函数一样的语法。</p><p>如下实例：</p><pre>
+
+#!/usr/bin/python
+
+
+
+print "My name is %s and weight is %d kg!" % ('Zara', 21) 
+
+</pre><p>以上实例输出结果：</p><pre>
+
+My name is Zara and weight is 21 kg!
+
+</pre><p>python 字符串格式化符号:</p><table class="reference"><tbody&lt;tr><th>     符   号</th><th>描述</th><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %c</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 格式化字符及其ASCII码</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %s</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 格式化字符串</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %d</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 格式化整数</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %u</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 格式化无符号整型</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %o</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 格式化无符号八进制数</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %x</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 格式化无符号十六进制数</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %X</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 格式化无符号十六进制数（大写）</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %f</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 格式化浮点数字，可指定小数点后的精度</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %e</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 用科学计数法格式化浮点数</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %E</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 作用同%e，用科学计数法格式化浮点数</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %g</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> %f和%e的简写</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %G</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> %F 和 %E 的简写</font></td></tr><tr><td><font face="宋体" size="2" style="line-height: 23px; ">      %p</font></td><td><font face="宋体" size="2" style="line-height: 23px; "> 用十六进制数格式化变量的地址</font></td></tr></tbody&lt;tr></table><p>格式化操作符辅助指令:</p><table class="reference"><tbody><tr><th>符号</th><th>功能</th></tr><tr><td>*</td><td>定义宽度或者小数点精度 </td></tr><tr><td>-</td><td>用做左对齐 </td></tr><tr><td>+</td><td>在正数前面显示加号( + ) </td></tr><tr><td>&lt;sp&gt;</td><td>在正数前面显示空格 </td></tr><tr><td>#</td><td> 在八进制数前面显示零('0')，在十六进制前面显示'0x'或者'0X'(取决于用的是'x'还是'X')</td></tr><tr><td>0</td><td> 显示的数字前面填充'0'而不是默认的空格 </td></tr><tr><td>%</td><td> '%%'输出一个单一的'%' </td></tr><tr><td>(var)</td><td>映射变量(字典参数) </td></tr><tr><td>m.n.</td><td> m 是显示的最小总宽度,n 是小数点后的位数(如果可用的话)</td></tr></tbody></table><p>Python2.6 开始，新增了一种格式化字符串的函数 <a href="/python/att-string-format.html" rel="noopener noreferrer" target="_blank">str.format()</a>，它增强了字符串格式化的功能。</p><hr><h2>Python 三引号 </h2><p>Python 中三引号可以将复杂的字符串进行赋值。</p><p>Python 三引号允许一个字符串跨多行，字符串中可以包含换行符、制表符以及其他特殊字符。</p><p>三引号的语法是一对连续的单引号或者双引号（通常都是成对的用）。</p><pre>
+
+ &gt;&gt;&gt; hi = '''hi 
+
+there'''
+
+&gt;&gt;&gt; hi   # repr()
+
+'hi\nthere'
+
+&gt;&gt;&gt; print hi  # str()
+
+hi 
+
+there  
+
+</pre><p>三引号让程序员从引号和特殊字符串的泥潭里面解脱出来，自始至终保持一小块字符串的格式是所谓的WYSIWYG（所见即所得）格式的。</p><p>一个典型的用例是，当你需要一块HTML或者SQL时，这时当用三引号标记，使用传统的转义字符体系将十分费神。</p><pre>
+
+ errHTML = '''
+
+&lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt;
+
+Friends CGI Demo&lt;/TITLE&gt;&lt;/HEAD&gt;
+
+&lt;BODY&gt;&lt;H3&gt;ERROR&lt;/H3&gt;
+
+&lt;B&gt;%s&lt;/B&gt;&lt;P&gt;
+
+&lt;FORM&gt;&lt;INPUT TYPE=button VALUE=Back
+
+ONCLICK="window.history.back()"&gt;&lt;/FORM&gt;
+
+&lt;/BODY&gt;&lt;/HTML&gt;
+
+'''
+
+cursor.execute('''
+
+CREATE TABLE users (  
+
+login VARCHAR(8), 
+
+uid INTEGER,
+
+prid INTEGER)
+
+''')
+
+</pre><hr><h2>Unicode 字符串</h2><p>Python 中定义一个 Unicode 字符串和定义一个普通字符串一样简单：</p><pre>
+
+&gt;&gt;&gt; u'Hello World !'
+
+u'Hello World !'
+
+</pre><p> 引号前小写的"u"表示这里创建的是一个 Unicode 字符串。如果你想加入一个特殊字符，可以使用 Python 的 Unicode-Escape 编码。如下例所示： </p><pre>
+
+&gt;&gt;&gt; u'Hello\u0020World !'
+
+u'Hello World !'
+
+</pre><p>被替换的 \u0020 标识表示在给定位置插入编码值为 0x0020 的 Unicode 字符（空格符）。</p><hr><h2>Python 的字符串内建函数</h2><p>字符串方法是从 Python1.6 到 2.0 慢慢加进来的 —— 它们也被加到了Jython 中。 </p><p>这些方法实现了 string 模块的大部分方法，如下表所示列出了目前字符串内建支持的方法，所有的方法都包含了对 Unicode 的支持，有一些甚至是专门用于 Unicode 的。 </p><table class="reference"><tbody><tr><th><strong>方法</strong></th><th><strong>描述</strong></th></tr><tr><td><p><a href="att-string-capitalize.html" rel="noopener noreferrer" target="_blank">string.capitalize()</a></p></td><td><p>把字符串的第一个字符大写</p></td></tr><tr><td><p><a href="att-string-center.html" rel="noopener noreferrer" target="_blank">string.center(width)</a></p></td><td><p>返回一个原字符串居中,并使用空格填充至长度 width 的新字符串</p></td></tr><tr><td><p><strong><a href="att-string-count.html" rel="noopener noreferrer" target="_blank">string.count(str, beg=0, end=len(string))</a></strong></p></td><td><p>返回 str 在 string 里面出现的次数，如果 beg 或者 end 指定则返回指定范围内 str 出现的次数</p></td></tr><tr><td><p><a href="att-string-decode.html" rel="noopener noreferrer" target="_blank">string.decode(encoding='UTF-8', errors='strict')</a></p></td><td><p>以 encoding 指定的编码格式解码 string，如果出错默认报一个 ValueError 的 异 常 ， 除非 errors 指 定 的 是 'ignore' 或 者'replace'</p></td></tr><tr><td><p><a href="att-string-encode.html" rel="noopener noreferrer" target="_blank">string.encode(encoding='UTF-8', errors='strict')</a></p></td><td><p>以 encoding 指定的编码格式编码 string，如果出错默认报一个ValueError 的异常，除非 errors 指定的是'ignore'或者'replace'</p></td></tr><tr><td><p><strong><a href="att-string-endswith.html" rel="noopener noreferrer" target="_blank">string.endswith(obj, beg=0, end=len(string))</a></strong></p></td><td><p>检查字符串是否以 obj 结束，如果beg 或者 end 指定则检查指定的范围内是否以 obj 结束，如果是，返回 True,否则返回 False.</p></td></tr><tr><td><p><a href="att-string-expandtabs.html" rel="noopener noreferrer" target="_blank">string.expandtabs(tabsize=8)</a></p></td><td><p>把字符串 string 中的 tab 符号转为空格，tab 符号默认的空格数是 8。</p></td></tr><tr><td><p><strong><a href="att-string-find.html" rel="noopener noreferrer" target="_blank">string.find(str, beg=0, end=len(string))</a></strong></p></td><td><p>检测 str 是否包含在 string 中，如果 beg 和 end 指定范围，则检查是否包含在指定范围内，如果是返回开始的索引值，否则返回-1</p></td></tr><tr><td><p><strong><a href="att-string-format.html" rel="noopener noreferrer" target="_blank">string.format()</a></strong></p></td><td><p>格式化字符串</p></td></tr><tr><td><p><strong><a href="att-string-index.html" rel="noopener noreferrer" target="_blank">string.index(str, beg=0, end=len(string))</a></strong></p></td><td><p>跟find()方法一样，只不过如果str不在 string中会报一个异常.</p></td></tr><tr><td><p><a href="att-string-isalnum.html" rel="noopener noreferrer" target="_blank">string.isalnum()</a></p></td><td><p>如果 string 至少有一个字符并且所有字符都是字母或数字则返</p><p>回 True,否则返回 False</p></td></tr><tr><td><p><a href="att-string-isalpha.html" rel="noopener noreferrer" target="_blank">string.isalpha()</a></p></td><td><p>如果 string 至少有一个字符并且所有字符都是字母则返回 True,</p><p>否则返回 False</p></td></tr><tr><td><p><a href="att-string-isdecimal.html" rel="noopener noreferrer" target="_blank">string.isdecimal()</a></p></td><td><p>如果 string 只包含十进制数字则返回 True 否则返回 False.</p></td></tr><tr><td><p><a href="att-string-isdigit.html" rel="noopener noreferrer" target="_blank">string.isdigit()</a></p></td><td><p>如果 string 只包含数字则返回 True 否则返回 False.</p></td></tr><tr><td><p><a href="att-string-islower.html" rel="noopener noreferrer" target="_blank">string.islower()</a></p></td><td><p>如果 string 中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是小写，则返回 True，否则返回 False</p></td></tr><tr><td><p><a href="att-string-isnumeric.html" rel="noopener noreferrer" target="_blank">string.isnumeric()</a></p></td><td><p>如果 string 中只包含数字字符，则返回 True，否则返回 False</p></td></tr><tr><td><p><a href="att-string-isspace.html" rel="noopener noreferrer" target="_blank">string.isspace()</a></p></td><td><p>如果 string 中只包含空格，则返回 True，否则返回 False.</p></td></tr><tr><td><p><a href="att-string-istitle.html" rel="noopener noreferrer" target="_blank">string.istitle()</a></p></td><td><p>如果 string 是标题化的(见 title())则返回 True，否则返回 False</p></td></tr><tr><td><p><a href="att-string-isupper.html" rel="noopener noreferrer" target="_blank">string.isupper()</a></p></td><td><p>如果 string 中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是大写，则返回 True，否则返回 False</p></td></tr><tr><td><p><strong><a href="att-string-join.html" rel="noopener noreferrer" target="_blank">string.join(seq)</a></strong></p></td><td><p>以 string 作为分隔符，将 seq 中所有的元素(的字符串表示)合并为一个新的字符串</p></td></tr><tr><td><p><a href="att-string-ljust.html" rel="noopener noreferrer" target="_blank">string.ljust(width)</a></p></td><td><p>返回一个原字符串左对齐,并使用空格填充至长度 width 的新字符串</p></td></tr><tr><td><p><a href="att-string-lower.html" rel="noopener noreferrer" target="_blank">string.lower()</a></p></td><td><p>转换 string 中所有大写字符为小写.</p></td></tr><tr><td><p><a href="att-string-lstrip.html" rel="noopener noreferrer" target="_blank">string.lstrip()</a></p></td><td><p>截掉 string 左边的空格</p></td></tr><tr><td><p><a href="att-string-maketrans.html" rel="noopener noreferrer" target="_blank">string.maketrans(intab, outtab)</a></p></td><td><p> maketrans() 方法用于创建字符映射的转换表，对于接受两个参数的最简单的调用方式，第一个参数是字符串，表示需要转换的字符，第二个参数也是字符串表示转换的目标。</p></td></tr><tr><td><p><a href="att-string-max.html" rel="noopener noreferrer" target="_blank">max(str)</a></p></td><td><p> 返回字符串 <em>str</em> 中最大的字母。</p></td></tr><tr><td><p><a href="att-string-min.html" rel="noopener noreferrer" target="_blank">min(str)</a></p></td><td><p> 返回字符串 <em>str</em> 中最小的字母。</p></td></tr><tr><td><p><strong><a href="att-string-partition.html" rel="noopener noreferrer" target="_blank">string.partition(str)</a></strong></p></td><td><p>有点像 find()和 split()的结合体,从 str 出现的第一个位置起,把 字 符 串 string 分 成 一 个 3 元 素 的 元 组 (string_pre_str,str,string_post_str),如果 string 中不包含str 则 string_pre_str == string.</p></td></tr><tr><td><p><strong><a href="att-string-replace.html" rel="noopener noreferrer" target="_blank">string.replace(str1, str2,  num=string.count(str1))</a></strong></p></td><td><p>把 string 中的 str1 替换成 str2,如果 num 指定，则替换不超过 num 次.</p></td></tr><tr><td><p><a href="att-string-rfind.html" rel="noopener noreferrer" target="_blank">string.rfind(str, beg=0,end=len(string) )</a></p></td><td><p>类似于 find() 函数，返回字符串最后一次出现的位置，如果没有匹配项则返回 -1。</p></td></tr><tr><td><p><a href="att-string-rindex.html" rel="noopener noreferrer" target="_blank">string.rindex( str, beg=0,end=len(string))</a></p></td><td><p>类似于 index()，不过是返回最后一个匹配到的子字符串的索引号。</p></td></tr><tr><td><p><a href="att-string-rjust.html" rel="noopener noreferrer" target="_blank">string.rjust(width)</a></p></td><td><p>返回一个原字符串右对齐,并使用空格填充至长度 width 的新字符串</p></td></tr><tr><td><p><a href="att-string-rpartition.html" rel="noopener noreferrer" target="_blank">string.rpartition(str)</a></p></td><td><p>类似于 partition()函数,不过是从右边开始查找</p></td></tr><tr><td><p><a href="att-string-rstrip.html" rel="noopener noreferrer" target="_blank">string.rstrip()</a></p></td><td><p>删除 string 字符串末尾的空格.</p></td></tr><tr><td><p><strong><a href="att-string-split.html" rel="noopener noreferrer" target="_blank">string.split(str="", num=string.count(str))</a></strong></p></td><td><p>以 str 为分隔符切片 string，如果 num 有指定值，则仅分隔 <strong>num+1</strong> 个子字符串</p></td></tr><tr><td><p><a href="att-string-splitlines.html" rel="noopener noreferrer" target="_blank">string.splitlines([keepends])</a></p></td><td><p>按照行('\r', '\r\n', '\n')分隔，返回一个包含各行作为元素的列表，如果参数 keepends 为 False，不包含换行符，如果为 True，则保留换行符。</p></td></tr><tr><td><p><a href="att-string-startswith.html" rel="noopener noreferrer" target="_blank">string.startswith(obj, beg=0,end=len(string))</a></p></td><td><p>检查字符串是否是以 obj 开头，是则返回 True，否则返回 False。如果beg 和 end 指定值，则在指定范围内检查.</p></td></tr><tr><td><p><strong><a href="att-string-strip.html" rel="noopener noreferrer" target="_blank">string.strip([obj])</a></strong></p></td><td><p>在 string 上执行 lstrip()和 rstrip()</p></td></tr><tr><td><p><a href="att-string-swapcase.html" rel="noopener noreferrer" target="_blank">string.swapcase()</a></p></td><td><p>翻转 string 中的大小写</p></td></tr><tr><td><p><a href="att-string-title.html" rel="noopener noreferrer" target="_blank">string.title()</a></p></td><td><p>返回"标题化"的 string,就是说所有单词都是以大写开始，其余字母均为小写(见 istitle())</p></td></tr><tr><td><p><strong><a href="att-string-translate.html" rel="noopener noreferrer" target="_blank">string.translate(str, del="")</a></strong></p></td><td><p>根据 str 给出的表(包含 256 个字符)转换 string 的字符,</p><p>要过滤掉的字符放到 del 参数中</p></td></tr><tr><td><p><a href="att-string-upper.html" rel="noopener noreferrer" target="_blank">string.upper()</a></p></td><td><p>转换 string 中的小写字母为大写</p></td></tr><tr><td><p><a href="att-string-zfill.html" rel="noopener noreferrer" target="_blank">string.zfill(width)</a></p></td><td><p>返回长度为 width 的字符串，原字符串 string 右对齐，前面填充0</p></td></tr></tbody></table> </div></div>
