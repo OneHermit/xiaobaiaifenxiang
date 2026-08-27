@@ -1,0 +1,1 @@
+const courseRoot = [{"name":"WebFullStack","order":1,"createdAt":"2026-08-25 21:26:23"},{"name":"FrontBase","order":2,"createdAt":"2026-08-25 21:32:02"}];
