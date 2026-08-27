@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关注检测</title>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; background: #f5f5f5; }
+        .container { text-align: center; padding: 30px; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #07c160; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        p { color: #666; }
+    </style>
+    <script>
+        // ============== 配置（请按实际情况修改） ==============
+        const APPID = 'wx9792e7529ec3b871';               // 你的公众号 AppID
+        const API_BASE = 'https://api.frontbasics.top';    // Worker 子域名
+        const REDIRECT_URI = encodeURIComponent('https://frontbasics.top/index.html'); // 当前页面地址
+        const API_TOKEN = 'kL7#fG9$mQ2&';                 // 与 Worker 中设置的 API_TOKEN 一致
+        const BIZ = 'MzAxMzA0MjY0NA==';                         // 从 F12 控制台获取
+
+        // ======================================================
+
+        // 微信授权 URL（静默授权）
+        const WX_AUTH_URL = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+
+        // ---------- 主流程 ----------
+        (async function main() {
+            // 1. 检查本地是否已缓存 openid
+            let openid = localStorage.getItem('wx_openid');
+
+            if (openid) {
+                // 已有 openid，直接查询关注状态
+                await checkFollowAndRedirect(openid);
+                return;
+            }
+
+            // 2. 没有 openid，尝试从 URL 获取 code
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+
+            if (code) {
+                // 有 code，调用 Worker 接口换取 openid
+                try {
+                    const resp = await fetch(`${API_BASE}/api/get-openid?code=${code}`);
+                    const data = await resp.json();
+                    if (data.openid) {
+                        openid = data.openid;
+                        localStorage.setItem('wx_openid', openid);
+                        // 清除 URL 中的 code 参数，避免刷新重复使用
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                        // 继续查询关注状态
+                        await checkFollowAndRedirect(openid);
+                    } else {
+                        alert('获取 openid 失败：' + (data.error || '未知错误'));
+                    }
+                } catch (e) {
+                    alert('网络异常，请稍后重试');
+                }
+            } else {
+                // 3. 无 code，跳转微信授权
+                window.location.href = WX_AUTH_URL;
+            }
+        })();
+
+        // ---------- 查询关注状态并跳转 ----------
+        async function checkFollowAndRedirect(openid) {
+            try {
+                const resp = await fetch(`${API_BASE}/api/check-follow?openid=${openid}`, {
+                    headers: { 'Authorization': `Bearer ${API_TOKEN}` }
+                });
+                const data = await resp.json();
+
+                if (data.subscribed === true) {
+                    // 已关注 → 跳转首页（或你想要的页面）
+                    window.location.href = 'https://frontbasics.top/';
+                } else if (data.subscribed === false) {
+                    // 未关注 → 跳转公众号关注页
+                    window.location.href = `https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=${BIZ}#wechat_redirect`;
+                } else {
+                    alert('查询关注状态失败：' + (data.error || '未知错误'));
+                }
+            } catch (e) {
+                alert('网络异常，请稍后重试');
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="spinner"></div>
+        <p>正在跳转，请稍候...</p>
+    </div>
+</body>
+</html>
