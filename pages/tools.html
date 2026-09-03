@@ -136,6 +136,55 @@
                         <pre id="asciiPreview" style="white-space: pre; font-family: monospace; font-size: 14px; background:#fff; color:#000; padding:10px; margin-top: 10px; max-width: 100%; overflow-x: auto; box-sizing: border-box;"></pre>
                     </div>
                 </div>
+
+                <div id="ascii-art-img" class="tool-section">
+                    <div class="article-card">
+                        <h2>ASCII艺术画生成器</h2>
+                        <p>上传图片 → 生成由字符组成的ASCII艺术画（纯前端处理，图片不会上传到服务器）</p>
+                        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 12px;">
+                            <label style="display: inline-block; padding: 9px 18px; background: #4299e1; color: #fff; border-radius: 6px; cursor: pointer; font-size: 14px; user-select: none;">
+                                选择图片
+                                <input type="file" id="asciiImgFile" accept="image/*" style="display: none;">
+                            </label>
+                            <label style="font-size: 14px; color: #555;">宽度(字符):
+                                <input type="number" id="asciiImgWidth" value="120" min="40" max="240" step="10"
+                                       style="width: 80px; padding: 6px 8px; border: 1px solid #ddd; border-radius: 4px;">
+                            </label>
+                            <label style="font-size: 14px; color: #555; display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                                <input type="checkbox" id="asciiImgInvert" style="width: auto;">反色(黑底白字)
+                            </label>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 12px; font-size: 13px; color: #555;">
+                            <label style="display: flex; align-items: center; gap: 6px;">灰度
+                                <input type="range" id="asciiImgGray" min="0" max="100" value="0" style="width: 110px;">
+                                <span id="asciiImgGrayVal" style="width: 32px; color: #333;">0</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px;">饱和度
+                                <input type="range" id="asciiImgSat" min="0" max="200" value="100" style="width: 110px;">
+                                <span id="asciiImgSatVal" style="width: 32px; color: #333;">100</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px;">亮度
+                                <input type="range" id="asciiImgBright" min="-100" max="100" value="0" style="width: 110px;">
+                                <span id="asciiImgBrightVal" style="width: 32px; color: #333;">0</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px;">清晰度
+                                <input type="range" id="asciiImgClarity" min="0" max="100" value="0" style="width: 110px;">
+                                <span id="asciiImgClarityVal" style="width: 32px; color: #333;">0</span>
+                            </label>
+                            <button class="page-btn" onclick="resetAsciiImgAdjust()" style="font-size: 13px; padding: 5px 12px;">重置</button>
+                        </div>
+                        <div id="asciiImgInfo" style="margin-top: 10px; font-size: 13px; color: #888;"></div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #555;">
+                                <span>缩放</span>
+                                <input type="range" id="asciiImgZoom" min="25" max="400" value="100" step="25" style="width: 150px; margin: 0;">
+                                <span id="asciiImgZoomVal" style="width: 48px; color: #333;">100%</span>
+                            </div>
+                            <button class="page-btn" id="asciiImgCopyBtn" onclick="copyAsciiImage()" style="font-size: 13px; padding: 6px 16px;">拷贝 ASCII</button>
+                        </div>
+                        <pre id="asciiImgPreview" style="white-space: pre; font-family: 'Consolas','Courier New',monospace; font-size: 13px; line-height: 1.1; margin-top: 8px; padding: 10px; max-width: 100%; overflow: auto; box-sizing: border-box; background: #fff; color: #000;"></pre>
+                    </div>
+                </div>
             </section>
         </main>
     </div>
@@ -145,6 +194,10 @@
 
     <script src="../js/data.js"></script>
     <script src="../js/main.js"></script>
+    <!-- axios（邀请码校验接口使用） -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.8/dist/axios.min.js"></script>
+    <!-- 邀请码门禁（未验证时强制填写邀请码） -->
+    <script src="../js/invite-gate.js"></script>
     <script>
         // 页面加载完成后执行初始化
         document.addEventListener('DOMContentLoaded', function () {
@@ -579,6 +632,282 @@
             const finalStr = outputLines.join('\n');
             console.log('%c' + finalStr, 'font-family: monospace; font-size:14px; white-space:pre; background:#fff; color:#000;');
             document.getElementById('asciiPreview').textContent = finalStr;
+        }
+
+        // ============ ASCII艺术画（图片转字符画，纯前端处理）============
+
+        // 字符由"疏"到"密"（空格最疏，@ 最密）
+        const ASCII_IMG_RAMP = ' .:-=+*#%@';
+        let lastAsciiImage = null; // 保存最近一次读取的图片（供调整参数后重新生成）
+
+        // 绑定事件：选择图片后自动生成；调整宽度/反色/图像参数后自动重新生成
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('asciiImgFile');
+            const widthInput = document.getElementById('asciiImgWidth');
+            const invertInput = document.getElementById('asciiImgInvert');
+
+            if (fileInput) {
+                fileInput.addEventListener('change', loadAsciiImage);
+            }
+            if (widthInput) {
+                widthInput.addEventListener('change', function () { if (lastAsciiImage) renderAsciiImage(); });
+            }
+            if (invertInput) {
+                invertInput.addEventListener('change', function () { if (lastAsciiImage) renderAsciiImage(); });
+            }
+
+            // 四个图像调整滑杆：拖动即时重生成 + 更新数值标签
+            const sliderDefs = [
+                ['asciiImgGray', 'asciiImgGrayVal'],
+                ['asciiImgSat', 'asciiImgSatVal'],
+                ['asciiImgBright', 'asciiImgBrightVal'],
+                ['asciiImgClarity', 'asciiImgClarityVal']
+            ];
+            sliderDefs.forEach(function (pair) {
+                const slider = document.getElementById(pair[0]);
+                const label = document.getElementById(pair[1]);
+                if (!slider) return;
+                slider.addEventListener('input', function () {
+                    if (label) label.textContent = slider.value;
+                    if (lastAsciiImage) renderAsciiImage();
+                });
+            });
+
+            // 缩放滑杆：仅调整显示大小，不重新生成
+            const zoomSlider = document.getElementById('asciiImgZoom');
+            if (zoomSlider) {
+                zoomSlider.addEventListener('input', function () {
+                    const zoomVal = document.getElementById('asciiImgZoomVal');
+                    if (zoomVal) zoomVal.textContent = zoomSlider.value + '%';
+                    applyAsciiZoom(parseInt(zoomSlider.value, 10) || 100);
+                });
+            }
+        });
+
+        // 读取图像调整参数
+        function getAsciiAdjustParams() {
+            return {
+                gray: parseInt(document.getElementById('asciiImgGray').value, 10) || 0,       // 0-100
+                sat: parseInt(document.getElementById('asciiImgSat').value, 10) || 100,       // 0-200
+                bright: parseInt(document.getElementById('asciiImgBright').value, 10) || 0,   // -100~100
+                clarity: parseInt(document.getElementById('asciiImgClarity').value, 10) || 0  // 0-100
+            };
+        }
+
+        // 重置图像调整参数
+        function resetAsciiImgAdjust() {
+            const defaults = { asciiImgGray: 0, asciiImgSat: 100, asciiImgBright: 0, asciiImgClarity: 0 };
+            Object.keys(defaults).forEach(function (id) {
+                const el = document.getElementById(id);
+                if (el) el.value = defaults[id];
+            });
+            document.getElementById('asciiImgGrayVal').textContent = '0';
+            document.getElementById('asciiImgSatVal').textContent = '100';
+            document.getElementById('asciiImgBrightVal').textContent = '0';
+            document.getElementById('asciiImgClarityVal').textContent = '0';
+            if (lastAsciiImage) renderAsciiImage();
+        }
+
+        // ASCII 预览缩放（仅改变字号，不重新生成）
+        function applyAsciiZoom(percent) {
+            const el = document.getElementById('asciiImgPreview');
+            if (el) el.style.fontSize = (13 * percent / 100) + 'px';
+        }
+
+        // 拷贝 ASCII 艺术画到剪贴板
+        function copyAsciiImage() {
+            const preview = document.getElementById('asciiImgPreview');
+            if (!preview || !preview.textContent) {
+                alert('请先选择一张图片生成 ASCII 艺术画');
+                return;
+            }
+            const text = preview.textContent;
+            const btn = document.getElementById('asciiImgCopyBtn');
+            const done = function () {
+                if (btn) {
+                    const orig = btn.textContent;
+                    btn.textContent = '已拷贝';
+                    setTimeout(function () { btn.textContent = orig; }, 1500);
+                }
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(done).catch(function () { fallbackCopyAscii(text, done); });
+            } else {
+                fallbackCopyAscii(text, done);
+            }
+        }
+
+        function fallbackCopyAscii(text, done) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand('copy');
+            } catch (e) {}
+            document.body.removeChild(ta);
+            if (done) done();
+        }
+
+        // 读取用户上传的图片文件
+        function loadAsciiImage() {
+            const fileInput = document.getElementById('asciiImgFile');
+            const file = fileInput.files && fileInput.files[0];
+            if (!file) return;
+
+            const info = document.getElementById('asciiImgInfo');
+            info.textContent = '图片加载中...';
+
+            const reader = new FileReader();
+            reader.onload = function (ev) {
+                const img = new Image();
+                img.onload = function () {
+                    lastAsciiImage = img;
+                    info.textContent = `图片尺寸 ${img.naturalWidth}×${img.naturalHeight}px，正在生成...`;
+                    renderAsciiImage();
+                };
+                img.onerror = function () {
+                    info.textContent = '图片读取失败，请换一张图片';
+                };
+                img.src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // 数值钳制
+        function clamp8(v) {
+            return v < 0 ? 0 : (v > 255 ? 255 : v);
+        }
+
+        // 根据当前参数生成并展示 ASCII 艺术画
+        function renderAsciiImage() {
+            const preview = document.getElementById('asciiImgPreview');
+            const info = document.getElementById('asciiImgInfo');
+            const invert = document.getElementById('asciiImgInvert').checked;
+            const adj = getAsciiAdjustParams();
+
+            if (!lastAsciiImage) {
+                info.textContent = '';
+                preview.textContent = '';
+                return;
+            }
+
+            // 字符宽度（默认120列）
+            let widthChars = parseInt(document.getElementById('asciiImgWidth').value, 10) || 120;
+            widthChars = Math.max(30, Math.min(260, widthChars));
+
+            const imgW = lastAsciiImage.naturalWidth;
+            const imgH = lastAsciiImage.naturalHeight;
+            // 等宽字符的高宽比约为 0.55~0.6，这里按字符实际形状折算行数，避免变形
+            const charRatio = 0.55;
+            const heightChars = Math.max(1, Math.round(widthChars * (imgH / imgW) * charRatio));
+
+            // 缩小绘制到临时画布取样
+            const canvas = document.createElement('canvas');
+            canvas.width = widthChars;
+            canvas.height = heightChars;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(lastAsciiImage, 0, 0, widthChars, heightChars);
+
+            const imgData = ctx.getImageData(0, 0, widthChars, heightChars).data;
+            const total = widthChars * heightChars;
+            const lumArr = new Float32Array(total); // 调整后的亮度
+
+            const grayMix = adj.gray / 100;      // 灰度混合度
+            const satMul = adj.sat / 100;        // 饱和度倍数
+            const brightOff = adj.bright * 2.55; // 亮度偏移
+
+            // 第一遍：饱和度/灰度/亮度调整（颜色级）
+            for (let i = 0; i < total; i++) {
+                const idx = i * 4;
+                let r = imgData[idx];
+                let g = imgData[idx + 1];
+                let b = imgData[idx + 2];
+                let lum = 0.299 * r + 0.587 * g + 0.114 * b;
+
+                // 饱和度：越饱和越偏离灰色
+                if (satMul !== 1) {
+                    r = lum + (r - lum) * satMul;
+                    g = lum + (g - lum) * satMul;
+                    b = lum + (b - lum) * satMul;
+                }
+                // 灰度混合
+                if (grayMix > 0) {
+                    lum = 0.299 * r + 0.587 * g + 0.114 * b;
+                    r = lum + (r - lum) * (1 - grayMix);
+                    g = lum + (g - lum) * (1 - grayMix);
+                    b = lum + (b - lum) * (1 - grayMix);
+                }
+                // 亮度偏移
+                if (brightOff !== 0) {
+                    r += brightOff;
+                    g += brightOff;
+                    b += brightOff;
+                }
+                r = clamp8(Math.round(r));
+                g = clamp8(Math.round(g));
+                b = clamp8(Math.round(b));
+
+                lumArr[i] = 0.299 * r + 0.587 * g + 0.114 * b;
+            }
+
+            // 清晰度：亮度域的局部锐化（3×3 均值模糊 → 反卷积细节增强）
+            if (adj.clarity > 0) {
+                const k = (adj.clarity / 100) * 2.0;
+                const blurred = new Float32Array(total);
+                for (let y = 0; y < heightChars; y++) {
+                    for (let x = 0; x < widthChars; x++) {
+                        let sum = 0;
+                        let cnt = 0;
+                        for (let dy = -1; dy <= 1; dy++) {
+                            for (let dx = -1; dx <= 1; dx++) {
+                                const nx = x + dx;
+                                const ny = y + dy;
+                                if (nx >= 0 && nx < widthChars && ny >= 0 && ny < heightChars) {
+                                    sum += lumArr[ny * widthChars + nx];
+                                    cnt++;
+                                }
+                            }
+                        }
+                        blurred[y * widthChars + x] = sum / cnt;
+                    }
+                }
+                // 细节 = 原亮度 - 模糊亮度，增强到原亮度上
+                for (let i = 0; i < total; i++) {
+                    lumArr[i] = clamp8(Math.round(lumArr[i] + (lumArr[i] - blurred[i]) * k));
+                }
+            }
+
+            // 亮度 → 字符映射
+            const ramp = ASCII_IMG_RAMP;
+            const lastIdx = ramp.length - 1;
+            let out = '';
+
+            for (let y = 0; y < heightChars; y++) {
+                let row = '';
+                for (let x = 0; x < widthChars; x++) {
+                    const lum = lumArr[y * widthChars + x];
+                    const gray = lum / 255;
+                    let ci;
+                    if (invert) {
+                        // 黑底白字：越亮越密
+                        ci = Math.min(lastIdx, Math.floor(gray * ramp.length));
+                    } else {
+                        // 白底黑字：越暗越密
+                        ci = Math.min(lastIdx, Math.floor((1 - gray) * ramp.length));
+                    }
+                    row += ramp[ci];
+                }
+                out += row + '\n';
+            }
+
+            // 背景色
+            preview.style.background = invert ? '#000' : '#fff';
+            preview.style.color = invert ? '#fff' : '#000';
+            preview.textContent = out;
+            info.textContent = `图片尺寸 ${imgW}×${imgH}px，已生成 ${widthChars}×${heightChars} 字符，共 ${(widthChars * heightChars).toLocaleString()} 个字符`;
         }
     </script>
 </body>
