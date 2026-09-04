@@ -39,6 +39,134 @@
         .sidebar-list li:hover {
             background-color: #ebf8ff;
         }
+
+        /* ===== ASCII艺术画集 样式 ===== */
+        /* 扁平化：去掉左侧蓝色边线、圆角、卡片投影，压缩头部留白 */
+        #ascii-art-collection .article-card {
+            border-left: none;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
+            padding: 14px 20px 0;
+            margin: 0;
+        }
+
+        #ascii-art-collection .article-card h2 {
+            margin: 0 0 4px;
+            font-size: 20px;
+        }
+
+        #ascii-art-collection .article-card > p {
+            margin: 0 0 6px;
+            color: #718096;
+        }
+
+        /* 顶部定边线 + 连体浏览器式选项卡（扁平，无圆角） */
+        .art-tabs {
+            display: flex;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            margin: 0;
+            border-bottom: 2px solid #4299e1; /* 定边线 */
+        }
+
+        .art-tab {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 0 -2px -1px; /* 贴连，并向下压住 2px 边线 */
+            min-width: 52px;
+            padding: 8px 16px;
+            font-size: 18px;
+            color: #4a5568;
+            background: #edf2f7;
+            border: 1px solid #cbd5e1;
+            border-bottom: none;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.15s, color 0.15s;
+            white-space: nowrap;
+        }
+
+        /* 第一个选项卡不保留 -1px 左贴，避免左侧超界 */
+        .art-tab:first-child {
+            margin-left: 0;
+        }
+
+        .art-tab:hover {
+            background: #e2e8f0;
+            color: #2d3748;
+        }
+
+        /* 选中（按下）效果：主体上色，底部与边线融为一体 */
+        .art-tab.active {
+            z-index: 2;
+            background: #4299e1;
+            color: #fff;
+            border-color: #4299e1;
+            border-bottom: none;
+            box-shadow: none;
+        }
+
+        /* 仿 yishu.html：按尺寸类百分比自由流式排布（无 gap，边距用 margin 分隔行） */
+        .art-grid {
+            overflow: hidden; /* 清除浮动 */
+        }
+
+        /* 参照 yishu.html(fsymbols .txtart) 配置 textarea 显示属性 */
+        .art-grid textarea {
+            box-sizing: border-box;
+            display: block;
+            float: left;
+            margin: 0 0 12px 0;
+            padding: 13px;
+            border: 1px solid #bfcdd8;
+            border-radius: 0;
+            background: #f7f7f7;
+            color: #4c4c4c;
+            resize: none;
+            overflow: hidden;
+            line-height: 1;
+            white-space: pre;
+            text-align: left;
+            font-family: 'lucida grande', tahoma, verdana, arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', 'Apple Color Emoji';
+            box-shadow: none;
+        }
+
+        /* 尺寸类：full=100% / half=50% / third≈33.3% / four≈66.7% */
+        .art-grid textarea.fullart { width: 100%; }
+        .art-grid textarea.halfart { width: 50%; }
+        .art-grid textarea.thirdart { width: 33.3333%; }
+        .art-grid textarea.fourart { width: 66.6667%; }
+
+        .art-grid textarea:hover,
+        .art-grid textarea:focus {
+            color: #000;
+            background: #fdfdfd;
+        }
+
+        .art-grid textarea:focus {
+            border-color: hsl(43, 100%, 53%);
+        }
+
+        .art-empty {
+            color: #888;
+            font-size: 14px;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .art-grid textarea.fullart,
+            .art-grid textarea.halfart,
+            .art-grid textarea.thirdart,
+            .art-grid textarea.fourart {
+                width: 100% !important;
+                float: none;
+                margin-bottom: 8px;
+            }
+        }
     </style>
 </head>
 
@@ -183,6 +311,12 @@
                             <button class="page-btn" id="asciiImgCopyBtn" onclick="copyAsciiImage()" style="font-size: 13px; padding: 6px 16px;">拷贝 ASCII</button>
                         </div>
                         <pre id="asciiImgPreview" style="white-space: pre; font-family: 'Consolas','Courier New',monospace; font-size: 13px; line-height: 1.1; margin-top: 8px; padding: 10px; max-width: 100%; overflow: auto; box-sizing: border-box; background: #fff; color: #000;"></pre>
+                    </div>
+                </div>
+
+                <div id="ascii-art-collection" class="tool-section">
+                    <div class="article-card">
+                        <div id="artCollectionRoot"><div class="art-empty">数据加载中...</div></div>
                     </div>
                 </div>
             </section>
@@ -909,6 +1043,178 @@
             preview.textContent = out;
             info.textContent = `图片尺寸 ${imgW}×${imgH}px，已生成 ${widthChars}×${heightChars} 字符，共 ${(widthChars * heightChars).toLocaleString()} 个字符`;
         }
+    </script>
+
+    <!-- ASCII艺术画集数据（text-art.js） -->
+    <script src="../js/text-art.js"></script>
+    <!-- ASCII艺术画集：选项卡 + 三列展示 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var root = document.getElementById('artCollectionRoot');
+            if (!root) return;
+
+            // textArt 声明为 var 时会挂到 window；这里两种方式都兼容
+            var data = window.textArt || (typeof textArt !== 'undefined' ? textArt : null);
+            if (!data) {
+                root.innerHTML = '<div class="art-empty">数据未加载（text-art.js 缺失）</div>';
+                return;
+            }
+
+            var categories = Object.keys(data);
+            if (categories.length === 0) {
+                root.innerHTML = '<div class="art-empty">暂无数据</div>';
+                return;
+            }
+
+            // 分类选项卡
+            var tabs = document.createElement('div');
+            tabs.className = 'art-tabs';
+            categories.forEach(function (name) {
+                var btn = document.createElement('div');
+                btn.className = 'art-tab';
+                btn.setAttribute('data-cat', name);
+                btn.title = name; // 悬停显示分类名
+                var node = data[name];
+                var logo = (node && node.logo) || '';
+                btn.innerHTML = '<span class="art-tab-logo">' + escapeHtml(logo) + '</span>'; // 只显示分类 logo
+                btn.addEventListener('click', function () {
+                    showCategory(name);
+                });
+                tabs.appendChild(btn);
+            });
+
+            var grid = document.createElement('div');
+            grid.className = 'art-grid';
+
+            root.innerHTML = '';
+            root.appendChild(tabs);
+            root.appendChild(grid);
+
+            function escapeHtml(str) {
+                return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            }
+
+            function setActiveTab(name) {
+                var btns = root.querySelectorAll('.art-tab');
+                btns.forEach(function (b) {
+                    b.classList.toggle('active', b.getAttribute('data-cat') === name);
+                });
+            }
+
+            // 测量用画布（惰性创建）
+            var artCtx = null;
+            function getArtCtx() {
+                if (!artCtx) artCtx = document.createElement('canvas').getContext('2d');
+                return artCtx;
+            }
+
+            // 文本行数 + 最长行
+            function artRowsLine(content) {
+                var lines = String(content).split('\n');
+                var maxLine = '';
+                for (var i = 0; i < lines.length; i++) {
+                    if (lines[i].length > maxLine.length) maxLine = lines[i];
+                }
+                return { rows: lines.length, line: maxLine };
+            }
+
+            // 单格排版：用数据里的 height 定高；
+            // 用画布实测文本宽度+行高约束，选最大字号让整幅画完整放入、不产生裁切/滚动
+            function layoutArtItem(ta) {
+                if (grid.clientWidth <= 0) return;
+
+                // 初始高度 = 原始 height 属性；兜底 320
+                var mh = /height\s*:\s*(\d+(?:\.\d+)?)px/i.exec(ta.getAttribute('style') || '');
+                var H = mh ? parseFloat(mh[1]) : 320;
+                if (H < 80) H = 80;
+                if (H > 2400) H = 2400;
+                ta.style.height = H + 'px';
+
+                var cs = getComputedStyle(ta);
+                var padL = parseFloat(cs.paddingLeft) || 0;
+                var padR = parseFloat(cs.paddingRight) || 0;
+                var padT = parseFloat(cs.paddingTop) || 0;
+                var padB = parseFloat(cs.paddingBottom) || 0;
+                var bL = parseFloat(cs.borderLeftWidth) || 0;
+                var bR = parseFloat(cs.borderRightWidth) || 0;
+                var bT = parseFloat(cs.borderTopWidth) || 0;
+                var bB = parseFloat(cs.borderBottomWidth) || 0;
+
+                var rect = ta.getBoundingClientRect();
+                var availW = Math.max(20, rect.width - padL - padR - bL - bR);
+                var availH = Math.max(20, H - padT - padB - bT - bB);
+
+                var rl = artRowsLine(ta.value);
+                if (rl.rows <= 0 || !rl.line) return;
+
+                // 以 100px 实测最长行宽度，得到每 1px 字号下的像素宽
+                var ctx = getArtCtx();
+                var fam = cs.fontFamily || 'lucida grande,tahoma,verdana,arial,sans-serif';
+                ctx.font = '100px ' + fam;
+                var wAt100 = ctx.measureText(rl.line).width || 100;
+                var perPx = wAt100 / 100;
+
+                var fsH = availW / perPx;        // 横向约束
+                var fsV = availH / rl.rows;      // 纵向约束（line-height:1）
+                var px = Math.floor(Math.min(fsH, fsV));
+                if (px < 2) px = 2;
+                if (px > 72) px = 72;
+
+                ta.style.fontSize = px + 'px';
+            }
+
+            // 对所有格子执行排版
+            function applyArtFontSizes() {
+                if (grid.clientWidth <= 0) return;
+                var taList = grid.querySelectorAll('textarea');
+                taList.forEach(function (ta) {
+                    layoutArtItem(ta);
+                });
+            }
+
+            function showCategory(name) {
+                var node = data[name];
+                if (!node) return;
+                setActiveTab(name);
+                grid.innerHTML = '';
+                var items = node.items || [];
+                if (items.length === 0) {
+                    grid.innerHTML = '<div class="art-empty">该分类暂无内容</div>';
+                    return;
+                }
+                // 直接插入数据里保存的原始 <textarea>（标签+属性+内容原封不动）
+                items.forEach(function (item) {
+                    var holder = document.createElement('div');
+                    holder.innerHTML = item.content;
+                    var ta = holder.querySelector('textarea');
+                    if (!ta) return;
+                    ta.readOnly = true;
+                    ta.spellcheck = false;
+                    ta.wrap = 'off'; // 关闭折行避免错位；其余标签/属性保持原样
+                    grid.appendChild(ta);
+                });
+                // 布局完成后按实际宽度缩字号
+                setTimeout(applyArtFontSizes, 0);
+                setTimeout(applyArtFontSizes, 50);
+            }
+
+            // 切到本工具（tool-section 显示）或窗口尺寸变化时重算字号
+            var section = document.getElementById('ascii-art-collection');
+            if (section && window.MutationObserver) {
+                new MutationObserver(function () {
+                    if (section.classList.contains('active')) {
+                        setTimeout(applyArtFontSizes, 0);
+                    }
+                }).observe(section, { attributes: true, attributeFilter: ['class'] });
+            }
+            window.addEventListener('resize', function () {
+                var s = document.getElementById('ascii-art-collection');
+                if (s && s.classList.contains('active')) applyArtFontSizes();
+            });
+
+            // 默认展示第一个分类
+            showCategory(categories[0]);
+        });
     </script>
 </body>
 
