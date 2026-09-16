@@ -330,7 +330,10 @@
     <script src="../js/main.js"></script>
     <!-- axios（邀请码校验接口使用） -->
     <script src="https://cdn.jsdelivr.net/npm/axios@1.6.8/dist/axios.min.js"></script>
-    <!-- 邀请码门禁（未验证时强制填写邀请码） -->
+    <!-- 邀请码门禁：本页不自动弹窗，点击 ASCII艺术画/ASCII艺术画集 时手动触发（可关闭） -->
+    <script>
+        window.InviteGateConfig = { autoGate: false };
+    </script>
     <script src="../js/invite-gate.js"></script>
     <script>
         // 页面加载完成后执行初始化
@@ -378,10 +381,8 @@
             // 渲染工具页面专属侧边栏
             renderToolsSidebar();
 
-            // 默认显示第一个工具
-            if (typeof tools !== 'undefined' && tools.length > 0) {
-                switchTool(tools[0].id);
-            }
+            // 默认显示 ASCII艺术字（无需邀请码）
+            switchTool('ascii-art');
         });
 
         // 动态生成侧边栏结构和内容
@@ -434,8 +435,39 @@
             sidebar.innerHTML = sidebarHTML;
         }
 
-        // 切换工具
+        // 需要邀请码才能使用的工具
+        const GATED_TOOLS = ['ascii-art-img', 'ascii-art-collection'];
+
+        // 切换工具入口：对受限工具做邀请码校验
         function switchTool(toolId) {
+            if (GATED_TOOLS.indexOf(toolId) !== -1) {
+                // 已验证直接进入
+                if (window.InviteGate && window.InviteGate.isVerified()) {
+                    doSwitchTool(toolId);
+                    return;
+                }
+                // 未验证：弹窗；关闭则保持当前工具，不切换
+                if (window.InviteGate) {
+                    window.InviteGate.request(
+                        function onSuccess() {
+                            doSwitchTool(toolId);
+                        },
+                        function onCancel() {
+                            // 用户关闭：不切换，停留在当前工具
+                        },
+                        true // 显示关闭按钮
+                    );
+                    return;
+                }
+                // 门禁脚本缺失时兜底放行
+                doSwitchTool(toolId);
+                return;
+            }
+            doSwitchTool(toolId);
+        }
+
+        // 实际执行工具切换
+        function doSwitchTool(toolId) {
             // 切换内容显隐
             const sections = document.querySelectorAll('.tool-section');
             sections.forEach(section => {
